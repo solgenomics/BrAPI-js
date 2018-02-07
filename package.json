@@ -1,0 +1,15 @@
+{
+  "name": "@solgenomics/jsbrapiclient",
+  "version": "0.1.0",
+  "description": "",
+  "main": "build/js_BrAPI_Client.js",
+  "scripts": {
+    "prepare": "rm -rf build && mkdir build && rollup -f umd -n BrAPI -o build/js_BrAPI_Client.js -- main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.0.0",
+    "rollup": "^0.55.3"
+  }
+}
