@@ -1,12 +1,22 @@
-import BrAPI_Calls from './BrAPI_calls';
-
-import {Task,Merge_Task} from './tasks';
+import {Task,Merge_Task} from './tasks'
+import * as methods from './brapi_methods';
 
 if (typeof window === 'undefined') {
     var fetch = require('node-fetch');
 }
 
-class Context_Node extends BrAPI_Calls{
+function parse_json_response(response) {
+    return response.json();
+}
+
+export default class BrAPI_Methods {
+    constructor(){}
+}
+for (var method_name in methods) {
+    BrAPI_Methods.prototype[method_name] = methods[method_name];
+}
+
+export class Context_Node extends BrAPI_Methods{
     constructor(parent_list,connection_information,node_type){
         super();
         this.isFinished = false;
@@ -92,14 +102,89 @@ class Context_Node extends BrAPI_Calls{
         return new Reduce_Node(this,this.connect,reductionFunc);
     }
     
+    map(mapFunc){
+        return new Map_Node(this,this.connect,mapFunc);
+    }
+    
+    filter(mapFunc){
+        return new Filter_Node(this,this.connect,mapFunc);
+    }
+    
     brapi_call(behavior,httpMethod,url_body_func){
         return new BrAPI_Behavior_Node(
             this,this.connect,behavior,httpMethod,url_body_func
         );
     }
-}
+};
 
-export default class Root_Node extends Context_Node{
+export class Filter_Node extends Context_Node{
+    constructor(parent,connect,mapFunc){
+        super([parent],connect,"filter");
+        var self = this;
+        parent.addAsyncHook(function(datum, index){
+            if(filterFunc(datum)){
+                var task = new Task(index);
+                self.addTask(task);
+                task.complete(mapFunc(datum));
+                self.publishResult(task);
+            } else if (self.tasks.length == 0){
+                self.checkFinished();
+            }
+        });
+    }
+};
+
+export class Map_Node extends Context_Node{
+    constructor(parent,connect,mapFunc){
+        super([parent],connect,"map");
+        var self = this;
+        parent.addAsyncHook(function(datum, index){
+            var task = new Task(index);
+            self.addTask(task);
+            task.complete(mapFunc(datum));
+            self.publishResult(task);
+        });
+    }
+};
+
+export class Reduce_Node extends Context_Node{
+    constructor(parent,connect,reductionFunc){
+        super([parent],connect,"reduce");
+        var task = new Task(0);
+        this.addTask(task);
+        var self = this;
+        parent.addFinishHook(function(data, key){
+            out_datum = reductionFunc==undefined?data:data.reduce(reductionFunc);
+            task.complete(out_datum);
+            self.publishResult(task);
+        });
+    }
+};
+
+export class Merge_Node extends Context_Node{
+    constructor(parent_nodes,connect){
+        super(parent_nodes,connect,"merge");
+        this.task_map = {};
+        var self = this;
+        parent_nodes.forEach(function(parent){
+            parent.addAsyncHook(function(datum, key){
+                if(self.task_map[key]==undefined){
+                    self.task_map[key] = new Merge_Task(key);
+                    self.tasks.push(self.task_map[key]);
+                    self.task_map[key].result = parent_nodes.map(function(){return undefined})
+                }
+                var task = self.task_map[key];
+                task.result[parent_nodes.indexOf(parent)] = datum;
+                if(task.result.filter(function(d){return d!=undefined}).length==parent_nodes.length){
+                    task.complete(true);
+                    self.publishResult(task);
+                }
+            });
+        })
+    }
+};
+
+export class Root_Node extends Context_Node{
     constructor(server,auth_params){
         super([],{'server':server},"expand");
         var task = new Task("__BRAPI__");
@@ -126,9 +211,9 @@ export default class Root_Node extends Context_Node{
             this.publishResult(task);
         }
     }
-}
+};
 
-class BrAPI_Behavior_Node extends Context_Node{
+export class BrAPI_Behavior_Node extends Context_Node{
     constructor(parent,connect,behavior,httpMethod,url_body_func){
         super([parent],connect,behavior);
         this.behavior = behavior;
@@ -242,75 +327,4 @@ class BrAPI_Behavior_Node extends Context_Node{
                 }
             });
     };
-}
-
-class Merge_Node extends Context_Node{
-    constructor(parent_nodes,connect){
-        super(parent_nodes,connect,"merge");
-        this.task_map = {};
-        var self = this;
-        parent_nodes.forEach(function(parent){
-            parent.addAsyncHook(function(datum, key){
-                if(self.task_map[key]==undefined){
-                    self.task_map[key] = new Merge_Task(key);
-                    self.tasks.push(self.task_map[key]);
-                    self.task_map[key].result = parent_nodes.map(function(){return undefined})
-                }
-                var task = self.task_map[key];
-                task.result[parent_nodes.indexOf(parent)] = datum;
-                if(task.result.filter(function(d){return d!=undefined}).length==parent_nodes.length){
-                    task.complete(true);
-                    self.publishResult(task);
-                }
-            });
-        })
-    }
-}
-
-class Reduce_Node extends Context_Node{
-    constructor(parent,connect,reductionFunc){
-        super([parent],connect,"reduce");
-        var task = new Task(0);
-        this.addTask(task);
-        var self = this;
-        parent.addFinishHook(function(data, key){
-            out_datum = reductionFunc==undefined?data:data.reduce(reductionFunc);
-            task.complete(out_datum);
-            self.publishResult(task);
-        });
-    }
-}
-
-class Map_Node extends Context_Node{
-    constructor(parent,connect,mapFunc){
-        super([parent],connect,"map");
-        var self = this;
-        parent.addAsyncHook(function(datum, index){
-            var task = new Task(index);
-            self.addTask(task);
-            task.complete(mapFunc(datum));
-            self.publishResult(task);
-        });
-    }
-}
-
-class Filter_Node extends Context_Node{
-    constructor(parent,connect,mapFunc){
-        super([parent],connect,"filter");
-        var self = this;
-        parent.addAsyncHook(function(datum, index){
-            if(filterFunc(datum)){
-                var task = new Task(index);
-                self.addTask(task);
-                task.complete(mapFunc(datum));
-                self.publishResult(task);
-            } else if (self.tasks.length == 0){
-                self.checkFinished();
-            }
-        });
-    }
-}
-
-function parse_json_response(response) {
-    return response.json();
-}
+};
