@@ -5,5 +5,5 @@ to build from source:
 git clone https://github.com/solgenomics/BrAPI.js.git
 cd BrAPI.js
 npm install .
-echo "build/js_BrAPI_Client.js"
+echo "Built! You can now include or require build/BrAPI.js"
 ```
