@@ -229,13 +229,18 @@ export class BrAPI_Behavior_Node extends Context_Node{
             if (self.connect.auth!=null){
                 d_call.params['access_token'] = self.connect.auth.access_token
             }
+            var pageRange = [0,Infinity];
+            if (d_call.params.pageRange){
+                pageRange = d_call.params.pageRange;
+                delete d_call.params.pageRange;
+            }
             var fetch_args = {
-                method: self.method, 
+                method: d_call.params.HTTPMethod || self.method, 
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 }
             };
-            self.loadPage(0,index,d_call,fetch_args);
+            self.loadPage(pageRange[0],index,d_call,fetch_args,pageRange);
         });
     }
     
@@ -260,7 +265,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         return param_string
     }
     
-    loadPage(page_num,unexpanded_index,d_call,fetch_args,state){
+    loadPage(page_num,unexpanded_index,d_call,fetch_args,pageRange,state){
         if (state==undefined){
             state = {
                 'is_paginated': undefined,
@@ -294,10 +299,10 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     }
                 }
                 if(state.is_paginated){
-                    var total_pages = +json.metadata.pagination.totalPages;
+                    var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);
                     if(self.behavior=="expand"){
-                        if (page_num+1<total_pages){
-                            self.loadPage(page_num+1,unexpanded_index,d_call,fetch_args,state);
+                        if (page_num<final_page){
+                            self.loadPage(page_num+1,unexpanded_index,d_call,fetch_args,pageRange,state);
                         }
                         json.result.data.slice(0,-1).forEach(function(datum){
                             var task = new Task(self.expanded_index);
@@ -319,7 +324,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                         } else {
                             [].push.apply(state.concatenated.result.data, json.result.data);
                         }
-                        if (page_num+1<total_pages){
+                        if (page_num<final_page){
                             self.loadPage(page_num+1,unexpanded_index,d_call,fetch_args,state);
                         } else {
                             state.concatenated.result["__response"] = json;
