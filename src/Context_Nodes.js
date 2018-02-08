@@ -193,8 +193,8 @@ export class Root_Node extends Context_Node{
         var task = new Task("__BRAPI__");
         this.addTask(task);
         var requrl = this.connect.server+"/token";
+        var self = this;
         if (auth_params){
-            var self = this;
             fetchRef(requrl, {
                     method: 'post',
                     headers: {
@@ -210,7 +210,7 @@ export class Root_Node extends Context_Node{
                 });
         } else {
             self.connect['auth']=null;
-            task.complete(connect_obj);
+            task.complete(self.connect);
             this.publishResult(task);
         }
     }
