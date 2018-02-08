@@ -28,7 +28,7 @@ const BrAPI = require('BrAPI.js');
 ```
 
 ## How it Works / Terminology
-BrAPI.js tames REST callback-hell by managing asynchronosity behind context managers (from here on, nodes). Nodes keep track of sets of BrAPI objects (data) and are arranged in a DAG in which edges represent two differnt types of callback hooks, "async" (executed once each datum) and "final" (executed once all calls in the current context node have completed and across the all data from that node).
+BrAPI.js tames REST callback-hell by managing asynchronosity behind context managers (from here on, nodes). Nodes keep track of sets of BrAPI responses (data) and are arranged in a DAG in which edges represent two differnt types of callback hooks, "async" (executed once each datum) and "final" (executed once all calls in the current context node have completed and across the all data from that node).
 
 ## Usage
 <a name="brapi" href="#brapi">#</a> **BrAPI**(_address_ [, _auth_params_]) [<>](main.js "Source")  
