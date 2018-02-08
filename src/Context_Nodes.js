@@ -316,13 +316,15 @@ export class BrAPI_Behavior_Node extends Context_Node{
                         if (page_num+1<total_pages){
                             self.loadPage(page_num+1,unexpanded_index,d_call,fetch_args,state);
                         } else {
-                            sentry_task.complete(state.concatenated);
+                            state.concatenated.result["__response"] = json;
+                            sentry_task.complete(state.concatenated.result);
                             self.publishResult(sentry_task);
                         }
                     }
                 }
                 else {
-                    sentry_task.complete(json);
+                    json.result["__response"] = json;
+                    sentry_task.complete(json.result);
                     self.publishResult(sentry_task);
                 }
             });
