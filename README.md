@@ -3,7 +3,6 @@
 BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). It can be used either in the browser or within Node.js. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch]() in Node.js) for AJAX calls. BrAPI.js also uses ES6 classes.
 
 ### To-Do
-- Add ability to get a specific page _range_ instead of the current behavior of fetching _all_ pages.
 - Fail gracefully after failed AJAX calls
 
 ## Build:
