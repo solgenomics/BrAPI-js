@@ -4,6 +4,7 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). It can b
 
 ### To-Do
 - Add ability to get a specific page _range_ instead of the current behavior of fetching _all_ pages.
+- Fail gracefully after failed AJAX calls
 
 ## Build:
 ```bash
@@ -47,8 +48,8 @@ var brapi_root = BrAPI(
 )
 ```
 
-<a name="brapi_call" href="#brapi_call">#</a> _brapi_.**{ _brapi_call_ }**(_params_ [, _behavior_]) [<>](brapi_methods.js "Source")  
-Creates a new _brapi_ context node and sets its data to the result of the specified BrAPI call. The _brapi_call_ should be one of the [availible BrAPI methods](#brapi_methods). Parameters (both URL and body) are specified for the call using the _params_ arguement. The _params_ arguement can either be an object, or a function. If it is a function, a seperate BrAPI call will be made for each datum of the previous node. For calls which return a paginated response (i.e. _brapi_.**attributes**()), the _behavior_ argument determines how that data is handled. If _behavior_ is undefined or `"expand"`, each object in `brapi_response.results.data` will be treated as individual datum. If _behavior_ is `"map"` the `brapi_response.results.data` array from each response will be concatenated into the initial response's data array and the  resulting `brapi_response.results` object will be considered a single datum. Calls which return a non-paginated response always act with the `"map"` behavior. For each datum created, the full response from which it was extracted is availble via `datum.__response`
+<a name="brapi_call" href="#brapi_call">#</a> _brapi_.**{ _brapi_call_ }**(_params_ [, _behavior_]) [<>](src/brapi_methods.js "Source")  
+Creates a new _brapi_ context node and sets its data to the result of the specified BrAPI call. The _brapi_call_ should be one of the [availible BrAPI methods](#brapi_methods). Parameters (both URL and body) are specified for the call using the _params_ arguement. The _params_ arguement can either be an object, or a function. If it is a function, a seperate BrAPI call will be made for each datum of the previous node. There are two special parameters specific to BrAPI.js. The first, `pageRange` (an array [first_page,last_page]) must be used for controlling pagination instead of the BrAPI `page` parameter it defaults to `[0,Infinity]`. `PageSize` sets the page size as it does in a raw BrAPI call. The second, `HTTPMethod` allows one to overide the default HTTP method (e.g. "post","get") for a BrAPI call. For calls which return a paginated response (i.e. _brapi_.**attributes**()), the _behavior_ argument determines how that data is handled. If _behavior_ is undefined or `"expand"`, each object in `brapi_response.results.data` will be treated as individual datum. If _behavior_ is `"map"` the `brapi_response.results.data` array from each response will be concatenated into the initial response's data array and the  resulting `brapi_response.results` object will be considered a single datum. Calls which return a non-paginated response always act with the `"map"` behavior. For each datum created, the full response from which it was extracted is availble via `datum.__response`.
 ###### Examples:
 ```js
 var germplasm_expanded = brapi_root.germplasm_search({germplasmSpecies:["vinifera"]});
@@ -65,6 +66,13 @@ var pedigrees = germplasm_expanded.germplasm_pedigree(function(datum){
 });
 ```
 ![](_readme_images/readme_images_brapi_call_expand_and_continue.jpg)
+
+<a name="each" href="#each">#</a> _brapi_.**each**(_func_) [<>](src/Context_Nodes.js "Source")  
+Calls _func_(_datum_) for **each** datum after it becomes availble (i.e. once the relevant AJAX call completes).
+
+<a name="all" href="#all">#</a> _brapi_.**all**(_func_) [<>](src/Context_Nodes.js "Source")  
+Calls _func_(_data_) after **all** data has become availble, where _data_ is an array of all data for this node. 
+
 
 ## Examples
 ```js
