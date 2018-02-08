@@ -1,8 +1,11 @@
 import {Task,Merge_Task} from './tasks'
 import * as methods from './brapi_methods';
 
+var fetchRef;
 if (typeof window === 'undefined') {
-    var fetch = require('node-fetch');
+    fetchRef = require('node-fetch');
+} else {
+    fetchRef = window.fetch;
 }
 
 function parse_json_response(response) {
@@ -192,7 +195,7 @@ export class Root_Node extends Context_Node{
         var requrl = this.connect.server+"/token";
         if (auth_params){
             var self = this;
-            fetch(requrl, {
+            fetchRef(requrl, {
                     method: 'post',
                     headers: {
                       'Content-Type': 'application/json;charset=utf-8'
@@ -206,7 +209,7 @@ export class Root_Node extends Context_Node{
                     self.publishResult(task);
                 });
         } else {
-            connect_obj['auth']=null;
+            self.connect['auth']=null;
             task.complete(connect_obj);
             this.publishResult(task);
         }
@@ -223,6 +226,9 @@ export class BrAPI_Behavior_Node extends Context_Node{
         var self = this;
         parent.addAsyncHook(function(datum, index){
             var d_call = self.d_func(datum);
+            if (self.connect.auth!=null){
+                d_call.params['access_token'] = self.connect.auth.access_token
+            }
             var fetch_args = {
                 method: self.method, 
                 headers: {
@@ -277,7 +283,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.addTask(sentry_task);
         
         var self = this;
-        fetch(this.connect.server+page_url,fetch_args)
+        fetchRef(this.connect.server+page_url,fetch_args)
             .then(parse_json_response) 
             .then(function(json){
                 if(state.is_paginated==undefined){
