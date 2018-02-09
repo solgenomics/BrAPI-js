@@ -4,6 +4,7 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). It can b
 
 ### To-Do
 - Fail gracefully after failed AJAX calls
+- Add option to limit the number of simultaneous requests. Currently there is no limit.
 
 ## Build:
 ```bash
