@@ -4,7 +4,6 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). It can b
 
 ### To-Do
 - Fail gracefully after failed AJAX calls
-- Add in-flow server switching to ease cross-server queries
 
 ## Build:
 ```bash

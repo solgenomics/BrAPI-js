@@ -113,6 +113,10 @@ export class Context_Node extends BrAPI_Methods{
         return new Filter_Node(this,this.connect,mapFunc);
     }
     
+    server(server,auth_params){
+        return new Connection_Node(this,server,auth_params);
+    }
+    
     brapi_call(behavior,httpMethod,url_body_func){
         return new BrAPI_Behavior_Node(
             this,this.connect,behavior,httpMethod,url_body_func
@@ -187,11 +191,9 @@ export class Merge_Node extends Context_Node{
     }
 };
 
-export class Root_Node extends Context_Node{
-    constructor(server,auth_params){
-        super([],{'server':server},"expand");
-        var task = new Task("__BRAPI__");
-        this.addTask(task);
+export class Connection_Node extends Context_Node{
+    constructor(parent,server,auth_params){
+        super([parent],{'server':server},"map");
         var requrl = this.connect.server+"/token";
         var self = this;
         if (auth_params){
@@ -205,14 +207,30 @@ export class Root_Node extends Context_Node{
                 .then(parse_json_response)
                 .then(function(json){
                     self.connect['auth']=json;
-                    task.complete(self.connect);
-                    self.publishResult(task);
+                    forward();
                 });
         } else {
-            self.connect['auth']=null;
-            task.complete(self.connect);
-            this.publishResult(task);
+            this.connect['auth']=null;
+            forward();
         }
+        function forward(){
+            parent.addAsyncHook(function(datum, index){
+                var task = new Task(index);
+                self.addTask(task);
+                task.complete(datum);
+                self.publishResult(task);
+            });
+        }
+    }
+}
+
+export class Root_Node extends Context_Node{
+    constructor(){
+        super([],{},"expand");
+        var task = new Task(0);
+        this.addTask(task);
+        task.complete({});
+        this.publishResult(task);
     }
 };
 
