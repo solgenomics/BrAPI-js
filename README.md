@@ -100,8 +100,8 @@ var merge = pedigree.merge(markerprofiles)
 ```
 
 ## Available BrAPI Methods <a name="brapi_methods"></a>
-| Method Name                            | BrAPI Call               |
-| -------------------------------------- | ------------------------ |
-| _brapi_.**attributes**(...)            | `/attributes`            |
-| _brapi_.**attributes_categories**(...) | `/attributes/categories` |
-| ...                                    | ..                       | 
+| Method Name                            | BrAPI Call               | Default HTTP Method | Default Behavior |
+| -------------------------------------- | ------------------------ | ------------------- | ---------------- |
+| _brapi_.**attributes**(...)            | `/attributes`            | GET                 | expand           |
+| _brapi_.**attributes_categories**(...) | `/attributes/categories` | GET                 | expand           | 
+| ...                                    | ..                       |                     |                  |
