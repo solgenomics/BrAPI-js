@@ -106,6 +106,16 @@ export class Context_Node extends BrAPI_Methods{
         }
     }
     
+    getTaskKeyOrigin(){
+        if (this.parents.length<1 
+                || this.node_type=="expand" 
+                || this.node_type=="reduce"){
+            return this;
+        } else {
+            return this.parents[0].getTaskKeyOrigin();
+        }
+    }
+    
     each(func){ this.addAsyncHook(func); return this;}
     all(func){ this.addFinishHook(func); return this;}
     catch(func){ this.addCatchHook(func); return this;}
@@ -186,6 +196,14 @@ export class Reduce_Node extends Context_Node{
 export class Merge_Node extends Context_Node{
     constructor(parent_nodes,connect){
         super(parent_nodes,connect,"merge");
+        var key_origin = parent_nodes[0].getTaskKeyOrigin();
+        console.log("------------------");
+        if(!parent_nodes.every(function(p){
+            console.log(p.getTaskKeyOrigin());
+            return p.getTaskKeyOrigin()===key_origin})){
+            throw "Cannot perform merge due to contexts having different keys!";
+            return;
+        }
         this.task_map = {};
         var self = this;
         parent_nodes.forEach(function(parent){
