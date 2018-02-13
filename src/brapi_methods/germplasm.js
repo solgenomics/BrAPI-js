@@ -33,9 +33,8 @@ export function germplasm_attributes(params,behavior){
 };
 
 // GET /germplasm/{germplasmDbId}/markerprofiles
-export function germplasm_markerprofiles(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"expand":"map";
-    return this.brapi_call(behavior,"get",function(datum){
+export function germplasm_markerprofiles(params){
+    return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
         var url = "/germplasm/"+(datum_params.germplasmDbId)+"/markerprofiles";
