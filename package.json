@@ -10,7 +10,7 @@
   "scripts": {
     "prepare": "rm -rf build && mkdir build && rollup -f umd -n BrAPI -o build/BrAPI.js -- main.js"
   },
-  "author": "David Lyon",
+  "author": "David Lyon <npm@dauglyon.com>",
   "dependencies": {
     "node-fetch": "2.0.0",
     "rollup": "0.40"
