@@ -26,9 +26,9 @@ export class Context_Node extends BrAPI_Methods{
         this.node_type = node_type;
         this.parents = parent_list;
         this.async_hooks = [];
+        this.catch_hooks = [];
         this.finish_hooks = [];
         this.tasks = [];
-        this.parameters = null;
         this.connect = connection_information || {};
     }
     
@@ -50,6 +50,10 @@ export class Context_Node extends BrAPI_Methods{
         }).forEach(function(task){
             hook(task.getResult(),task.getIndex());
         });
+    }
+    
+    addCatchHook(hook){
+        this.catch_hooks.push(hook);
     }
     
     addFinishHook(hook){
@@ -92,8 +96,19 @@ export class Context_Node extends BrAPI_Methods{
         });
     }
     
+    fail(reason){
+        if (this.catch_hooks.length<1) throw reason;
+        else {
+            var self = this;
+            this.catch_hooks.forEach(function(hook){
+                hook(reason,self);
+            });
+        }
+    }
+    
     each(func){ this.addAsyncHook(func); return this;}
     all(func){ this.addFinishHook(func); return this;}
+    catch(func){ this.addCatchHook(func); return this;}
     
     merge(/*other,[other]...*/){
         var parent_nodes = [this];
@@ -222,6 +237,10 @@ export class Connection_Node extends Context_Node{
                     body: JSON.stringify(auth_params)
                 })
                 .then(parse_json_response)
+                .catch(function(reason){
+                    self.fail(reason);
+                    return undefined;
+                })
                 .then(function(json){
                     self.connect['auth']=json;
                     forward();
@@ -353,8 +372,17 @@ export class BrAPI_Behavior_Node extends Context_Node{
         
         var self = this;
         fetchRef(this.connect.server+page_url,fetch_args)
-            .then(parse_json_response) 
+            .then(parse_json_response)
+            .catch(function(reason){
+                self.fail(reason);
+                return null;
+            })
             .then(function(json){
+                if(json==null){
+                    sentry_task.complete(null);
+                    self.publishResult(sentry_task);
+                    return;
+                }
                 if(state.is_paginated==undefined){
                     if (json.result.data!=undefined && json.result.data instanceof Array){
                         state.is_paginated = true;
