@@ -5,7 +5,7 @@ class Task {
         this.result = null;
     }
     complete(result){
-        if (result==undefined){
+        if (result===undefined){
             return this.status==1;
         }
         else {

@@ -257,7 +257,7 @@ export class Connection_Node extends Context_Node{
                 .then(parse_json_response)
                 .catch(function(reason){
                     self.fail(reason);
-                    return undefined;
+                    return null;
                 })
                 .then(function(json){
                     self.connect['auth']=json;
