@@ -187,6 +187,23 @@ export class Merge_Node extends Context_Node{
                     self.publishResult(task);
                 }
             });
+            parent.addFinishHook(function(datum){
+                for (var key in self.task_map) {
+                    if (self.task_map.hasOwnProperty(key)) {
+                        var task = self.task_map[key];
+                        if (!task.complete()){
+                            var pindex = parent_nodes.indexOf(parent);
+                            if (task.result[pindex]==undefined) {
+                                task.result[pindex]=null;
+                            }
+                            if(task.result.filter(function(d){return d!=undefined}).length==parent_nodes.length){
+                                task.complete(true);
+                                self.publishResult(task);
+                            }
+                        }
+                    }
+                }
+            });
         })
     }
 };
