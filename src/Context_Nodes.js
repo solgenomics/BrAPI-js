@@ -140,14 +140,14 @@ export class Context_Node extends BrAPI_Methods{
 };
 
 export class Filter_Node extends Context_Node{
-    constructor(parent,connect,mapFunc){
+    constructor(parent,connect,filterFunc){
         super([parent],connect,"filter");
         var self = this;
         parent.addAsyncHook(function(datum, index){
             if(filterFunc(datum)){
                 var task = new Task(index);
                 self.addTask(task);
-                task.complete(mapFunc(datum));
+                task.complete(datum);
                 self.publishResult(task);
             } else if (self.tasks.length == 0){
                 self.checkFinished();
