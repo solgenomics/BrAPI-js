@@ -224,15 +224,44 @@ export class Connection_Node extends Context_Node{
     }
 }
 
+export class Initial_Connection_Node extends Connection_Node{
+    data(dataArray){
+        return new Data_Node(this,this.connect,dataArray);
+    }
+}
+
 export class Root_Node extends Context_Node{
     constructor(){
         super([],{},"expand");
         var task = new Task(0);
         this.addTask(task);
-        task.complete({});
+        task.complete(this.connect);
         this.publishResult(task);
     }
+    server(server,auth_params){
+        return new Initial_Connection_Node(this,server,auth_params);
+    }
+    data(dataArray){
+        return new Data_Node(this,this.connect,dataArray);
+    }
 };
+
+export class Data_Node extends Context_Node{
+    constructor(parent,connect,dataArray){
+        super([parent],connect,"expand");
+        var self = this;
+        dataArray.forEach(function(datum,i){
+            var task = new Task(i);
+            self.addTask(task);
+            task.complete(datum);
+        });
+        parent.addFinishHook(function(){
+            self.tasks.forEach(function(t){
+                self.publishResult(t);
+            })
+        });
+    }
+}
 
 export class BrAPI_Behavior_Node extends Context_Node{
     constructor(parent,connect,behavior,httpMethod,url_body_func){
@@ -244,7 +273,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         var self = this;
         parent.addAsyncHook(function(datum, index){
             var d_call = self.d_func(datum);
-            if (self.connect.auth!=null){
+            if (self.connect.auth!=null && self.connect.auth.access_token){
                 d_call.params['access_token'] = self.connect.auth.access_token
             }
             var pageRange = [0,Infinity];
