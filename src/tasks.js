@@ -26,20 +26,19 @@ export class Task {
 }
 
 export class Merge_Task extends Task{
-    constructor(key) {
+    constructor(key,size) {
         super(key)
-        this.result = [];
+        this.result = Array.apply(undefined, Array(size));
     }
-    complete(set){
-        if (set==undefined){
-            return this.status==1;
+    complete(perform_check){
+        if (perform_check==true){
+            this.status = this.result.every(function(datum){
+                return datum!==undefined;
+            });
         }
-        else {
-            this.status = set==true?1:0;
-            return true;
-        }
+        return this.status==1;
     }
-    addResult(result){
-        this.result.push(result);
+    addResult(result,index){
+        this.result[index] = result;
     }
 }

@@ -28,12 +28,23 @@ export class Context_Node extends BrAPI_Methods{
         this.async_hooks = [];
         this.catch_hooks = [];
         this.finish_hooks = [];
-        this.tasks = [];
+        this.task_map = {};
         this.connect = connection_information || {};
     }
     
     addTask(task){
-        this.tasks.push(task);
+        this.task_map[task.getKey()] = task;
+    }
+    
+    getTask(key){
+        return this.task_map[key];
+    }
+    
+    getTasks(){
+        var self = this;
+        return Object.keys(self.task_map).map(function(key) {
+			return self.task_map[key];
+    	});
     }
     
     publishResult(task){
@@ -45,7 +56,7 @@ export class Context_Node extends BrAPI_Methods{
     
     addAsyncHook(hook){
         this.async_hooks.push(hook);
-        this.tasks.filter(function(task){
+        this.getTasks().filter(function(task){
             return task.complete();
         }).forEach(function(task){
             hook(task.getResult(),task.getKey());
@@ -59,7 +70,7 @@ export class Context_Node extends BrAPI_Methods{
     addFinishHook(hook){
         this.finish_hooks.push(hook);
         if(this.isFinished){
-            hook(this.tasks
+            hook(this.getTasks()
                 .sort(function(a,b){
                     return a.key <= b.key ? -1 : 1;
                 })
@@ -73,7 +84,7 @@ export class Context_Node extends BrAPI_Methods{
     checkFinished(){
         if (!this.isFinished){
             var parsFin = this.parents.every(function(par){return par.checkFinished()});
-            var thisFin = this.tasks.every(function(task){return task.complete()});
+            var thisFin = this.getTasks().every(function(task){return task.complete()});
             this.isFinished = parsFin && thisFin;
             if (this.isFinished){
                 this._onFinish();
@@ -85,7 +96,7 @@ export class Context_Node extends BrAPI_Methods{
     _onFinish(){
         var self = this;
         this.finish_hooks.forEach(function(hook){
-            hook(self.tasks
+            hook(self.getTasks()
                 .sort(function(a,b){
                     return a.key <= b.key ? -1 : 1;
                 })
@@ -164,7 +175,7 @@ export class Filter_Node extends Context_Node{
                 self.addTask(task);
                 task.complete(datum);
                 self.publishResult(task);
-            } else if (self.tasks.length == 0){
+            } else if (self.getTasks().length == 0){
                 self.checkFinished();
             }
         });
@@ -226,38 +237,31 @@ export class Merge_Node extends Context_Node{
             throw "Cannot perform merge due to contexts having different key origins!";
             return;
         }
-        this.task_map = {};
         var self = this;
         parent_nodes.forEach(function(parent){
             parent.addAsyncHook(function(datum, key){
-                if(self.task_map[key]==undefined){
-                    self.task_map[key] = new Merge_Task(key);
-                    self.tasks.push(self.task_map[key]);
-                    self.task_map[key].result = parent_nodes.map(function(){return undefined})
+                var task = self.getTask(key);
+                if(task==undefined){
+                    task = new Merge_Task(key,parent_nodes.length)
+                    self.addTask(task);
                 }
-                var task = self.task_map[key];
-                task.result[parent_nodes.indexOf(parent)] = datum;
-                if(task.result.filter(function(d){return d!=undefined}).length==parent_nodes.length){
-                    task.complete(true);
+                task.addResult(datum,parent_nodes.indexOf(parent))
+                if (task.complete(true)){
                     self.publishResult(task);
                 }
             });
             parent.addFinishHook(function(datum){
-                for (var key in self.task_map) {
-                    if (self.task_map.hasOwnProperty(key)) {
-                        var task = self.task_map[key];
-                        if (!task.complete()){
-                            var pindex = parent_nodes.indexOf(parent);
-                            if (task.result[pindex]==undefined) {
-                                task.result[pindex]=null;
-                            }
-                            if(task.result.filter(function(d){return d!=undefined}).length==parent_nodes.length){
-                                task.complete(true);
-                                self.publishResult(task);
-                            }
+                self.getTasks().forEach(function(task){
+                    if (!task.complete()){
+                        var pindex = parent_nodes.indexOf(parent);
+                        if (self.getTask(pindex)===undefined) {
+                            task.addResult(null,pindex)
+                        }
+                        if (task.complete(true)){
+                            self.publishResult(task);
                         }
                     }
-                }
+                });
             });
         })
     }
@@ -332,7 +336,7 @@ export class Data_Node extends Context_Node{
             task.complete(datum);
         });
         parent.addFinishHook(function(){
-            self.tasks.forEach(function(t){
+            self.getTasks().forEach(function(t){
                 self.publishResult(t);
             })
         });
