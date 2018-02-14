@@ -109,7 +109,7 @@ export class Context_Node extends BrAPI_Methods{
     getTaskKeyOrigin(){
         if (this.parents.length<1 
                 || this.node_type=="key"
-                || this.node_type=="expand" 
+                || this.node_type=="fork" 
                 || this.node_type=="reduce"){
             return this;
         } else {
@@ -308,7 +308,7 @@ export class Initial_Connection_Node extends Connection_Node{
 
 export class Root_Node extends Context_Node{
     constructor(){
-        super([],{},"expand");
+        super([],{},"fork");
         var task = new Task(0);
         this.addTask(task);
         task.complete(this.connect);
@@ -324,7 +324,7 @@ export class Root_Node extends Context_Node{
 
 export class Data_Node extends Context_Node{
     constructor(parent,connect,dataArray){
-        super([parent],connect,"expand");
+        super([parent],connect,"fork");
         var self = this;
         dataArray.forEach(function(datum,i){
             var task = new Task(i);
@@ -345,7 +345,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.behavior = behavior;
         this.d_func = url_body_func;
         this.method = httpMethod;
-        this.expanded_index = 0;
+        this.forked_index = 0;
         var self = this;
         parent.addAsyncHook(function(datum, index){
             var d_call = self.d_func(datum);
@@ -388,12 +388,12 @@ export class BrAPI_Behavior_Node extends Context_Node{
         return param_string
     }
     
-    loadPage(page_num,unexpanded_index,d_call,fetch_args,pageRange,state){
+    loadPage(page_num,unforked_index,d_call,fetch_args,pageRange,state){
         if (state==undefined){
             state = {
                 'is_paginated': undefined,
                 'concatenated': undefined,
-                'expanded_index': 0
+                'forked_index': 0
             }
         }
         var page_url = d_call.url;
@@ -407,7 +407,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
             page_url+=this.formatURLParams(d_call.params)
         }
         
-        var sentry_task = new Task(unexpanded_index);
+        var sentry_task = new Task(unforked_index);
         this.addTask(sentry_task);
         
         var self = this;
@@ -432,20 +432,20 @@ export class BrAPI_Behavior_Node extends Context_Node{
                 }
                 if(state.is_paginated){
                     var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);
-                    if(self.behavior=="expand"){
+                    if(self.behavior=="fork"){
                         if (page_num<final_page){
-                            self.loadPage(page_num+1,unexpanded_index,d_call,fetch_args,pageRange,state);
+                            self.loadPage(page_num+1,unforked_index,d_call,fetch_args,pageRange,state);
                         }
                         json.result.data.slice(0,-1).forEach(function(datum){
-                            var task = new Task(self.expanded_index);
-                            self.expanded_index+=1;
+                            var task = new Task(self.forked_index);
+                            self.forked_index+=1;
                             datum["__response"] = json;
                             self.addTask(task);
                             task.complete(datum);
                             self.publishResult(task);
                         });
-                        sentry_task.setIndex(self.expanded_index);
-                        self.expanded_index+=1;
+                        sentry_task.setIndex(self.forked_index);
+                        self.forked_index+=1;
                         sentry_task.complete(json.result.data[json.result.data.length-1]);
                         self.publishResult(sentry_task);
                     }
@@ -457,7 +457,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                             [].push.apply(state.concatenated.result.data, json.result.data);
                         }
                         if (page_num<final_page){
-                            self.loadPage(page_num+1,unexpanded_index,d_call,fetch_args,state);
+                            self.loadPage(page_num+1,unforked_index,d_call,fetch_args,state);
                         } else {
                             state.concatenated.result["__response"] = json;
                             sentry_task.complete(state.concatenated.result);

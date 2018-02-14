@@ -1,6 +1,6 @@
 // GET /maps & GET /maps/{mapDbId}
 export function maps(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"expand":"map";
+    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -15,7 +15,7 @@ export function maps(params,behavior){
 
 // GET /maps/{mapDbId}/positions & GET /maps/{mapDbId}/positions/{linkageGroupId}
 export function maps_positions(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"expand":"map";
+    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
