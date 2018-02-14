@@ -1,7 +1,7 @@
 export class Task {
-    constructor(index) {
+    constructor(key) {
         this.status = 0
-        this.index = index
+        this.setKey(key);
         this.result = null;
     }
     complete(result){
@@ -17,17 +17,17 @@ export class Task {
     getResult(){
         return this.status==1 ? this.result : undefined;
     }
-    getIndex(){
-        return this.index;
+    getKey(){
+        return this.key;
     }
-    setIndex(index){
-        this.index = index;
+    setKey(key){
+        this.key = (key !== Object(key)) ? key : ""+key;
     }
 }
 
 export class Merge_Task extends Task{
-    constructor(index) {
-        super(index)
+    constructor(key) {
+        super(key)
         this.result = [];
     }
     complete(set){

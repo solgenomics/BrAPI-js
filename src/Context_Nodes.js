@@ -38,7 +38,7 @@ export class Context_Node extends BrAPI_Methods{
     
     publishResult(task){
         this.async_hooks.forEach(function(hook){
-            hook(task.getResult(),task.getIndex());
+            hook(task.getResult(),task.getKey());
         });
         this.checkFinished();
     }
@@ -48,7 +48,7 @@ export class Context_Node extends BrAPI_Methods{
         this.tasks.filter(function(task){
             return task.complete();
         }).forEach(function(task){
-            hook(task.getResult(),task.getIndex());
+            hook(task.getResult(),task.getKey());
         });
     }
     
@@ -61,7 +61,7 @@ export class Context_Node extends BrAPI_Methods{
         if(this.isFinished){
             hook(this.tasks
                 .sort(function(a,b){
-                    return a.index <= b.index ? -1 : 1;
+                    return a.key <= b.key ? -1 : 1;
                 })
                 .map(function(task){
                     return task.getResult();
@@ -87,7 +87,7 @@ export class Context_Node extends BrAPI_Methods{
         this.finish_hooks.forEach(function(hook){
             hook(self.tasks
                 .sort(function(a,b){
-                    return a.index <= b.index ? -1 : 1;
+                    return a.key <= b.key ? -1 : 1;
                 })
                 .map(function(task){
                     return task.getResult();
@@ -158,9 +158,9 @@ export class Filter_Node extends Context_Node{
     constructor(parent,connect,filterFunc){
         super([parent],connect,"filter");
         var self = this;
-        parent.addAsyncHook(function(datum, index){
+        parent.addAsyncHook(function(datum, key){
             if(filterFunc(datum)){
-                var task = new Task(index);
+                var task = new Task(key);
                 self.addTask(task);
                 task.complete(datum);
                 self.publishResult(task);
@@ -176,7 +176,7 @@ export class Key_Node extends Context_Node{
         super([parent],connect,"key");
         var self = this;
         parent.addAsyncHook(function(datum, previous){
-            var task = new Task(""+keyFunc(datum, ""+previous));
+            var task = new Task(keyFunc(datum, previous));
             self.addTask(task);
             task.complete(datum);
             self.publishResult(task);
@@ -188,8 +188,8 @@ export class Map_Node extends Context_Node{
     constructor(parent,connect,mapFunc){
         super([parent],connect,"map");
         var self = this;
-        parent.addAsyncHook(function(datum, index){
-            var task = new Task(index);
+        parent.addAsyncHook(function(datum, key){
+            var task = new Task(key);
             self.addTask(task);
             task.complete(mapFunc(datum));
             self.publishResult(task);
@@ -290,8 +290,8 @@ export class Connection_Node extends Context_Node{
             forward();
         }
         function forward(){
-            parent.addAsyncHook(function(datum, index){
-                var task = new Task(index);
+            parent.addAsyncHook(function(datum, key){
+                var task = new Task(key);
                 self.addTask(task);
                 task.complete(datum);
                 self.publishResult(task);
@@ -345,9 +345,9 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.behavior = behavior;
         this.d_func = url_body_func;
         this.method = httpMethod;
-        this.forked_index = 0;
+        this.forked_key = 0;
         var self = this;
-        parent.addAsyncHook(function(datum, index){
+        parent.addAsyncHook(function(datum, key){
             var d_call = self.d_func(datum);
             if (self.connect.auth!=null && self.connect.auth.access_token){
                 d_call.params['access_token'] = self.connect.auth.access_token
@@ -363,7 +363,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     'Content-Type': 'application/json;charset=utf-8'
                 }
             };
-            self.loadPage(pageRange[0],index,d_call,fetch_args,pageRange);
+            self.loadPage(pageRange[0],key,d_call,fetch_args,pageRange);
         });
     }
     
@@ -388,12 +388,12 @@ export class BrAPI_Behavior_Node extends Context_Node{
         return param_string
     }
     
-    loadPage(page_num,unforked_index,d_call,fetch_args,pageRange,state){
+    loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state){
         if (state==undefined){
             state = {
                 'is_paginated': undefined,
                 'concatenated': undefined,
-                'forked_index': 0
+                'forked_key': 0
             }
         }
         var page_url = d_call.url;
@@ -407,7 +407,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
             page_url+=this.formatURLParams(d_call.params)
         }
         
-        var sentry_task = new Task(unforked_index);
+        var sentry_task = new Task(unforked_key);
         this.addTask(sentry_task);
         
         var self = this;
@@ -434,18 +434,18 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);
                     if(self.behavior=="fork"){
                         if (page_num<final_page){
-                            self.loadPage(page_num+1,unforked_index,d_call,fetch_args,pageRange,state);
+                            self.loadPage(page_num+1,unforked_key,d_call,fetch_args,pageRange,state);
                         }
                         json.result.data.slice(0,-1).forEach(function(datum){
-                            var task = new Task(self.forked_index);
-                            self.forked_index+=1;
+                            var task = new Task(self.forked_key);
+                            self.forked_key+=1;
                             datum["__response"] = json;
                             self.addTask(task);
                             task.complete(datum);
                             self.publishResult(task);
                         });
-                        sentry_task.setIndex(self.forked_index);
-                        self.forked_index+=1;
+                        sentry_task.setKey(self.forked_key);
+                        self.forked_key+=1;
                         sentry_task.complete(json.result.data[json.result.data.length-1]);
                         self.publishResult(sentry_task);
                     }
@@ -457,7 +457,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                             [].push.apply(state.concatenated.result.data, json.result.data);
                         }
                         if (page_num<final_page){
-                            self.loadPage(page_num+1,unforked_index,d_call,fetch_args,state);
+                            self.loadPage(page_num+1,unforked_key,d_call,fetch_args,state);
                         } else {
                             state.concatenated.result["__response"] = json;
                             sentry_task.complete(state.concatenated.result);
