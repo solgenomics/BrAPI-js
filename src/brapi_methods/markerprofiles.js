@@ -10,5 +10,5 @@ export function markerprofiles(params,behavior){
             delete datum_params.markerprofileDbId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

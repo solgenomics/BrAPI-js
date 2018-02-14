@@ -10,7 +10,7 @@ export function maps(params,behavior){
             delete datum_params.mapDbId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /maps/{mapDbId}/positions & GET /maps/{mapDbId}/positions/{linkageGroupId}
@@ -26,5 +26,5 @@ export function maps_positions(params,behavior){
             delete datum_params.linkageGroupId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

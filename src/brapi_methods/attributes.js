@@ -6,7 +6,7 @@ export function attributes(params,behavior){
                             : Object.assign({}, params);
         var url = "/attributes";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /attributes/categories
@@ -17,5 +17,5 @@ export function attributes_categories(params,behavior){
                             : Object.assign({}, params);
         var url = "/attributes/categories";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

@@ -6,5 +6,5 @@ export function allelematrix_search(params,behavior){
                             : Object.assign({}, params);
         var url = "/allelematrix-search";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

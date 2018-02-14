@@ -6,5 +6,5 @@ export function observationLevels(params,behavior){
                             : Object.assign({}, params);
         var url = "/observationLevels";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

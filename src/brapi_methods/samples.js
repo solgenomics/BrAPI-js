@@ -6,7 +6,7 @@ export function samples_search(params,behavior){
                             : Object.assign({}, params);
         var url = "/samples-search";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 }
 
 // GET /samples/{samplesDbId}
@@ -17,5 +17,5 @@ export function samples(params){
         var url = "/samples/"+(datum_params.samplesDbId);
         delete datum_params.samplesDbId;
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 }

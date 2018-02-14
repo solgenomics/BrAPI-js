@@ -10,5 +10,5 @@ export function locations(params,behavior){
             delete datum_params.locationsDbId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

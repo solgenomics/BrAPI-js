@@ -10,5 +10,5 @@ export function trials(params,behavior){
             delete datum_params.trialDbId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

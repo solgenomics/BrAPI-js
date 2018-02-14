@@ -6,5 +6,5 @@ export function phenotypes_search(params,behavior){
                             : Object.assign({}, params);
         var url = "/phenotypes-search";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

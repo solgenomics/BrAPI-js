@@ -6,5 +6,5 @@ export function ontologies(params,behavior){
                             : Object.assign({}, params);
         var url = "/ontologies";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

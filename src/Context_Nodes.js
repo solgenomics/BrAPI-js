@@ -158,9 +158,9 @@ export class Context_Node extends BrAPI_Methods{
         return new Connection_Node(this,server,auth_params);
     }
     
-    brapi_call(behavior,httpMethod,url_body_func){
+    brapi_call(behavior,httpMethod,url_body_func,multicall){
         return new BrAPI_Behavior_Node(
-            this,this.connect,behavior,httpMethod,url_body_func
+            this,this.connect,behavior,httpMethod,url_body_func,multicall
         );
     }
 };
@@ -345,14 +345,15 @@ export class Data_Node extends Context_Node{
 }
 
 export class BrAPI_Behavior_Node extends Context_Node{
-    constructor(parent,connect,behavior,httpMethod,url_body_func){
+    constructor(parent,connect,behavior,httpMethod,url_body_func,multicall){
         super([parent],connect,behavior);
         this.behavior = behavior;
         this.d_func = url_body_func;
         this.method = httpMethod;
         this.forked_key = 0;
         var self = this;
-        parent.addAsyncHook(function(datum, key){
+        var hookTo = multicall ? parent.addAsyncHook : parent.addFinishHook;
+        hookTo(function(datum, key){
             var d_call = self.d_func(datum);
             if (self.connect.auth!=null && self.connect.auth.access_token){
                 d_call.params['access_token'] = self.connect.auth.access_token
@@ -368,6 +369,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     'Content-Type': 'application/json;charset=utf-8'
                 }
             };
+            key = multicall ? key : 0;
             self.loadPage(pageRange[0],key,d_call,fetch_args,pageRange);
         });
     }

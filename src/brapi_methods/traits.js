@@ -10,5 +10,5 @@ export function traits(params,behavior){
             delete datum_params.traitDbId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 }

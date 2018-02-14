@@ -6,7 +6,7 @@ export function variables_search(params,behavior){
                             : Object.assign({}, params);
         var url = "/variables-search";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /variables & GET /variables/{variableDbId}
@@ -21,7 +21,7 @@ export function variables(params,behavior){
             delete datum_params.variableDbId;
         }
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /variables/datatypes
@@ -32,5 +32,5 @@ export function variables_datatypes(params,behavior){
                             : Object.assign({}, params);
         var url = "/variables/datatypes";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

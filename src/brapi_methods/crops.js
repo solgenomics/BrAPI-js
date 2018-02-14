@@ -6,5 +6,5 @@ export function crops(params,behavior){
                             : Object.assign({}, params);
         var url = "/crops";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };

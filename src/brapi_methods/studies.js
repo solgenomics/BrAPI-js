@@ -6,7 +6,7 @@ export function studies_search(params,behavior){
                             : Object.assign({}, params);
         var url = "/studies-search";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}
@@ -17,7 +17,7 @@ export function studies(params){
         var url = "/studies/"+(datum_params.studiesDbId);
         delete datum_params.studiesDbId;
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}/germplasm
@@ -28,7 +28,7 @@ export function studies_germplasm(params,behavior){
                             : Object.assign({}, params);
         var url = "/studies/"+datum_params.studiesDbId+"/germplasm";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}/layout
@@ -39,7 +39,7 @@ export function studies_layout(params,behavior){
                             : Object.assign({}, params);
         var url = "/studies/"+datum_params.studiesDbId+"/layout";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}/observations
@@ -50,7 +50,7 @@ export function studies_observations(params,behavior){
                             : Object.assign({}, params);
         var url = "/studies/"+datum_params.studiesDbId+"/observations";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}/observationunits
@@ -61,7 +61,7 @@ export function studies_observationunits(params,behavior){
                             : Object.assign({}, params);
         var url = "/studies/"+datum_params.studiesDbId+"/observationunits";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}/observationvariables
@@ -72,7 +72,7 @@ export function studies_observationvariables(params,behavior){
                             : Object.assign({}, params);
         var url = "/studies/"+datum_params.studiesDbId+"/observationvariables";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studies/{studiesDbId}/table
@@ -83,7 +83,7 @@ export function studies_table(params){
         var url = "/studies/"+(datum_params.studiesDbId)+"/table";
         delete datum_params.studiesDbId;
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
 
 // GET /studytypes
@@ -94,5 +94,5 @@ export function studytypes(params,behavior){
                             : Object.assign({}, params);
         var url = "/studytypes";
         return {'url':url, 'params':datum_params};
-    });
+    }, typeof params === "function");
 };
