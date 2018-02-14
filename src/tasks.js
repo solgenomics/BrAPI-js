@@ -25,7 +25,7 @@ export class Task {
     }
 }
 
-export class Merge_Task extends Task{
+export class Join_Task extends Task{
     constructor(key,size) {
         super(key)
         this.result = Array.apply(undefined, Array(size));

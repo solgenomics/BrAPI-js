@@ -1,4 +1,4 @@
-import {Task,Merge_Task} from './tasks'
+import {Task,Join_Task} from './tasks'
 import * as methods from './brapi_methods';
 
 var fetchRef;
@@ -136,10 +136,10 @@ export class Context_Node extends BrAPI_Methods{
         return new Key_Node(this,this.connect,keyFunc);
     }
     
-    merge(/*other,[other]...*/){
+    join(/*other,[other]...*/){
         var parent_nodes = [this];
         [].push.apply(parent_nodes,arguments);
-        return new Merge_Node(parent_nodes,this.connect);
+        return new Join_Node(parent_nodes,this.connect);
     }
     
     reduce(reductionFunc){
@@ -222,9 +222,9 @@ export class Reduce_Node extends Context_Node{
     }
 };
 
-export class Merge_Node extends Context_Node{
+export class Join_Node extends Context_Node{
     constructor(parent_nodes,connect){
-        super(parent_nodes,connect,"merge");
+        super(parent_nodes,connect,"join");
         var key_origin = parent_nodes[0].getTaskKeyOrigin();
         console.log("------------------");
         var different_origins = parent_nodes.some(function(p){
@@ -234,7 +234,7 @@ export class Merge_Node extends Context_Node{
             return p.getTaskKeyOrigin().node_type=="key";
         });
         if(different_origins && !all_user_keyed){
-            throw "Cannot perform merge due to contexts having different key origins!";
+            throw "Cannot perform join due to contexts having different key origins!";
             return;
         }
         var self = this;
@@ -242,7 +242,7 @@ export class Merge_Node extends Context_Node{
             parent.addAsyncHook(function(datum, key){
                 var task = self.getTask(key);
                 if(task==undefined){
-                    task = new Merge_Task(key,parent_nodes.length)
+                    task = new Join_Task(key,parent_nodes.length)
                     self.addTask(task);
                 }
                 task.addResult(datum,parent_nodes.indexOf(parent))
