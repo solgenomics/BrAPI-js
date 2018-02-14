@@ -1,4 +1,4 @@
-class Task {
+export class Task {
     constructor(index) {
         this.status = 0
         this.index = index
@@ -25,7 +25,7 @@ class Task {
     }
 }
 
-class Merge_Task extends Task{
+export class Merge_Task extends Task{
     constructor(index) {
         super(index)
         this.result = [];
@@ -43,5 +43,3 @@ class Merge_Task extends Task{
         this.result.push(result);
     }
 }
-
-export {Task,Merge_Task}
