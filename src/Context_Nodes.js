@@ -108,6 +108,7 @@ export class Context_Node extends BrAPI_Methods{
     
     getTaskKeyOrigin(){
         if (this.parents.length<1 
+                || this.node_type=="key"
                 || this.node_type=="expand" 
                 || this.node_type=="reduce"){
             return this;
@@ -119,6 +120,10 @@ export class Context_Node extends BrAPI_Methods{
     each(func){ this.addAsyncHook(func); return this;}
     all(func){ this.addFinishHook(func); return this;}
     catch(func){ this.addCatchHook(func); return this;}
+    
+    keys(keyFunc){
+        return new Key_Node(this,this.connect,keyFunc);
+    }
     
     merge(/*other,[other]...*/){
         var parent_nodes = [this];
@@ -166,6 +171,19 @@ export class Filter_Node extends Context_Node{
     }
 };
 
+export class Key_Node extends Context_Node{
+    constructor(parent,connect,keyFunc){
+        super([parent],connect,"key");
+        var self = this;
+        parent.addAsyncHook(function(datum, previous){
+            var task = new Task(""+keyFunc(datum, ""+previous));
+            self.addTask(task);
+            task.complete(datum);
+            self.publishResult(task);
+        });
+    }
+};
+
 export class Map_Node extends Context_Node{
     constructor(parent,connect,mapFunc){
         super([parent],connect,"map");
@@ -198,10 +216,14 @@ export class Merge_Node extends Context_Node{
         super(parent_nodes,connect,"merge");
         var key_origin = parent_nodes[0].getTaskKeyOrigin();
         console.log("------------------");
-        if(!parent_nodes.every(function(p){
-            console.log(p.getTaskKeyOrigin());
-            return p.getTaskKeyOrigin()===key_origin})){
-            throw "Cannot perform merge due to contexts having different keys!";
+        var different_origins = parent_nodes.some(function(p){
+            return p.getTaskKeyOrigin()!==key_origin
+        });
+        var all_user_keyed = parent_nodes.every(function(p){
+            return p.getTaskKeyOrigin().node_type=="key";
+        });
+        if(different_origins && !all_user_keyed){
+            throw "Cannot perform merge due to contexts having different key origins!";
             return;
         }
         this.task_map = {};
