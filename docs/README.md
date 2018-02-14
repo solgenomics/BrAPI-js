@@ -55,18 +55,18 @@ Creates a new _brapi_ context node and sets its data to the result of the specif
 ```js
 var germplasm_forked = brapi_root.germplasm_search({germplasmSpecies:["vinifera"]});
 ```
-![](_readme_images/readme_images_brapi_call_fork.jpg)
+![](images/readme_images_brapi_call_fork.jpg)
 ```js
 var germplasm = brapi_root.germplasm_search({germplasmSpecies:["vinifera"]},"map");
 ```
-![](_readme_images/readme_images_brapi_call_map.jpg)
+![](images/readme_images_brapi_call_map.jpg)
 ```js
 var germplasm_forked = brapi_root.germplasm_search({germplasmSpecies:["vinifera"]});
 var pedigrees = germplasm_forked.germplasm_pedigree(function(datum){
     return {germplasmDbId:datum.germplasmDbId}
 });
 ```
-![](_readme_images/readme_images_brapi_call_fork_and_continue.jpg)
+![](images/readme_images_brapi_call_fork_and_continue.jpg)
 
 <a name="each" href="#each">#</a> _brapi_.**each**(_func_) [<>](src/Context_Nodes.js "Source")  
 Calls _func_(_datum_) for **each** datum after it becomes availble (i.e. once the relevant AJAX call completes).
