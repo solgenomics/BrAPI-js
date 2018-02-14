@@ -333,11 +333,12 @@ export class Data_Node extends Context_Node{
         dataArray.forEach(function(datum,i){
             var task = new Task(i);
             self.addTask(task);
-            task.complete(datum);
+            task.stored_result = datum;
         });
         parent.addFinishHook(function(){
-            self.getTasks().forEach(function(t){
-                self.publishResult(t);
+            self.getTasks().forEach(function(task){
+                task.complete(task.stored_result);
+                self.publishResult(task);
             })
         });
     }
