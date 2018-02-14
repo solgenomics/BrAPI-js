@@ -353,7 +353,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.forked_key = 0;
         var self = this;
         var hookTo = multicall ? parent.addAsyncHook : parent.addFinishHook;
-        hookTo(function(datum, key){
+        hookTo.call(parent,function(datum, key){
             var d_call = self.d_func(datum);
             if (self.connect.auth!=null && self.connect.auth.access_token){
                 d_call.params['access_token'] = self.connect.auth.access_token
