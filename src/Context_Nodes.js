@@ -136,6 +136,10 @@ export class Context_Node extends BrAPI_Methods{
         return new Key_Node(this,this.connect,keyFunc);
     }
     
+    fork(forkFunc){
+        return new Fork_Node(this,this.connect,forkFunc);
+    }
+    
     join(/*other,[other]...*/){
         var parent_nodes = [this];
         [].push.apply(parent_nodes,arguments);
@@ -209,15 +213,37 @@ export class Map_Node extends Context_Node{
 };
 
 export class Reduce_Node extends Context_Node{
-    constructor(parent,connect,reductionFunc){
+    constructor(parent,connect,reductionFunc,initialValue){
         super([parent],connect,"reduce");
         var task = new Task(0);
         this.addTask(task);
         var self = this;
         parent.addFinishHook(function(data, key){
-            out_datum = reductionFunc==undefined?data:data.reduce(reductionFunc);
+            out_datum = reductionFunc==undefined?data:data.reduce(reductionFunc,initialValue);
             task.complete(out_datum);
             self.publishResult(task);
+        });
+    }
+};
+
+export class Fork_Node extends Context_Node{
+    constructor(parent,connect,forkFunc){
+        super([parent],connect,"fork");
+        var self = this;
+        var forked_key = 0;
+        parent.addAsyncHook(function(datum, key){
+            var newData = forkFunc(datum);
+            var newTasks = [];
+            newData.forEach(function(newDatum){
+                var task = new Task(key+"::"+forked_key);
+                forked_key+=1;
+                self.addTask(task);
+                task.complete(newDatum);
+                newTasks.push(task);
+            });
+            newTasks.forEach(function(task){
+                self.publishResult(task);
+            });
         });
     }
 };
