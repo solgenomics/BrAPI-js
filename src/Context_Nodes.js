@@ -376,7 +376,6 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.behavior = behavior;
         this.d_func = url_body_func;
         this.method = httpMethod;
-        this.forked_key = 0;
         var self = this;
         var hookTo = multicall ? parent.addAsyncHook : parent.addFinishHook;
         hookTo.call(parent,function(dat, key){
@@ -470,15 +469,15 @@ export class BrAPI_Behavior_Node extends Context_Node{
                             self.loadPage(page_num+1,unforked_key,d_call,fetch_args,pageRange,state);
                         }
                         json.result.data.slice(0,-1).forEach(function(datum){
-                            var task = new Task(self.forked_key);
-                            self.forked_key+=1;
+                            var task = new Task(unforked_key+"::"+state.forked_key);
+                            state.forked_key+=1;
                             datum["__response"] = json;
                             self.addTask(task);
                             task.complete(datum);
                             self.publishResult(task);
                         });
-                        sentry_task.setKey(self.forked_key);
-                        self.forked_key+=1;
+                        sentry_task.setKey(unforked_key+"::"+state.forked_key);
+                        state.forked_key+=1;
                         sentry_task.complete(json.result.data[json.result.data.length-1]);
                         self.publishResult(sentry_task);
                     }
