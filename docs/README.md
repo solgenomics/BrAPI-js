@@ -1,7 +1,7 @@
 ###### v0.2.0
 # BrAPI.js
 
-BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The functional style of this library is inspired by [D3.js](https://d3js.org/). It can be used in either a browser or a Node.js application. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch](https://www.npmjs.com/package/node-fetch) in Node.js) for making AJAX calls. BrAPI.js is dependent on ES6 classes.
+BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call style of this library is inspired by [D3.js](https://d3js.org/). It can be used in either a browser or a Node.js application. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch](https://www.npmjs.com/package/node-fetch) in Node.js) for making AJAX calls. BrAPI.js is dependent on ES6 classes.
 
 ### Important To-Dos
 
@@ -10,10 +10,14 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The func
 ### Contents
 
 - [Installation](#installation)
-- [How it Works](#how)
+- [How it Works](#how-it-works)
 - [Usage](#usage)
+    - [Initialization and Configuration](#initialization-and-configuration)
+    - [BrAPI Call Nodes](#brapi-call-nodes)
+    - [Non-BrAPI Nodes](#non-brapi-nodes)
+    - [Available BrAPI Methods](#available-brapi-methods)
 
-## <a name="installation" href="#installation">#</a> Installation
+## Installation
 
 ```bash
 # Be sure your version of NPM supports 'prepare' scripts (>=npm@4.0.0)
@@ -24,7 +28,7 @@ cd BrAPI.js
 npm install . 
 ```
 
-#### <a name="include" href="#include">#</a> Include/Require
+#### Include/Require
 
 ```html
 <!--Browser-->
@@ -39,17 +43,17 @@ import BrAPI from './build/BrAPI.js';
 const BrAPI = require('BrAPI.js');
 ```
 
-## <a name="how" href="#how">#</a> How it Works
+## How it Works
 
 BrAPI.js has been designed to allow for many simultaneous and interdependent calls to BrAPI to be performed asynchronously. In order to do this, data are managed by a class of objects called **Context Nodes**. Nodes are organized into a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph "Directed Acyclic Graph") which represents dependancies. Each node represents a transformation on the data. Basic transformations include [fork](#fork), [join](#join), [map](#map), [reduce](#reduce), and [filter](#filter). BrAPI calls are special transformations. Each BrAPI call can be either a fork (calls returning array data) or a map (calls returning single objects). Data interacts through nodes via tasks. When a task completes, it triggers the creation of new task(s) in all child nodes. With the exception of [reduce](#reduce), the operations can be performed independently on each datum. This means one datum can be transformed across multiple nodes while another moves more slowly.
 
-## <a name="usage" href="#usage">#</a> Usage
+## Usage
 
-### <a name="initial" href="#initial">#</a> Initialization and Configuration
+### Initialization and Configuration
 
 <a name="root" href="#root">#</a> **BrAPI**(_address_ [, _auth_params_]) [<>](main.js "Source")  
 
-Creates a root _Context Node_. This is the root of a BrAPI.js [DAG dataflow](#how). The _address_ should be a string with the base URL of a BrAPI instance that is being queried, i.e. "https://www.yambase.org/brapi/v1". If an _auth_params_ object is provided, an authentication call will be made with the provided keys in the call body.  
+Creates a root _Context Node_. This is the root of a BrAPI.js [DAG dataflow](#how-it-works). The _address_ should be a string with the base URL of a BrAPI instance that is being queried, i.e. "https://www.yambase.org/brapi/v1". If an _auth_params_ object is provided, an authentication call will be made with the provided keys in the call body.  
 
 ###### Examples:
 
@@ -105,13 +109,13 @@ BrAPI("https://www.yambase.org/brapi/v1")
     });
 ```
 
-### <a name="brapi" href="#brapi">#</a> BrAPI Call Nodes
+### BrAPI Call Nodes
 
 <a name="brapi_method_call" href="#brapi_method_call">#</a> _node_.**`$BrAPI_Method`**(_params_ [, _behavior_]) [<>](src/brapi_methods.js "Source")  
 
-A `$BrAPI_Method` is be one of the [available BrAPI methods](#brapi_methods). These methods create and return a child _Context Node_ which makes the relevant BrAPI calls. Calls are tracked as tasks and occur asynchronously. <a name="params" href="#params"></a>Parameters (either URL parameters or body parameters) are specified for the call using the _params_ argument. The _params_ argument can either be an object, or a function. If it is a function, a separate BrAPI call will be made for each datum passed by the parent node. Otherwise, a single call (or series of calls for each page) will be made and the input data will be ignored. For each datum created, the full response from which it was extracted is available via `datum.__response`.
+A `$BrAPI_Method` is be one of the [available BrAPI methods](#available-brapi-methods). These methods create and return a child _Context Node_ which makes the relevant BrAPI calls. Calls are tracked as tasks and occur asynchronously. <a name="params" href="#params"></a>Parameters (either URL parameters or body parameters) are specified for the call using the _params_ argument. The _params_ argument can either be an object, or a function. If it is a function, a separate BrAPI call will be made for each datum passed by the parent node. Otherwise, a single call (or series of calls for each page) will be made and the input data will be ignored. For each datum created, the full response from which it was extracted is available via `datum.__response`.
 
-**There are two special parameters specific to BrAPI.js.** The first, **`pageRange`** (an array `[first_page, last_page]`), controls pagination and _must_ be used in place of the usual BrAPI `page` parameter. `pageRange` defaults to `[0,Infinity]`. The second, **`HTTPMethod`**, allows one to override the default HTTP method (e.g. "POST","GET") for a [BrAPI method](#brapi_methods). 
+**There are two special parameters specific to BrAPI.js.** The first, **`pageRange`** (an array `[first_page, last_page]`), controls pagination and _must_ be used in place of the usual BrAPI `page` parameter. `pageRange` defaults to `[0,Infinity]`. The second, **`HTTPMethod`**, allows one to override the default HTTP method (e.g. "POST","GET") for a [BrAPI method](#available-brapi-methods). 
 
 <a name="behavior" href="#behavior"></a>
 For calls which return a response containing a `data` array, (i.e. _node_.germplasm_search(...) ), the _behavior_ argument determines how that data is handled. The default _behavior_ is `"fork"`.
@@ -126,13 +130,13 @@ The _behavior_ argument acts the same as [described above](#behavior). If the be
 
 The _method_ argument indicates which HTTP method to use for a call. ("POST","GET",etc).
 
-The _queryFunc_ should be a function that returns an object of the form `{'url':"/customCall", 'params':paramsObject}` where `obj.url` is the prefix to be appended to the base BrAPI url provided during [initialization](#initial), and `obj.params` is a parameter object as [described above](#params). 
+The _queryFunc_ should be a function that returns an object of the form `{'url':"/customCall", 'params':paramsObject}` where `obj.url` is the prefix to be appended to the base BrAPI url provided during [initialization](#initialization-and-configuration), and `obj.params` is a parameter object as [described above](#params). 
 
 The _multicall_ argument determines wether the call will be run once for each input, or once for all inputs. 
 - When _multicall_ is true, _queryFunc_ will be run once for each datum, with the arguments (_datum_,_key_) where _key_ is the datum's key as [described below](). 
 - When _multicall_ is false, _queryFunc_ will be run once for all input data, with a single argument _data_ containing every datum passed through the parent node.
 
-### <a name="nonbrapi" href="#nonbrapi">#</a> Non-BrAPI Nodes
+### Non-BrAPI Nodes
 
 <a name="each" href="#each">#</a> _node_.**each**(_func_) [<>](src/Context_Nodes.js "Source") 
 
@@ -148,7 +152,7 @@ The _multicall_ argument determines wether the call will be run once for each in
 
 <a name="reduce" href="#reduce">#</a> _node_.**reduce**(_func_) [<>](src/Context_Nodes.js "Source") 
 
-### <a name="brapi_methods" href="#brapi_methods">#</a> Available BrAPI Methods
+### Available BrAPI Methods
 
 | BrAPI Call                                                                                                                                                               | BrAPI.js Method                          | Default HTTP Method |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ------------------- |
