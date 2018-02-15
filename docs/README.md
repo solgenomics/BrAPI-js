@@ -87,7 +87,7 @@ BrAPI("https://www.yambase.org/brapi/v1")
 
 <a name="data" href="#data">#</a> _node_.**data**(_array_) [<>](src/Context_Nodes.js "Source")  
 
-Creates and returns a child _Context Node_ which ignores any completed tasks from it's parent node and creates a new task in each child node for each datum in the array. 
+Creates and returns a child _Context Node_ which ignores any completed tasks from it's parent node and creates a new task in each child node for each datum in the _array_. This is the main way of adding input to the dataflow. 
 
 ###### Examples:
 ```js
@@ -149,15 +149,15 @@ The _multicall_ argument determines wether the call will be run once for each in
 
 ### <a name="brapi_methods" href="#brapi_methods">#</a> Available BrAPI Methods
 
-| BrAPI Call                                  | BrAPI.js Method                      | Default HTTP Method |
-| ------------------------------------------- | ------------------------------------ | ------------------- |
-| `/allelematrix-search`                      | _node_.allelematrix_search(...)      | `POST`              |
-| `/attributes`                               | _node_.attributes(...)               | `GET`               |
-| `/attributes/categories`                    | _node_.attributes_categories(...)    | `GET`               |
-| `/calls`                                    | _node_.calls(...)                    | `GET`               |
-| `/crops`                                    | _node_.crops(...)                    | `GET`               |
-| `/germplasm-search`                         | _node_.germplasm_search(...)         | `POST`              |
-| `/germplasm/{germplasmDbId}`                | _node_.germplasm(...)                | `GET`               |
-| `/germplasm/{germplasmDbId}/attributes`     | _node_.germplasm_attributes(...)     | `GET`               |
-| `/germplasm/{germplasmDbId}/markerprofiles` | _node_.germplasm_markerprofiles(...) | `GET`               |
-| `/germplasm/{germplasmDbId}/pedigree`       | _node_.germplasm_pedigree(...)       | `GET`               |
+| BrAPI Call                                                                                                                           | BrAPI.js Method                      | Default HTTP Method |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ | ------------------- |
+| [`/allelematrix-search`](https://github.com/plantbreeding/API/blob/master/Specification/MarkerProfiles/MarkerProfileAlleleMatrix.md) | _node_.allelematrix_search(...)      | `POST`              |
+| [`/attributes`](https://github.com/plantbreeding/API/blob/master/Specification/GermplasmAttributes/ListAttributesByAttributeCategoryDbId.md)                                                                                                                    | _node_.attributes(...)               | `GET`               |
+| [`/attributes/categories`](https://github.com/plantbreeding/API/blob/master/Specification/GermplasmAttributes/ListAttributeCategories.md)                                                                                                         | _node_.attributes_categories(...)    | `GET`               |
+| [`/calls`]()                                                                                                                         | _node_.calls(...)                    | `GET`               |
+| [`/crops`]()                                                                                                                         | _node_.crops(...)                    | `GET`               |
+| [`/germplasm-search`]()                                                                                                              | _node_.germplasm_search(...)         | `POST`              |
+| [`/germplasm/{germplasmDbId}`]()                                                                                                     | _node_.germplasm(...)                | `GET`               |
+| [`/germplasm/{germplasmDbId}/attributes`](https://github.com/plantbreeding/API/blob/master/Specification/GermplasmAttributes/GermplasmAttributeValuesByGermplasmDbId.md)                                                                                          | _node_.germplasm_attributes(...)     | `GET`               |
+| [`/germplasm/{germplasmDbId}/markerprofiles`]()                                                                                      | _node_.germplasm_markerprofiles(...) | `GET`               |
+| [`/germplasm/{germplasmDbId}/pedigree`]()                                                                                            | _node_.germplasm_pedigree(...)       | `GET`               |
