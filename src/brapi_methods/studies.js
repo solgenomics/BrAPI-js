@@ -1,6 +1,6 @@
 // POST /studies-search
 export function studies_search(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -22,7 +22,7 @@ export function studies(params){
 
 // GET /studies/{studiesDbId}/germplasm
 export function studies_germplasm(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -33,7 +33,7 @@ export function studies_germplasm(params,behavior){
 
 // GET /studies/{studiesDbId}/layout
 export function studies_layout(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -44,7 +44,7 @@ export function studies_layout(params,behavior){
 
 // GET /studies/{studiesDbId}/observations
 export function studies_observations(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -55,7 +55,7 @@ export function studies_observations(params,behavior){
 
 // GET /studies/{studiesDbId}/observationunits
 export function studies_observationunits(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -66,7 +66,7 @@ export function studies_observationunits(params,behavior){
 
 // GET /studies/{studiesDbId}/observationvariables
 export function studies_observationvariables(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
@@ -88,7 +88,7 @@ export function studies_table(params){
 
 // GET /studytypes
 export function studytypes(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);

@@ -1,6 +1,6 @@
 // GET /trials & GET /trials/{trialDbId}
 export function trials(params,behavior){
-    var behavior = ((behavior==undefined)?(true):(behavior))?"fork":"map";
+    var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
                             : Object.assign({}, params);
