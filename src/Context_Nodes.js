@@ -146,16 +146,16 @@ export class Context_Node extends BrAPI_Methods{
         return new Join_Node(parent_nodes,this.connect);
     }
     
-    reduce(reductionFunc){
-        return new Reduce_Node(this,this.connect,reductionFunc);
+    reduce(reductionFunc,initialValue){
+        return new Reduce_Node(this,this.connect,reductionFunc,initialValue);
     }
     
     map(mapFunc){
         return new Map_Node(this,this.connect,mapFunc);
     }
     
-    filter(mapFunc){
-        return new Filter_Node(this,this.connect,mapFunc);
+    filter(filterFunc){
+        return new Filter_Node(this,this.connect,filterFunc);
     }
     
     server(server,auth_params){
