@@ -8,12 +8,11 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The func
 
 ### Contents
 
-- [Installation](#Installation)
-- [Include/Require](#build)
+- [Installation](#installation)
 - [How it Works](#how)
 - [Usage](#usage)
 
-## <a name="Installation" href="#Installation">#</a> Installation
+## <a name="installation" href="#installation">#</a> Installation
 
 ```bash
 # Be sure your version of NPM supports 'prepare' scripts (>=npm@4.0.0)
@@ -24,7 +23,7 @@ cd BrAPI.js
 npm install . 
 ```
 
-## <a name="include" href="#include">#</a> Include/Require
+#### <a name="include" href="#include">#</a> Include/Require
 
 ```html
 <!--Browser-->
@@ -150,6 +149,15 @@ The _multicall_ argument determines wether the call will be run once for each in
 
 ### <a name="brapi_methods" href="#brapi_methods">#</a> Available BrAPI Methods
 
-| BrAPI Call | BrAPI.js Method |
-| ---------- | --------------- |
-|            |                 |
+| BrAPI Call                                  | BrAPI.js Method                      | Default HTTP Method |
+| ------------------------------------------- | ------------------------------------ | ------------------- |
+| `/allelematrix-search`                      | _node_.allelematrix_search(...)      | `POST`              |
+| `/attributes`                               | _node_.attributes(...)               | `GET`               |
+| `/attributes/categories`                    | _node_.attributes_categories(...)    | `GET`               |
+| `/calls`                                    | _node_.calls(...)                    | `GET`               |
+| `/crops`                                    | _node_.crops(...)                    | `GET`               |
+| `/germplasm-search`                         | _node_.germplasm_search(...)         | `POST`              |
+| `/germplasm/{germplasmDbId}`                | _node_.germplasm(...)                | `GET`               |
+| `/germplasm/{germplasmDbId}/attributes`     | _node_.germplasm_attributes(...)     | `GET`               |
+| `/germplasm/{germplasmDbId}/markerprofiles` | _node_.germplasm_markerprofiles(...) | `GET`               |
+| `/germplasm/{germplasmDbId}/pedigree`       | _node_.germplasm_pedigree(...)       | `GET`               |
