@@ -11,10 +11,11 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call
 
 - [Installation](#installation)
 - [How it Works](#how-it-works)
-- [Usage](#usage)
+- [Usage Reference](#usage-reference)
     - [Initialization and Configuration](#initialization-and-configuration)
     - [BrAPI Call Nodes](#brapi-call-nodes)
     - [Non-BrAPI Nodes](#non-brapi-nodes)
+    - [Accessing Data Output](#accessing-data-output)
     - [Available BrAPI Methods](#available-brapi-methods)
 
 ## Installation
@@ -47,7 +48,7 @@ const BrAPI = require('BrAPI.js');
 
 BrAPI.js has been designed to allow for many simultaneous and interdependent calls to BrAPI to be performed asynchronously. In order to do this, data are managed by a class of objects called **Context Nodes**. Nodes are organized into a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph "Directed Acyclic Graph") which represents dependancies. Each node represents a transformation on the data. Basic transformations include [fork](#fork), [join](#join), [map](#map), [reduce](#reduce), and [filter](#filter). BrAPI calls are special transformations. Each BrAPI call can be either a fork (calls returning array data) or a map (calls returning single objects). Data interacts through nodes via tasks. When a task completes, it triggers the creation of new task(s) in all child nodes. With the exception of [reduce](#reduce), the operations can be performed independently on each datum. This means one datum can be transformed across multiple nodes while another moves more slowly.
 
-## Usage
+## Usage Reference
 
 ### Initialization and Configuration
 
@@ -138,19 +139,40 @@ The _multicall_ argument determines wether the call will be run once for each in
 
 ### Non-BrAPI Nodes
 
-<a name="each" href="#each">#</a> _node_.**each**(_func_) [<>](src/Context_Nodes.js "Source") 
+<a name="map" href="#map">#</a> _node_.**map**(_callback_) [<>](src/Context_Nodes.js "Source") 
 
-<a name="all" href="#all">#</a> _node_.**all**(_func_) [<>](src/Context_Nodes.js "Source") 
+Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [Array.prototype.map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map). The _callback_ function is called with two arguments (_datum_, _key_) for each datum, and may return any value which will be passed to child nodes as a single datum.
 
-<a name="keys" href="#keys">#</a> _node_.**keys**(_func_) [<>](src/Context_Nodes.js "Source") 
+<a name="fork" href="#fork">#</a> _node_.**fork**(_node_ [, _node_, ...]) [<>](src/Context_Nodes.js "Source") 
+
+Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [_node_.map()](#map), however, the _callback_ function should return an array. Each item of each returned array will be passed to child nodes as a datum.
+
+<a name="filter" href="#filter">#</a> _node_.**filter**(_callback_) [<>](src/Context_Nodes.js "Source") 
+
+Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter). The _callback_ function is called with two arguments (_datum_, _key_) for each datum, returning `true` will pass the datum to child nodes while returning `false` will remove it from the dataflow.
+
+<a name="reduce" href="#reduce">#</a> _node_.**reduce**(_callback_ [, _initialValue_]) [<>](src/Context_Nodes.js "Source") 
+
+Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [Array.prototype.reduce()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce). The _callback_ function is called with two arguments (_accumulator_, _datum_) and should return the modified _accumulator_. The result from the reduction will be passed to child nodes as a single datum.
 
 <a name="join" href="#join">#</a> _node_.**join**(_node_ [, _node_, ...]) [<>](src/Context_Nodes.js "Source") 
 
-<a name="filter" href="#filter">#</a> _node_.**filter**(_func_) [<>](src/Context_Nodes.js "Source") 
+Creates and returns a child _Context Node_ which takes the output datum from multiple _Context Nodes_ and joins them into arrays on their [keys](#keys) which are then passed to child nodes. Datum are assigned keys in two different manners. First, when a key-modifying node (a [fork](#fork) node, a [reduce](reduce) node, or a BrAPI node with the [_behavior_ of "fork"](#behavior) or called with a single parameter object) transforms data, it will assign each datum a new key in order to maintain uniqueness. Second, keys can be manually assigned using [_node_.keys(...)](#keys) to create a keys node. _node_.join(...) will only join nodes which share their most recent key-modifying ancestor, or which have all had their keys manually assigned.
 
-<a name="map" href="#map">#</a> _node_.**map**(_func_) [<>](src/Context_Nodes.js "Source") 
+<a name="keys" href="#keys">#</a> _node_.**keys**(_callback_) [<>](src/Context_Nodes.js "Source") 
 
-<a name="reduce" href="#reduce">#</a> _node_.**reduce**(_func_) [<>](src/Context_Nodes.js "Source") 
+Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [_node_.map()](#map). However, instead of modifying the data, it will modify the key for each datum. The _callback_ function is called with two arguments (_datum_, _currentKey_) and should return a new key to replace  _currentKey_. Keys returned by the _callback_ function may be any primitive. If the _callback_ function returns an object, it will converted to a string before being used as a key. A single key should not be assigned to two separate datum, doing so will result in errors later in the dataflow.
+
+### Accessing Data Output
+
+<a name="each" href="#each">#</a> _node_.**each**(_callback_) [<>](src/Context_Nodes.js "Source") 
+
+This method registers a callback function which is called each time the node completes the transformation of a datum. The _callback_ function is called with the arguments (_datum_, _key_).
+
+<a name="all" href="#all">#</a> _node_.**all**(_callback_) [<>](src/Context_Nodes.js "Source") 
+
+This method registers a callback function which is called once a node has loaded all data. The _callback_ function is called with a single arguement _data_
+
 
 ### Available BrAPI Methods
 
