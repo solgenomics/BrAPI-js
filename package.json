@@ -7,7 +7,6 @@
   },
   "repository": "github:solgenomics/BrAPI.js",
   "license": "MIT",
-  "private": true,
   "main": "build/BrAPI.js",
   "scripts": {
     "prepare": "rm -rf build && mkdir build && rollup -f umd -n BrAPI -o build/BrAPI.js -- main.js"
