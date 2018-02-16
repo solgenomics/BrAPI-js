@@ -295,7 +295,11 @@ export class Join_Node extends Context_Node{
 
 export class Connection_Node extends Context_Node{
     constructor(parent,server,auth_params){
-        super([parent],{'server':server},"map");
+        var base_url = server;
+        if (base_url.slice(-1)=="/"){
+            base_url=base_url.slice(0,-1);
+        }
+        super([parent],{'server':base_url},"map");
         var requrl = this.connect.server+"/token";
         var self = this;
         if (auth_params){
