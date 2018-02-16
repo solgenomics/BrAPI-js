@@ -21,8 +21,11 @@ BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call
 
 ```bash
 # Be sure your version of NPM supports 'prepare' scripts (>=npm@4.0.0)
+# Recommended:
+npm install @solgenomics/brapijs 
+# Otherwise:
 npm install git+https://github.com/solgenomics/BrAPI.js.git
-# or
+# or:
 git clone https://github.com/solgenomics/BrAPI.js.git
 cd BrAPI.js
 npm install . 
