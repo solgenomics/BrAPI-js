@@ -1,7 +1,7 @@
 export class Task {
-    constructor(key) {
-        this.status = 0
-        this.setKey(key);
+    constructor(key, parentKey) {
+        this.status = 0;
+        this.setKey(key,parentKey);
         this.result = null;
     }
     complete(result){
@@ -20,8 +20,13 @@ export class Task {
     getKey(){
         return this.key;
     }
-    setKey(key){
-        this.key = (key !== Object(key)) ? key : ""+key;
+    setKey(key,parentKey){
+        var keyPrim = (key !== Object(key)) ? key : ""+key;
+        if (parentKey!=undefined){
+            this.key = parentKey+encodeNumberKey(key);
+        } else {
+            this.key = key;
+        }
     }
 }
 
@@ -41,4 +46,12 @@ export class Join_Task extends Task{
     addResult(result,index){
         this.result[index] = result;
     }
+}
+
+// makes numbers sort lexicographically, really should only be used for numbers 
+// up to 10^26, which is far higher than we need anyway
+function encodeNumberKey(num){
+    var str = ""+num;
+    var oom = str.length;
+    return String.fromCharCode(oom+64)+str;
 }

@@ -215,7 +215,7 @@ export class Map_Node extends Context_Node{
 export class Reduce_Node extends Context_Node{
     constructor(parent,connect,reductionFunc,initialValue){
         super([parent],connect,"reduce");
-        var task = new Task(0);
+        var task = new Task(0, "");
         this.addTask(task);
         var self = this;
         parent.addFinishHook(function(data, key){
@@ -235,7 +235,7 @@ export class Fork_Node extends Context_Node{
             var newData = forkFunc(datum);
             var newTasks = [];
             newData.forEach(function(newDatum){
-                var task = new Task(key+"::"+forked_key);
+                var task = new Task(forked_key, key);
                 forked_key+=1;
                 self.addTask(task);
                 task.complete(newDatum);
@@ -343,7 +343,7 @@ export class Initial_Connection_Node extends Connection_Node{
 export class Root_Node extends Context_Node{
     constructor(){
         super([],{},"fork");
-        var task = new Task(0);
+        var task = new Task(0, "");
         this.addTask(task);
         task.complete(this.connect);
         this.publishResult(task);
@@ -361,7 +361,7 @@ export class Data_Node extends Context_Node{
         super([parent],connect,"fork");
         var self = this;
         dataArray.forEach(function(datum,i){
-            var task = new Task(i);
+            var task = new Task(i, "");
             self.addTask(task);
             task.stored_result = datum;
         });
@@ -473,14 +473,14 @@ export class BrAPI_Behavior_Node extends Context_Node{
                             self.loadPage(page_num+1,unforked_key,d_call,fetch_args,pageRange,state);
                         }
                         json.result.data.slice(0,-1).forEach(function(datum){
-                            var task = new Task(unforked_key+"::"+state.forked_key);
+                            var task = new Task(state.forked_key, unforked_key);
                             state.forked_key+=1;
                             datum["__response"] = json;
                             self.addTask(task);
                             task.complete(datum);
                             self.publishResult(task);
                         });
-                        sentry_task.setKey(unforked_key+"::"+state.forked_key);
+                        sentry_task.setKey(state.forked_key, unforked_key);
                         state.forked_key+=1;
                         sentry_task.complete(json.result.data[json.result.data.length-1]);
                         self.publishResult(sentry_task);
