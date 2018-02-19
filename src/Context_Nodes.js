@@ -206,7 +206,7 @@ export class Map_Node extends Context_Node{
         parent.addAsyncHook(function(datum, key){
             var task = new Task(key);
             self.addTask(task);
-            task.complete(mapFunc(datum));
+            task.complete(mapFunc(datum,key));
             self.publishResult(task);
         });
     }
