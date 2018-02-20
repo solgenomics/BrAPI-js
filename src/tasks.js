@@ -21,11 +21,10 @@ export class Task {
         return this.key;
     }
     setKey(key,parentKey){
-        var keyPrim = (key !== Object(key)) ? key : ""+key;
         if (parentKey!=undefined){
             this.key = parentKey+encodeNumberKey(key);
         } else {
-            this.key = key;
+            this.key = ""+key;
         }
     }
 }
@@ -49,7 +48,7 @@ export class Join_Task extends Task{
 }
 
 // makes numbers sort lexicographically, really should only be used for numbers 
-// up to 10^26, which is far higher than we need anyway
+// up to 10^26-1, which is far higher than we need anyway
 function encodeNumberKey(num){
     var str = ""+num;
     var oom = str.length;

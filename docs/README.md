@@ -163,7 +163,7 @@ Creates and returns a child _Context Node_ which takes the output datum from mul
 
 <a name="keys" href="#keys">#</a> _node_.**keys**(_callback_) [<>](src/Context_Nodes.js "Source") 
 
-Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [_node_.map()](#map). However, instead of modifying the data, it will modify the key for each datum. The _callback_ function is called with two arguments (_datum_, _currentKey_) and should return a new key to replace  _currentKey_. Keys returned by the _callback_ function may be any value. If the _callback_ function returns any other than a string, it will converted to a string before being used as a key. A single key should not be assigned to two separate datum, doing so _will_ result in errors later in the dataflow.
+Creates and returns a child _Context Node_ which transforms each datum in a manner similar to [_node_.map()](#map). However, instead of modifying the data, it will modify the key for each datum. The _callback_ function is called with two arguments (_datum_, _currentKey_) and should return a new key to replace  _currentKey_. Keys returned by the _callback_ function may be any value. If the _callback_ function returns any type other than a string, it will converted to a string before being used as a key. A single key string should not be assigned to two separate datum, doing so _will_ result in errors later in the dataflow.
 
 ### Accessing Data Output
 
