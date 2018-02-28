@@ -23,6 +23,7 @@ export class Context_Node extends BrAPI_Methods{
     constructor(parent_list,connection_information,node_type){
         super();
         this.isFinished = false;
+        this.ranFinishHooks = false;
         this.node_type = node_type;
         this.parents = parent_list;
         this.async_hooks = [];
@@ -51,7 +52,7 @@ export class Context_Node extends BrAPI_Methods{
         this.async_hooks.forEach(function(hook){
             hook(task.getResult(),task.getKey());
         });
-        this.checkFinished();
+        this.checkFinished(true);
     }
     
     addAsyncHook(hook){
@@ -69,7 +70,7 @@ export class Context_Node extends BrAPI_Methods{
     
     addFinishHook(hook){
         this.finish_hooks.push(hook);
-        if(this.isFinished){
+        if(this.ranFinishHooks){
             hook(this.getTasks()
                 .sort(function(a,b){
                     return a.key <= b.key ? -1 : 1;
@@ -81,14 +82,15 @@ export class Context_Node extends BrAPI_Methods{
         }
     }
     
-    checkFinished(){
+    checkFinished(run_on_finish){
         if (!this.isFinished){
-            var parsFin = this.parents.every(function(par){return par.checkFinished()});
+            var parsFin = this.parents.every(function(par){return par.checkFinished(false)});
             var thisFin = this.getTasks().every(function(task){return task.complete()});
             this.isFinished = parsFin && thisFin;
-            if (this.isFinished){
-                this._onFinish();
-            }
+        }
+        if (run_on_finish && !this.ranFinishHooks && this.isFinished){
+            this.ranFinishHooks=true;
+            this._onFinish();
         }
         return this.isFinished
     }
@@ -180,7 +182,7 @@ export class Filter_Node extends Context_Node{
                 task.complete(datum);
                 self.publishResult(task);
             } else if (self.getTasks().length == 0){
-                self.checkFinished();
+                self.checkFinished(true);
             }
         });
     }
@@ -264,19 +266,19 @@ export class Join_Node extends Context_Node{
             return;
         }
         var self = this;
-        parent_nodes.forEach(function(parent){
+        parent_nodes.forEach(function(parent,parent_index){
             parent.addAsyncHook(function(datum, key){
                 var task = self.getTask(key);
                 if(task==undefined){
                     task = new Join_Task(key,parent_nodes.length)
                     self.addTask(task);
                 }
-                task.addResult(datum,parent_nodes.indexOf(parent))
+                task.addResult(datum,parent_index)
                 if (task.complete(true)){
                     self.publishResult(task);
                 }
             });
-            parent.addFinishHook(function(datum){
+            parent.addFinishHook(function(data){
                 self.getTasks().forEach(function(task){
                     if (!task.complete()){
                         var pindex = parent_nodes.indexOf(parent);
@@ -289,7 +291,7 @@ export class Join_Node extends Context_Node{
                     }
                 });
             });
-        })
+        });
     }
 };
 
