@@ -254,7 +254,6 @@ export class Join_Node extends Context_Node{
     constructor(parent_nodes,connect){
         super(parent_nodes,connect,"join");
         var key_origin = parent_nodes[0].getTaskKeyOrigin();
-        console.log("------------------");
         var different_origins = parent_nodes.some(function(p){
             return p.getTaskKeyOrigin()!==key_origin
         });
