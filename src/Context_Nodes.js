@@ -282,7 +282,7 @@ export class Join_Node extends Context_Node{
                 self.getTasks().forEach(function(task){
                     if (!task.complete()){
                         var pindex = parent_nodes.indexOf(parent);
-                        if (self.getTask(pindex)===undefined) {
+                        if (task.result[pindex]===undefined) {
                             task.addResult(null,pindex)
                         }
                         if (task.complete(true)){
