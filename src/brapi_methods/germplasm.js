@@ -53,3 +53,15 @@ export function germplasm_pedigree(params){
         return {'url':url, 'params':datum_params};
     }, typeof params === "function");
 };
+
+// GET /germplasm/{germplasmDbId}/progeny
+export function germplasm_progeny(params,behavior){
+    var behavior = behavior=="map"?behavior:"fork";
+    return this.brapi_call(behavior,"get",function(datum){
+        var datum_params = typeof params === "function" ? params(datum) 
+                            : Object.assign({}, params);
+        var url = "/germplasm/"+(datum_params.germplasmDbId)+"/progeny";
+        delete datum_params.germplasmDbId;
+        return {'url':url, 'params':datum_params};
+    }, typeof params === "function");
+};
