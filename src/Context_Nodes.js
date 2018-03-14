@@ -221,7 +221,7 @@ export class Reduce_Node extends Context_Node{
         this.addTask(task);
         var self = this;
         parent.addFinishHook(function(data, key){
-            out_datum = reductionFunc==undefined?data:data.reduce(reductionFunc,initialValue);
+            var out_datum = reductionFunc==undefined?data:data.reduce(reductionFunc,initialValue);
             task.complete(out_datum);
             self.publishResult(task);
         });
