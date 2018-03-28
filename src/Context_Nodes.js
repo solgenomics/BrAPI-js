@@ -431,6 +431,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
             state = {
                 'is_paginated': undefined,
                 'concatenated': undefined,
+                'sentry': undefined,
                 'forked_key': 0
             }
         }
@@ -445,7 +446,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
             page_url+=this.formatURLParams(d_call.params)
         }
         
-        var sentry_task = new Task(unforked_key);
+        var sentry_task = state.sentry || new Task((page_num==pageRange[0]?"":"SENTRY"+page_num)+unforked_key);
         this.addTask(sentry_task);
         
         var self = this;
@@ -492,16 +493,18 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     else {
                         if(state.concatenated==undefined){
                             state.concatenated = json;
+                            state.sentry = sentry_task;
+                            state.concatenated.result["__response"] = state.concatenated;
+                            console.log(json);
                             delete state.concatenated.metadata.pagination;
                         } else {
                             [].push.apply(state.concatenated.result.data, json.result.data);
                         }
                         if (page_num<final_page){
-                            self.loadPage(page_num+1,unforked_key,d_call,fetch_args,state);
+                            self.loadPage(page_num+1,unforked_key,d_call,fetch_args,pageRange,state);
                         } else {
-                            state.concatenated.result["__response"] = json;
-                            sentry_task.complete(state.concatenated.result);
-                            self.publishResult(sentry_task);
+                            state.sentry.complete(state.concatenated.result);
+                            self.publishResult(state.sentry);
                         }
                     }
                 }
