@@ -484,7 +484,9 @@ export class BrAPI_Behavior_Node extends Context_Node{
                         });
                         sentry_task.setKey(state.forked_key, unforked_key);
                         state.forked_key+=1;
-                        sentry_task.complete(json.result.data[json.result.data.length-1]);
+                        var sent_res = json.result.data[json.result.data.length-1];
+                        sent_res["__response"] = json;
+                        sentry_task.complete(sent_res);
                         self.publishResult(sentry_task);
                     }
                     else {
