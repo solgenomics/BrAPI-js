@@ -469,7 +469,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     }
                 }
                 if(state.is_paginated){
-                    var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1])-1;
+                    var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);
                     if(self.behavior=="fork"){
                         if (page_num<final_page){
                             self.loadPage(page_num+1,unforked_key,d_call,fetch_args,pageRange,state);
