@@ -19,3 +19,15 @@ export function markers(params){
         return {'url':url, 'params':datum_params};
     }, typeof params === "function");
 };
+
+
+// GET /markers
+function markers_list(params){
+    return this.brapi_call("map","get",function(datum){
+        var datum_params = typeof params === "function" ? params(datum) 
+                            : Object.assign({}, params);
+        var url = "/markers";
+        return {'url':url, 'params':datum_params};
+    }, typeof params === "function");
+}
+markers_list.deprecated = "v1.2";

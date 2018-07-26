@@ -1,5 +1,6 @@
 import {Task,Join_Task} from './tasks'
 import * as methods from './brapi_methods';
+import brapiVersion from './brapiVersion.js';
 
 var fetchRef;
 if (typeof window === 'undefined') {
@@ -16,7 +17,23 @@ export default class BrAPI_Methods {
     constructor(){}
 }
 for (var method_name in methods) {
-    BrAPI_Methods.prototype[method_name] = methods[method_name];
+    //apply each method to BrAPI_Methods, wrapping each in a version check
+    var brapi_m = methods[method_name];
+    brapi_m.introduced = brapi_m.introduced?brapiVersion(brapi_m.introduced):null;
+    brapi_m.deprecated = brapi_m.deprecated?brapiVersion(brapi_m.deprecated):null;
+    brapi_m.removed = brapi_m.removed?brapiVersion(brapi_m.removed):null;
+    BrAPI_Methods.prototype[method_name] = function(){
+        if (brapi_m.introduced && this.version.predates(brapi_m.introduced)){
+            console.warn(name+" is unintroduced in BrAPI@"+this.version.string()+" before BrAPI@"+brapi_m.introduced.string());
+        }
+        if (brapi_m.deprecated && !this.version.predates(brapi_m.deprecated)){
+            console.warn(name+" is deprecated in BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.deprecated.string());
+        }
+        if (brapi_m.removed && brapi_m.removed.predates(this.version)){
+            console.warn(name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
+        }
+        brapi_m.apply(this,arguments);
+    };
 }
 
 export class Context_Node extends BrAPI_Methods{
@@ -31,6 +48,7 @@ export class Context_Node extends BrAPI_Methods{
         this.finish_hooks = [];
         this.task_map = {};
         this.connect = connection_information || {};
+        this.version = brapiVersion(this.connect.version||"v1.2");
     }
     
     addTask(task){
