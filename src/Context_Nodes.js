@@ -487,6 +487,14 @@ export class BrAPI_Behavior_Node extends Context_Node{
                         state.is_paginated = false;
                     }
                 }
+                if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
+                    d_call.url = "/asynch_call/"+json.metadata.asynchStatus.asynchId;
+                    d_call.params = {};
+                    setTimeout(function(){
+                        self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
+                    },15000);
+                    return
+                }
                 if(state.is_paginated){
                     var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);
                     if(self.behavior=="fork"){
