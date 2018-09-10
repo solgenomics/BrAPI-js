@@ -32,7 +32,7 @@ for (var method_name in methods) {
         else if (brapi_m.removed && brapi_m.removed.predates(this.version)){
             console.warn(name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
         }
-        brapi_m.apply(this,arguments);
+        return brapi_m.apply(this,arguments);
     };
 }
 
