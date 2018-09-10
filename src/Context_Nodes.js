@@ -26,10 +26,10 @@ for (var method_name in methods) {
         if (brapi_m.introduced && this.version.predates(brapi_m.introduced)){
             console.warn(name+" is unintroduced in BrAPI@"+this.version.string()+" before BrAPI@"+brapi_m.introduced.string());
         }
-        if (brapi_m.deprecated && !this.version.predates(brapi_m.deprecated)){
+        else if (brapi_m.deprecated && !this.version.predates(brapi_m.deprecated)){
             console.warn(name+" is deprecated in BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.deprecated.string());
         }
-        if (brapi_m.removed && brapi_m.removed.predates(this.version)){
+        else if (brapi_m.removed && brapi_m.removed.predates(this.version)){
             console.warn(name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
         }
         brapi_m.apply(this,arguments);

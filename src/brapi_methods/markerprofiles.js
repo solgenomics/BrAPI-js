@@ -30,3 +30,4 @@ export function allelematrix_search(params,behavior){
         return {'url':url, 'params':datum_params};
     }, typeof params === "function");
 };
+allelematrix_search.deprecated = "v1.2";
