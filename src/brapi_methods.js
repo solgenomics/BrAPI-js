@@ -1,4 +1,3 @@
-export * from "./brapi_methods/allelematrix";
 export * from "./brapi_methods/attributes";
 export * from "./brapi_methods/calls";
 export * from "./brapi_methods/crops";
