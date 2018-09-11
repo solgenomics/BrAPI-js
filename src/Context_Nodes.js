@@ -18,7 +18,7 @@ export default class BrAPI_Methods {
 }
 for (var method_name in methods) {
     //apply each method to BrAPI_Methods, wrapping each in a version check
-    var brapi_m = methods[method_name];
+    let brapi_m = methods[method_name];
     brapi_m.introduced = brapi_m.introduced?brapiVersion(brapi_m.introduced):null;
     brapi_m.deprecated = brapi_m.deprecated?brapiVersion(brapi_m.deprecated):null;
     brapi_m.removed = brapi_m.removed?brapiVersion(brapi_m.removed):null;
@@ -521,7 +521,6 @@ export class BrAPI_Behavior_Node extends Context_Node{
                             state.concatenated = json;
                             state.sentry = sentry_task;
                             state.concatenated.result["__response"] = state.concatenated;
-                            console.log(json);
                             delete state.concatenated.metadata.pagination;
                         } else {
                             [].push.apply(state.concatenated.result.data, json.result.data);
