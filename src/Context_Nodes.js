@@ -471,9 +471,6 @@ export class Root_Node extends Context_Node{
     server(server,auth_params,version){
         return new Initial_Connection_Node(this,server,auth_params,version);
     }
-    data(dataArray){
-        return new Data_Node(this,this.connect,dataArray);
-    }
 };
 
 export class Data_Node extends Context_Node{
