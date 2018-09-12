@@ -1,4 +1,4 @@
-// GET /attributes
+/** GET /attributes */
 export function attributes(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -9,7 +9,7 @@ export function attributes(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /attributes/categories
+/** GET /attributes/categories */
 export function attributes_categories(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -20,7 +20,7 @@ export function attributes_categories(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /germplasm/{germplasmDbId}/attributes
+/** GET /germplasm/{germplasmDbId}/attributes */
 export function germplasm_attributes(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){

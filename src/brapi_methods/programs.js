@@ -1,4 +1,4 @@
-// GET /programs
+/** GET /programs */
 export function programs(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -9,7 +9,7 @@ export function programs(params,behavior){
     }, typeof params === "function");
 };
 
-// POST /programs-search
+/** POST /programs-search */
 export function programs_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){

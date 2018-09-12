@@ -1,4 +1,4 @@
-// GET /crops
+/** GET /crops */
 export function crops(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -10,7 +10,7 @@ export function crops(params,behavior){
 };
 crops.deprecated = "v1.2";
 
-// GET /commoncropnames
+/** GET /commoncropnames */
 export function commonCropNames(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){

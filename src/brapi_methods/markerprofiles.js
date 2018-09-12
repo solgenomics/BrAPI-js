@@ -1,4 +1,4 @@
-// GET /markerprofiles
+/** GET /markerprofiles */
 export function markerprofiles_list(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -9,7 +9,7 @@ export function markerprofiles_list(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /markerprofiles/{markerprofileDbId}
+/** GET /markerprofiles/{markerprofileDbId} */
 export function markerprofiles(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
@@ -20,7 +20,7 @@ export function markerprofiles(params){
     }, typeof params === "function");
 };
 
-// POST /allelmatrix-search
+/** POST /allelmatrix-search */
 export function allelematrix_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){

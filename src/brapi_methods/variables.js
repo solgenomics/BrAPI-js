@@ -1,4 +1,4 @@
-// POST /variables-search
+/** POST /variables-search */
 export function variables_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){
@@ -9,7 +9,7 @@ export function variables_search(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /variables
+/** GET /variables */
 export function variables_list(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -20,7 +20,7 @@ export function variables_list(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /variables/{variableDbId}
+/** GET /variables/{variableDbId} */
 export function variables(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
@@ -31,7 +31,7 @@ export function variables(params){
     }, typeof params === "function");
 };
 
-// GET /variables/datatypes
+/** GET /variables/datatypes */
 export function variables_datatypes(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){

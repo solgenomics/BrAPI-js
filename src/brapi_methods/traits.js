@@ -1,4 +1,4 @@
-// GET /traits 
+/** GET /traits  */
 export function traits_list(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -9,7 +9,7 @@ export function traits_list(params,behavior){
     }, typeof params === "function");
 }
 
-// GET /traits/{traitDbId}
+/** GET /traits/{traitDbId} */
 export function traits(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 

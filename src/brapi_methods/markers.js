@@ -1,4 +1,4 @@
-// POST /markers-search
+/** POST /markers-search */
 export function markers_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){
@@ -9,7 +9,7 @@ export function markers_search(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /markers/{markerDbId}
+/** GET /markers/{markerDbId} */
 export function markers(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
@@ -21,7 +21,7 @@ export function markers(params){
 };
 
 
-// GET /markers
+/** GET /markers */
 function markers_list(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 

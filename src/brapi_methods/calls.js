@@ -1,4 +1,4 @@
-// GET /calls
+/** GET /calls */
 export function calls(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){

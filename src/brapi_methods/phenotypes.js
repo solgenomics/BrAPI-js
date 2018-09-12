@@ -1,4 +1,4 @@
-// POST /phenotypes-search
+/** POST /phenotypes-search */
 export function phenotypes_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){

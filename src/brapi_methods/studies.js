@@ -1,4 +1,4 @@
-// POST /studies-search
+/** POST /studies-search */
 export function studies_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"post",function(datum){
@@ -9,7 +9,7 @@ export function studies_search(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}
+/** GET /studies/{studiesDbId} */
 export function studies(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
@@ -20,7 +20,7 @@ export function studies(params){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}/germplasm
+/** GET /studies/{studiesDbId}/germplasm */
 export function studies_germplasm(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -31,7 +31,7 @@ export function studies_germplasm(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}/layout
+/** GET /studies/{studiesDbId}/layout */
 export function studies_layout(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -42,7 +42,7 @@ export function studies_layout(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}/observations
+/** GET /studies/{studiesDbId}/observations */
 export function studies_observations(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -53,7 +53,7 @@ export function studies_observations(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}/observationunits
+/** GET /studies/{studiesDbId}/observationunits */
 export function studies_observationunits(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -64,7 +64,7 @@ export function studies_observationunits(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}/observationvariables
+/** GET /studies/{studiesDbId}/observationvariables */
 export function studies_observationvariables(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -75,7 +75,7 @@ export function studies_observationvariables(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /studies/{studiesDbId}/table
+/** GET /studies/{studiesDbId}/table */
 export function studies_table(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
@@ -86,7 +86,7 @@ export function studies_table(params){
     }, typeof params === "function");
 };
 
-// GET /studytypes
+/** GET /studytypes */
 export function studytypes(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){

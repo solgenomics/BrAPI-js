@@ -1,4 +1,4 @@
-// GET /maps
+/** GET /maps */
 export function maps_list(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -9,7 +9,7 @@ export function maps_list(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /maps/{mapDbId}
+/** GET /maps/{mapDbId} */
 export function maps(params){
     return this.brapi_call("map","get",function(datum){
         var datum_params = typeof params === "function" ? params(datum) 
@@ -20,7 +20,7 @@ export function maps(params){
     }, typeof params === "function");
 };
 
-// GET /maps/{mapDbId}/positions
+/** GET /maps/{mapDbId}/positions */
 export function maps_positions_list(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
@@ -32,7 +32,7 @@ export function maps_positions_list(params,behavior){
     }, typeof params === "function");
 };
 
-// GET /maps/{mapDbId}/positions/{linkageGroupId}
+/** GET /maps/{mapDbId}/positions/{linkageGroupId} */
 export function maps_positions(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){

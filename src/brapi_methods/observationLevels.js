@@ -1,4 +1,4 @@
-// GET /observationLevels
+/** GET /observationLevels */
 export function observationLevels(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
     return this.brapi_call(behavior,"get",function(datum){
