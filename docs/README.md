@@ -54,14 +54,18 @@ BrAPI.js has been designed to allow for many simultaneous and interdependent cal
 
 ### Initialization and Configuration
 
-<a name="root" href="#root">#</a> **BrAPI**(_address_ [, _auth_params_]) [<>](main.js "Source")  
+<a name="root" href="#root">#</a> **BrAPI**(_address_ [, _auth_params_, _version_]) [<>](main.js "Source")  
 
-Creates a root _Context Node_. This is the root of a BrAPI.js [DAG dataflow](#how-it-works). The _address_ should be a string with the base URL of a BrAPI instance that is being queried, i.e. "https://www.yambase.org/brapi/v1". If an _auth_params_ object is provided, an authentication call will be made with the provided keys in the call body.  
+Creates a root _Context Node_. This is the root of a BrAPI.js [DAG dataflow](#how-it-works). The _address_ should be a string with the base URL of a BrAPI instance that is being queried, i.e. "https://www.yambase.org/brapi/v1". If an _auth_params_ object is provided, an authentication call will be made with the provided keys in the call body. Changing the _version_ determines which deprecation/removal warnings are written the console, it does not restrict functionality.
 
 ###### Examples:
 
 ```js
 var brapi_root = BrAPI("https://www.yambase.org/brapi/v1")
+```
+
+```js
+var brapi_root = BrAPI("https://www.yambase.org/brapi/v1",null,"1.2")
 ```
 
 ```js
@@ -74,7 +78,18 @@ var brapi_root = BrAPI(
 )
 ```
 
-<a name="server" href="#server">#</a> _node_.**server**(_address_ [, _auth_params_]) [<>](src/Context_Nodes.js "Source")  
+```js
+var brapi_root = BrAPI(
+    "https://www.yambase.org/brapi/v1",
+    {
+        'username':'myusername',
+        'password':'mysecretpw'
+    },
+    "1.1"
+)
+```
+
+<a name="server" href="#server">#</a> _node_.**server**(_address_ [, _auth_params_, _version_]) [<>](src/Context_Nodes.js "Source")  
 
 Creates and returns a child _Context Node_ which changes the BrAPI instance queried by all descendants.
 

@@ -1,6 +1,6 @@
 class BrAPI_Version_Class {
-    constructor(version_string) {
-        var varr  = version_string.trim().replace(/^(v|V)/,"").split(".");
+    constructor(version) {
+        var varr  = (""+version).trim().replace(/^(v|V)/,"").split(".");
         if (varr.length<1) throw Error("not a version");
         this.major = varr[0];
         this.minor = varr.length>1 ? varr[1] : null;

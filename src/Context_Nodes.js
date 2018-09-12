@@ -24,13 +24,13 @@ for (var method_name in methods) {
     brapi_m.removed = brapi_m.removed?brapiVersion(brapi_m.removed):null;
     BrAPI_Methods.prototype[method_name] = function(){
         if (brapi_m.introduced && this.version.predates(brapi_m.introduced)){
-            console.warn(name+" is unintroduced in BrAPI@"+this.version.string()+" before BrAPI@"+brapi_m.introduced.string());
+            console.warn(method_name+" is unintroduced in BrAPI@"+this.version.string()+" before BrAPI@"+brapi_m.introduced.string());
         }
         else if (brapi_m.deprecated && !this.version.predates(brapi_m.deprecated)){
-            console.warn(name+" is deprecated in BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.deprecated.string());
+            console.warn(method_name+" is deprecated in BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.deprecated.string());
         }
         else if (brapi_m.removed && brapi_m.removed.predates(this.version)){
-            console.warn(name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
+            console.warn(method_name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
         }
         return brapi_m.apply(this,arguments);
     };
@@ -48,7 +48,7 @@ export class Context_Node extends BrAPI_Methods{
         this.finish_hooks = [];
         this.task_map = {};
         this.connect = connection_information || {};
-        this.version = brapiVersion(this.connect.version||"v1.2");
+        this.version = this.connect.version;
     }
     
     addTask(task){
@@ -178,8 +178,8 @@ export class Context_Node extends BrAPI_Methods{
         return new Filter_Node(this,this.connect,filterFunc);
     }
     
-    server(server,auth_params){
-        return new Connection_Node(this,server,auth_params);
+    server(server,auth_params,version){
+        return new Connection_Node(this,server,auth_params,version);
     }
     
     brapi_call(behavior,httpMethod,url_body_func,multicall){
@@ -314,12 +314,12 @@ export class Join_Node extends Context_Node{
 };
 
 export class Connection_Node extends Context_Node{
-    constructor(parent,server,auth_params){
+    constructor(parent,server,auth_params,version){
         var base_url = server;
         if (base_url.slice(-1)=="/"){
             base_url=base_url.slice(0,-1);
         }
-        super([parent],{'server':base_url},"map");
+        super([parent],{'server':base_url, 'version':brapiVersion(version||1.2)},"map");
         var requrl = this.connect.server+"/token";
         var self = this;
         if (auth_params){
@@ -368,8 +368,8 @@ export class Root_Node extends Context_Node{
         task.complete(this.connect);
         this.publishResult(task);
     }
-    server(server,auth_params){
-        return new Initial_Connection_Node(this,server,auth_params);
+    server(server,auth_params,version){
+        return new Initial_Connection_Node(this,server,auth_params,version);
     }
     data(dataArray){
         return new Data_Node(this,this.connect,dataArray);
