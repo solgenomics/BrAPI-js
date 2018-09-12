@@ -491,6 +491,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     d_call.url = "/asynch_call/"+json.metadata.asynchStatus.asynchId;
                     d_call.params = {};
                     fetch_args.method = "get";
+                    delete fetch_args.body;
                     setTimeout(function(){
                         self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
                     },15000);
