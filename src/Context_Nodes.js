@@ -2,6 +2,7 @@ import {Task,Join_Task} from './tasks'
 import * as methods from './brapi_methods';
 import brapiVersion from './brapiVersion.js';
 
+// Use node-fetch or browser fetch API depending on enviroment.
 var fetchRef;
 if (typeof window === 'undefined') {
     fetchRef = require('node-fetch');
@@ -13,11 +14,13 @@ function parse_json_response(response) {
     return response.json();
 }
 
+/** Protoype to which all BrAPI API methods will be applied. */
 export default class BrAPI_Methods {
     constructor(){}
 }
+
+// Apply each method to BrAPI_Methods, wrapping each in a version check
 for (var method_name in methods) {
-    //apply each method to BrAPI_Methods, wrapping each in a version check
     let brapi_m = methods[method_name];
     brapi_m.introduced = brapi_m.introduced?brapiVersion(brapi_m.introduced):null;
     brapi_m.deprecated = brapi_m.deprecated?brapiVersion(brapi_m.deprecated):null;
@@ -36,6 +39,7 @@ for (var method_name in methods) {
     };
 }
 
+/** This is the main handler class and contains the control-flow logic for handling interdependant async requests */
 export class Context_Node extends BrAPI_Methods{
     constructor(parent_list,connection_information,node_type){
         super();
@@ -51,14 +55,27 @@ export class Context_Node extends BrAPI_Methods{
         this.version = this.connect.version;
     }
     
+    /**
+     * Adds an new async tasks
+     * @param {task} task task to add
+     */
     addTask(task){
         this.task_map[task.getKey()] = task;
     }
     
+    /**
+     * Gets a task from `this.task_map` with some `key`
+     * @param  {String} key
+     * @return {Task}
+     */
     getTask(key){
         return this.task_map[key];
     }
     
+    /**
+     * Gets a list of all tasks in `this.task_map`
+     * @return {Array<Task>}
+     */
     getTasks(){
         var self = this;
         return Object.keys(self.task_map).map(function(key) {
@@ -66,6 +83,11 @@ export class Context_Node extends BrAPI_Methods{
     	});
     }
     
+    /**
+     * Once a task is completed, this function can be used to publish the
+     * result of that task to downstream `Context_Node`s
+     * @param  {Task} task
+     */
     publishResult(task){
         this.async_hooks.forEach(function(hook){
             hook(task.getResult(),task.getKey());
@@ -73,6 +95,19 @@ export class Context_Node extends BrAPI_Methods{
         this.checkFinished(true);
     }
     
+    /**
+     * AsyncHook callback
+     *
+     * @callback Context_Node~asyncHookCallback
+     * @param result The published result of the completed task.
+     * @param key    The key of the completed task.
+     */
+    
+    /**
+     * Adds a callback hook which is triggered each time the result of a task 
+     * is published.
+     * @param {Context_Node~asyncHookCallback} hook callback
+     */
     addAsyncHook(hook){
         this.async_hooks.push(hook);
         this.getTasks().filter(function(task){
@@ -82,10 +117,32 @@ export class Context_Node extends BrAPI_Methods{
         });
     }
     
+    /**
+     * CatchHook callback
+     *
+     * @callback Context_Node~asyncHookCallback
+     */
+    
+    /**
+     * Adds a callback hook which is triggered when an error is caught.
+     * @param {Context_Node~catchHookCallback} hook callback
+     */
     addCatchHook(hook){
         this.catch_hooks.push(hook);
     }
     
+    /**
+     * FinishHook callback
+     *
+     * @callback Context_Node~finishHookCallback
+     * @param {Array} results The published result of the completed tasks.
+     */
+    
+    /**
+     * Adds a callback hook which is trigged once all tasks in `this.task_map` 
+     * are completed and published.
+     * @param {Context_Node~finishHookCallback} hook callback
+     */
     addFinishHook(hook){
         this.finish_hooks.push(hook);
         if(this.ranFinishHooks){
@@ -100,6 +157,11 @@ export class Context_Node extends BrAPI_Methods{
         }
     }
     
+    /**
+     * Checks if all tasks in `this.task_map` have completed
+     * @param  {Boolean} run_on_finish wether to run hooked `Context_Node~finishHookCallback`s if complete.
+     * @return {Boolean}               true if all tasks complete.
+     */
     checkFinished(run_on_finish){
         if (!this.isFinished){
             var parsFin = this.parents.every(function(par){return par.checkFinished(false)});
@@ -113,6 +175,9 @@ export class Context_Node extends BrAPI_Methods{
         return this.isFinished
     }
     
+    /**
+     * Runs all hooked `Context_Node~finishHookCallback`s
+     */
     _onFinish(){
         var self = this;
         this.finish_hooks.forEach(function(hook){
@@ -127,6 +192,9 @@ export class Context_Node extends BrAPI_Methods{
         });
     }
     
+    /**
+     * Runs all hooked `Context_Node~catchHookCallback`s
+     */
     fail(reason){
         if (this.catch_hooks.length<1) throw reason;
         else {
@@ -137,6 +205,13 @@ export class Context_Node extends BrAPI_Methods{
         }
     }
     
+    /**
+     * Finds the last Context_Node which modified the keys of it's tasks
+     * In most situations, task keys track the flow of a single datum throughout
+     * the Context_Node flow. However, when data is introduced, reduced, or 
+     * forked, new keys are assigned in order to indicate that change.
+     * @return {Context_Node} the last `Context_Node` which modified the keys of it's tasks
+     */
     getTaskKeyOrigin(){
         if (this.parents.length<1 
                 || this.node_type=="key"
@@ -148,40 +223,65 @@ export class Context_Node extends BrAPI_Methods{
         }
     }
     
+    /**
+     * Adds an `Context_Node~asyncHookCallback` and returns `this`.
+     * @param  {Context_Node~asyncHookCallback} func
+     * @return {Context_Node}
+     */
     each(func){ this.addAsyncHook(func); return this;}
+    
+    /**
+     * Adds an `Context_Node~finishHookCallback` and returns `this`.
+     * @param  {Context_Node~finishHookCallback} func
+     * @return {Context_Node}
+     */
     all(func){ this.addFinishHook(func); return this;}
+    
+    /**
+     * Adds an `Context_Node~catchHookCallback` and returns `this`.
+     * @param  {Context_Node~catchHookCallback} func
+     * @return {Context_Node}
+     */
     catch(func){ this.addCatchHook(func); return this;}
     
+    /** Adds an decendent `Context_Node` of class `Key_Node` */
     keys(keyFunc){
         return new Key_Node(this,this.connect,keyFunc);
     }
     
+    /** Adds an decendent `Context_Node` of class `Fork_Node` */
     fork(forkFunc){
         return new Fork_Node(this,this.connect,forkFunc);
     }
     
+    /** Adds an decendent `Context_Node` of class `Join_Node` */
     join(/*other,[other]...*/){
         var parent_nodes = [this];
         [].push.apply(parent_nodes,arguments);
         return new Join_Node(parent_nodes,this.connect);
     }
     
+    /** Adds an decendent `Context_Node` of class `Reduce_Node` */
     reduce(reductionFunc,initialValue){
         return new Reduce_Node(this,this.connect,reductionFunc,initialValue);
     }
     
+    /** Adds an decendent `Context_Node` of class `Map_Node` */
     map(mapFunc){
         return new Map_Node(this,this.connect,mapFunc);
     }
     
+    /** Adds an decendent `Context_Node` of class `Filter_Node` */
     filter(filterFunc){
         return new Filter_Node(this,this.connect,filterFunc);
     }
     
+    /** Adds an decendent `Context_Node` of class `Connection_Node` */
     server(server,auth_params,version){
         return new Connection_Node(this,server,auth_params,version);
     }
     
+    /** Adds an decendent `Context_Node` of class `BrAPI_Behavior_Node` */
     brapi_call(behavior,httpMethod,url_body_func,multicall){
         return new BrAPI_Behavior_Node(
             this,this.connect,behavior,httpMethod,url_body_func,multicall
