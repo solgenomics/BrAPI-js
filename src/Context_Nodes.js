@@ -488,7 +488,8 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     }
                 }
                 if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
-                    d_call.url = "/asynch_call/"+json.metadata.asynchStatus.asynchId;
+                    d_call.url = d_call.url.split(/\?(.+)/)[0];
+                    d_call.url += "/"+json.metadata.asynchStatus.asynchId;
                     d_call.params = {};
                     fetch_args.method = "get";
                     delete fetch_args.body;
