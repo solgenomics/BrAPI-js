@@ -36,6 +36,7 @@ methods.forEach(function(method_name){
             console.warn(method_name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
         }
         return brapi_m.apply(this,arguments);
+    }
 });
 
 /** This is the main handler class and contains the control-flow logic for handling interdependant async requests */
