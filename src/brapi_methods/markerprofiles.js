@@ -53,4 +53,4 @@ export function allelematrices_search(params,behavior){
         return {'url':url, 'params':datum_params};
     }, typeof params === "function");
 };
-allelematrix_search.introduced = "v1.2";
+allelematrices_search.introduced = "v1.2";
