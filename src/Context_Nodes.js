@@ -20,7 +20,7 @@ export default class BrAPI_Methods {
 }
 
 // Apply each method to BrAPI_Methods, wrapping each in a version check
-methods.forEach(function(method_name){
+Object.keys(methods).forEach(function(method_name){
     var brapi_m = methods[method_name];
     brapi_m.introduced = brapi_m.introduced?brapiVersion(brapi_m.introduced):null;
     brapi_m.deprecated = brapi_m.deprecated?brapiVersion(brapi_m.deprecated):null;
