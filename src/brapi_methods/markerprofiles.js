@@ -32,6 +32,17 @@ export function allelematrix_search(params,behavior){
 };
 allelematrix_search.deprecated = "v1.2";
 
+/** GET /allelematrices */
+export function allelematrices_list(params,behavior){
+    var behavior = behavior=="map"?behavior:"fork";
+    return this.brapi_call(behavior,"get",function(datum){
+        var datum_params = typeof params === "function" ? params(datum) 
+                            : Object.assign({}, params);
+        var url = "/allelematrices";
+        return {'url':url, 'params':datum_params};
+    }, typeof params === "function");
+};
+
 /** POST /allelematrices-search */
 export function allelematrices_search(params,behavior){
     var behavior = behavior=="map"?behavior:"fork";
