@@ -20,8 +20,8 @@ export default class BrAPI_Methods {
 }
 
 // Apply each method to BrAPI_Methods, wrapping each in a version check
-for (var method_name in methods) {
-    let brapi_m = methods[method_name];
+methods.forEach(function(method_name){
+    var brapi_m = methods[method_name];
     brapi_m.introduced = brapi_m.introduced?brapiVersion(brapi_m.introduced):null;
     brapi_m.deprecated = brapi_m.deprecated?brapiVersion(brapi_m.deprecated):null;
     brapi_m.removed = brapi_m.removed?brapiVersion(brapi_m.removed):null;
@@ -36,8 +36,7 @@ for (var method_name in methods) {
             console.warn(method_name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
         }
         return brapi_m.apply(this,arguments);
-    };
-}
+});
 
 /** This is the main handler class and contains the control-flow logic for handling interdependant async requests */
 export class Context_Node extends BrAPI_Methods{
