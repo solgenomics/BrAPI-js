@@ -1,46 +1,109 @@
-/** GET /maps */
-export function maps_list(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/maps";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+import {version} from "./_method_utils.js"
 
-/** GET /maps/{mapDbId} */
-export function maps(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/maps/"+datum_params.mapDbId;
-        delete datum_params.mapDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
-
-/** GET /maps/{mapDbId}/positions */
-export function maps_positions_list(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
+/** `GET /maps`
+ * @alias Context_Node.prototype.maps
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function maps (params,behavior){
+    version(this,"/maps",{
+        introduced:"v1.0"
+    });
+    
+    if (behavior!="map") behavior = "fork";
+    var isMulticall = typeof params === "function";
+    
     return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/maps/"+datum_params.mapDbId+"/positions";
-        delete datum_params.mapDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+        return {
+            'url': "/maps", 
+            'params': isMulticall ? params(datum) : Object.assign({}, params)
+        };
+    }, isMulticall);
+}
 
-/** GET /maps/{mapDbId}/positions/{linkageGroupId} */
-export function maps_positions(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
+/** `GET /maps/{locationDbId}`
+ * @alias Context_Node.prototype.maps_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.locationDbId locationDbId
+ * @param {String} [behavior=this.version.predates("v1.1")?"map":"fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function maps_detail (params, behavior){
+    version(this,"/maps/{locationDbId}",{
+        introduced:"v1.0"
+    });
+    
+    //added data array in v1.1, so default behavior changes
+    if (this.version.predates("v1.1")){
+        if (behavior!="fork") behavior = "map";
+    } else {
+        if (behavior!="map") behavior = "fork";
+    }
+    
+    var isMulticall = typeof params === "function";
+    
     return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/maps/"+datum_params.mapDbId+"/positions/"+datum_params.linkageGroupId;
-        delete datum_params.mapDbId;
-        delete datum_params.linkageGroupId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
+        var url = "/maps/"+datum_params["locationDbId"];
+        delete datum_params["locationDbId"];
+        return {
+            'url': url, 
+            'params': datum_params
+        };
+    }, isMulticall);
+}
+
+/** `GET /maps/{mapsDbId}/positions`
+ * @alias Context_Node.prototype.maps_positions
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.mapsDbId mapsDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function maps_positions (params,behavior){
+    version(this,"/maps/{mapsDbId}/positions",{
+        introduced:"v1.0"
+    });
+    
+    if (behavior!="map") behavior = "fork";
+    var isMulticall = typeof params === "function";
+    
+    return this.brapi_call(behavior,"get",function(datum){
+        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
+        var url = "/maps/"+datum_params["mapsDbId"]+"/positions";
+        delete datum_params["mapsDbId"];
+        return {
+            'url': url, 
+            'params': datum_params
+        };
+    }, isMulticall);
+}
+
+/** `GET /maps/{mapsDbId}/positions/{linkageGroupId}`
+ * @alias Context_Node.prototype.maps_linkagegroups_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.mapsDbId mapsDbId
+ * @param {String} params.linkageGroupId linkageGroupId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function maps_linkagegroups_detail (params,behavior){
+    version(this,"/maps/{mapsDbId}/positions/{linkageGroupId}",{
+        introduced:"v1.0"
+    });
+    
+    if (behavior!="map") behavior = "fork";
+    var isMulticall = typeof params === "function";
+    
+    return this.brapi_call(behavior,"get",function(datum){
+        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
+        var url = "/maps/"+datum_params["mapsDbId"]+"/positions/"+datum_params["linkageGroupId"];
+        delete datum_params["mapsDbId"];
+        delete datum_params["linkageGroupId"];
+        return {
+            'url': url, 
+            'params': datum_params
+        };
+    }, isMulticall);
+}
