@@ -1,33 +1,45 @@
-/** GET /attributes */
-export function attributes(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/attributes";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+import {version} from "./_method_utils.js"
 
-/** GET /attributes/categories */
-export function attributes_categories(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
+/** `GET /attributes`
+ * @alias Context_Node.prototype.attributes
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function attributes (params,behavior){
+    version(this,"/attributes",{
+        introduced:"v1.0"
+    });
+    
+    if (behavior!="map") behavior = "fork";
+    var isMulticall = typeof params === "function";
+    
     return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/attributes/categories";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+        return {
+            'url': "/attributes", 
+            'params': isMulticall ? params(datum) : Object.assign({}, params)
+        };
+    }, isMulticall);
+}
 
-/** GET /germplasm/{germplasmDbId}/attributes */
-export function germplasm_attributes(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
+/** `GET /attributes_categories`
+ * @alias Context_Node.prototype.attributes_categories
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function attributes_categories (params,behavior){
+    version(this,"/attributes/categories",{
+        introduced:"v1.0"
+    });
+    
+    if (behavior!="map") behavior = "fork";
+    var isMulticall = typeof params === "function";
+    
     return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/germplasm/"+(datum_params.germplasmDbId)+"/attributes";
-        delete datum_params.germplasmDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+        return {
+            'url': "/attributes/categories", 
+            'params': isMulticall ? params(datum) : Object.assign({}, params)
+        };
+    }, isMulticall);
+}

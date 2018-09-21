@@ -1,13 +1,13 @@
 import {version} from "./_method_utils.js"
 
-/** `GET /locations`
- * @alias Context_Node.prototype.locations
+/** `GET /breedingmethods`
+ * @alias Context_Node.prototype.breedingmethods
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function locations (params,behavior){
-    version(this,"/locations",{
+export function breedingmethods (params,behavior){
+    version(this,"/breedingmethods",{
         introduced:"v1.0"
     });
     
@@ -16,27 +16,27 @@ export function locations (params,behavior){
     
     return this.brapi_call(behavior,"get",function(datum){
         return {
-            'url': "/locations", 
+            'url': "/breedingmethods", 
             'params': isMulticall ? params(datum) : Object.assign({}, params)
         };
     }, isMulticall);
 }
 
-/** `GET /locations/{locationDbId}`
- * @alias Context_Node.prototype.locations_detail
+/** `GET /breedingmethods/{breedingMethodDbId}`
+ * @alias Context_Node.prototype.breedingmethods_detail
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.locationDbId locationDbId
+ * @param {String} params.breedingMethodDbId breedingMethodDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function locations_detail (params){
-    version(this,"/locations/{locationDbId}",{
+export function breedingmethods_detail (params){
+    version(this,"/breedingmethods/{breedingMethodDbId}",{
         introduced:"v1.0"
     });
     var isMulticall = typeof params === "function";
     return this.brapi_call("map","get",function(datum){
         var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/locations/"+datum_params["locationDbId"];
-        delete datum_params["locationDbId"];
+        var url = "/breedingmethods/"+datum_params["breedingMethodDbId"];
+        delete datum_params["breedingMethodDbId"];
         return {
             'url': url, 
             'params': datum_params
