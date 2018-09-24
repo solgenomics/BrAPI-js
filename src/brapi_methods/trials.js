@@ -22,10 +22,9 @@ export function trials (params,behavior){
  * @alias Context_Node.prototype.trials_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.trialDbId trialDbId
- * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function trials_detail (params,behavior){
+export function trials_detail (params){
     var call = {
         'defaultMethod': 'get',
         'urlTemplate': '/trials/{trialDbId}',
