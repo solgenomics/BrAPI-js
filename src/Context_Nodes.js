@@ -41,6 +41,24 @@ export class Context_Node extends BrAPI_Methods{
     }
     
     /**
+     * Constructs a url from a url_template and clears the used params from the
+     * parameter object.
+     * @param  {String} url_template template of form "/urlpath/{param_name}/blah/{other_param_name}"
+     * @param  {Object} params       Object containing properties matching the url params
+     * @return {Object}              Object with url and params properties
+     */
+    consumeUrlParams(url_template,params){
+        return {
+            'url': url_template.replace(/\{([a-z_$]+?)\}/gi, function(match,param_name){
+                var val = encodeURIComponent(params[param_name]);
+                delete params[param_name];
+                return val;
+            }),
+            'params': params
+        }
+    }
+    
+    /**
      * Adds an new async tasks
      * @param {task} task task to add
      */
@@ -271,6 +289,26 @@ export class Context_Node extends BrAPI_Methods{
         return new BrAPI_Behavior_Node(
             this,this.connect,behavior,httpMethod,url_body_func,multicall
         );
+    }
+    
+    simple_brapi_call(call){
+        // check if behavior is specified and in behaviorOptions if 
+        // behaviorOptions exists, otherwise use behaviorOptions[0] if 
+        // behaviorOptions exists, otherwise deafult to "map"
+        var behavior = call.behaviorOptions ? 
+            (call.behaviorOptions.indexOf(call.behavior) >= 0 ? 
+                call.behavior : 
+                call.behaviorOptions[0]) :
+            (call.behavior || "map");
+        // check if the parameters are specified as a function or an object
+        var multicall = typeof call.params === "function";
+        // create a brapi call
+        return this.brapi_call(behavior,call.defaultMethod,function(datum){
+            // create or duplicate the parameters for this datum (create shallow copy to protect original parmeter object)
+            var datum_params = Object.assign({}, multicall ? params(datum) : call.params);
+            // fill urlTemplate with specified parameters and remove them from the datum_params
+            return this.consumeUrlParams(call.urlTemplate,datum_params);
+        }, multicall)
     }
 };
 

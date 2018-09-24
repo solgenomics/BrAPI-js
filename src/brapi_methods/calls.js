@@ -5,17 +5,15 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function calls (params,behavior){
-    this.version.check("/calls",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/calls',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': "/calls", 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

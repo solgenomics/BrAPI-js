@@ -5,19 +5,17 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function locations (params,behavior){
-    this.version.check("/locations",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/locations',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': "/locations", 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /locations/{locationDbId}`
@@ -27,17 +25,14 @@ export function locations (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function locations_detail (params){
-    this.version.check("/locations/{locationDbId}",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/locations/{locationDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    var isMulticall = typeof params === "function";
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/locations/"+datum_params["locationDbId"];
-        delete datum_params["locationDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

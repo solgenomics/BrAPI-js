@@ -5,20 +5,17 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function allelematrices (params,behavior){
-    var url = "/allelematrices";
-    this.version.check(url,{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/allelematrices',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': url, 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `POST /allelematrices-search`(>=v1.2) or `POST /allelematrix-search`(<v1.2)
@@ -28,27 +25,25 @@ export function allelematrices (params,behavior){
 * @return {BrAPI_Behavior_Node}
 */
 export function allelematrices_search(params,behavior){
-    var url;
+    var call = {
+        'defaultMethod': 'post',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    
     if (this.version.predates("v1.2")){
-        url = "/allelematrix-search"
-        this.version.check(url,{
+        call.urlTemplate = "/allelematrix-search"
+        this.version.check(call.urlTemplate,{
             introduced:"v1.0",
             deprecated:"v1.2"
         });
     } else {
-        url = "/allelematrices-search"
-        this.version.check(url,{
+        call.urlTemplate = "/allelematrices-search"
+        this.version.check(call.urlTemplate,{
             introduced:"v1.2"
         });
     }
     
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-        
-    return this.brapi_call(behavior,"post",function(datum){
-        return {
-            'url': url,
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 };

@@ -5,20 +5,17 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function attributes (params,behavior){
-    var url = "/attributes";
-    this.version.check(url,{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/attributes',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': url, 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /attributes_categories`
@@ -28,18 +25,15 @@ export function attributes (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function attributes_categories (params,behavior){
-    var url = "/attributes/categories";
-    this.version.check(url,{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/attributes/categories',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': url, 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

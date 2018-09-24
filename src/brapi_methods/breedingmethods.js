@@ -5,20 +5,17 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function breedingmethods (params,behavior){
-    var url = "/breedingmethods";
-    this.version.check(url,{
-        introduced:"v1.0"
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/breedingmethods',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.2"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': url, 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /breedingmethods/{breedingMethodDbId}`
@@ -28,17 +25,14 @@ export function breedingmethods (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function breedingmethods_detail (params){
-    this.version.check("/breedingmethods/{breedingMethodDbId}",{
-        introduced:"v1.0"
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/breedingmethods/{breedingMethodDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.2"
     });
-    var isMulticall = typeof params === "function";
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/breedingmethods/"+datum_params["breedingMethodDbId"];
-        delete datum_params["breedingMethodDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

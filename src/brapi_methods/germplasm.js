@@ -5,19 +5,17 @@
 * @return {BrAPI_Behavior_Node}
 */
 export function germplasm_search(params,behavior){
-    this.version.check("/germplasm-search",{
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/germplasm-search',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-        
-    return this.brapi_call(behavior,"post",function(datum){
-        return {
-            'url': "/germplasm-search",
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 };
 
 /** `GET /germplasm/{germplasmDbId}`
@@ -27,44 +25,37 @@ export function germplasm_search(params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_detail (params){
-    this.version.check("/germplasm/{germplasmDbId}",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    var isMulticall = typeof params === "function";
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/germplasm/"+datum_params["germplasmDbId"];
-        delete datum_params["germplasmDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /germplasm/{germplasmDbId}/attributes`
  * @alias Context_Node.prototype.germplasm_attributes
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.germplasmDbId germplasmDbId
+ * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_attributes (params,behavior){
-    this.version.check("/germplasm/{germplasmDbId}/attributes",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/attributes',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/germplasm/"+datum_params["germplasmDbId"]+"/attributes";
-        delete datum_params["germplasmDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /germplasm/{germplasmDbId}/pedigree`
@@ -74,21 +65,16 @@ export function germplasm_attributes (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_pedigree (params){
-    this.version.check("/germplasm/{germplasmDbId}/pedigree",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/pedigree',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/germplasm/"+datum_params["germplasmDbId"]+"/pedigree";
-        delete datum_params["germplasmDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /germplasm/{germplasmDbId}/progeny`
@@ -99,22 +85,17 @@ export function germplasm_pedigree (params){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_progeny (params,behavior){
-    this.version.check("/germplasm/{germplasmDbId}/progeny",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/progeny',
+        'params': params,
+        'behaviorOptions': ['map','fork'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.2"
     });
-    
-    if (behavior!="fork") behavior = "map";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/germplasm/"+datum_params["germplasmDbId"]+"/progeny";
-        delete datum_params["germplasmDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /germplasm/{germplasmDbId}/markerprofiles`
@@ -124,19 +105,14 @@ export function germplasm_progeny (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_markerprofiles (params){
-    this.version.check("/germplasm/{germplasmDbId}/markerprofiles",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/markerprofiles',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/germplasm/"+datum_params["germplasmDbId"]+"/markerprofiles";
-        delete datum_params["germplasmDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

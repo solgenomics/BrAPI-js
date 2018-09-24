@@ -5,19 +5,17 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function markerprofiles (params,behavior){
-    this.version.check("/markerprofiles",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/markerprofiles',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': "/markerprofiles", 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `POST /markerprofiles-search`
@@ -27,20 +25,18 @@ export function markerprofiles (params,behavior){
 * @return {BrAPI_Behavior_Node}
 */
 export function markerprofiles_search(params,behavior){
-    this.version.check("/markerprofiles-search",{
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/markerprofiles-search',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0",
         deprecated:"v1.1"
     });
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-        
-    return this.brapi_call(behavior,"post",function(datum){
-        return {
-            'url': "/markerprofiles-search",
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
 
 /** `GET /markerprofiles/{markerprofileDbId}`
@@ -50,17 +46,14 @@ export function markerprofiles_search(params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function markerprofiles_detail (params){
-    this.version.check("/markerprofiles/{markerprofileDbId}",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/markerprofiles/{markerprofileDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    var isMulticall = typeof params === "function";
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/markerprofiles/"+datum_params["markerprofileDbId"];
-        delete datum_params["markerprofileDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

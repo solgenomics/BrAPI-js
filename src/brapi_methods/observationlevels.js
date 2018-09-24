@@ -5,27 +5,25 @@
  * @return {BrAPI_Behavior_Node}
  */
 export function observationlevels (params,behavior){
-    var url;
+    var call = {
+        'defaultMethod': 'get',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    };
+    
     if (this.version.predates("v1.2")){
-        url = "/observationLevels"
-        this.version.check(url,{
+        call.urlTemplate = "/observationLevels"
+        this.version.check(call.urlTemplate,{
             introduced:"v1.0",
             deprecated:"v1.2"
         });
     } else {
-        url = "/observationlevels"
-        this.version.check(url,{
+        call.urlTemplate = "/observationlevels"
+        this.version.check(call.urlTemplate,{
             introduced:"v1.2"
         });
     }
     
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-    
-    return this.brapi_call(behavior,"get",function(datum){
-        return {
-            'url': "/observationlevels", 
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }

@@ -5,32 +5,26 @@
 * @return {BrAPI_Behavior_Node}
 */
 export function markers_search(params,behavior){
-    var url;
-    var method;
+    var call = {
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
     if(this.version.predates("v1.1")){
-        url = "/markers";
-        method = "get";
-        this.version.check(url,{
+        call.urlTemplate = "/markers";
+        call.defaultMethod = "get";
+        this.version.check(call.urlTemplate,{
             introduced:"v1.0",
             deprecated:"v1.1"
         });
     } else {
-        url = "/markers-search";
-        method = "post";
-        this.version.check(url,{
+        call.urlTemplate = "/markers-search";
+        call.defaultMethod = "post";
+        this.version.check(call.urlTemplate,{
             introduced:"v1.1"
         });
     }
-    
-    if (behavior!="map") behavior = "fork";
-    var isMulticall = typeof params === "function";
-        
-    return this.brapi_call(behavior,method,function(datum){
-        return {
-            'url': url,
-            'params': isMulticall ? params(datum) : Object.assign({}, params)
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 };
 
 /** `GET /markers/{markerDbId}`
@@ -40,17 +34,14 @@ export function markers_search(params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function markers_detail (params){
-    this.version.check("/markers/{markerDbId}",{
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/markers/{markerDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
         introduced:"v1.0"
     });
-    var isMulticall = typeof params === "function";
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = isMulticall ? params(datum) : Object.assign({}, params);
-        var url = "/markers/"+datum_params["markerDbId"];
-        delete datum_params["markerDbId"];
-        return {
-            'url': url, 
-            'params': datum_params
-        };
-    }, isMulticall);
+    return this.simple_brapi_call(call);
 }
