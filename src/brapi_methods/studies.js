@@ -1,98 +1,272 @@
-/** POST /studies-search */
-export function studies_search(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"post",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies-search";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `POST /studies-search`
+ * @alias Context_Node.prototype.studies_search
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_search (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/studies-search',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId} */
-export function studies(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+(datum_params.studiesDbId);
-        delete datum_params.studiesDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /studies/{studyDbId}`
+ * @alias Context_Node.prototype.studies_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_detail (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/studies/{studyDbId}`',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId}/germplasm */
-export function studies_germplasm(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+datum_params.studiesDbId+"/germplasm";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /studies/{studyDbId}/germplasm`
+ * @alias Context_Node.prototype.studies_germplasm
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_germplasm (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/studies/{studyDbId}/germplasm`',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId}/layout */
-export function studies_layout(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+datum_params.studiesDbId+"/layout";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /studies/{studyDbId}/layout`
+ * @alias Context_Node.prototype.studies_layout
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_layout (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/studies/{studyDbId}/layout`',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId}/observations */
-export function studies_observations(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+datum_params.studiesDbId+"/observations";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `PUT /studies/{studyDbId}/layout`
+ * @alias Context_Node.prototype.studies_layout_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_layout_modify (params){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/studies/{studyDbId}/layout`',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.2"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId}/observationunits */
-export function studies_observationunits(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+datum_params.studiesDbId+"/observationunits";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /studies/{studyDbId}/observations`
+ * @alias Context_Node.prototype.studies_observations
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_observations (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/studies/{studyDbId}/observations`',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId}/observationvariables */
-export function studies_observationvariables(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+datum_params.studiesDbId+"/observationvariables";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `PUT /studies/{studyDbId}/observations`(>=v1.1) or `POST /studies/{studyDbId}/observations`(<v1.1)
+ * @alias Context_Node.prototype.studies_observations_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_observations_modify (params){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/studies/{studyDbId}/observations`',
+        'params': params,
+        'behavior': 'map',
+    }
+    if(this.version.predates("v1.1")){
+        call.defaultMethod = "post"
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0",
+            deprecated:"v1.1"
+        });
+    } else {
+        call.defaultMethod = "put"
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.1"
+        });
+    }
+    
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studies/{studiesDbId}/table */
-export function studies_table(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studies/"+(datum_params.studiesDbId)+"/table";
-        delete datum_params.studiesDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `POST /studies/{studyDbId}/observations/zip`
+ * @alias Context_Node.prototype.studies_observations_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_observations_zip (params){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/studies/{studyDbId}/observations/zip`',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.1"
+    });
+    
+    return this.simple_brapi_call(call);
+}
 
-/** GET /studytypes */
-export function studytypes(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/studytypes";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /studies/{studyDbId}/observationvariables`
+ * @alias Context_Node.prototype.studies_observationvariables
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_observationvariables (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    if(this.version.predates("v1.1")){
+        call.urlTemplate= '/studies/{studyDbId}/observationVariables`',
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0",
+            deprecated:"v1.1"
+        });
+    } else {
+        call.urlTemplate= '/studies/{studyDbId}/observationvariables`',
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.1"
+        });
+    }
+    
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /studies/{studyDbId}/table`
+ * @alias Context_Node.prototype.studies_table
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_table (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate':'/studies/{studyDbId}/table`',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    
+    return this.simple_brapi_call(call);
+}
+
+/** `POST /studies/{studyDbId}/table`
+ * @alias Context_Node.prototype.studies_table_add
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_table_add (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate':'/studies/{studyDbId}/table`',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /studytypes`(>=v1.1) or `GET /studyTypes`(<v1.1)
+ * @alias Context_Node.prototype.studytypes
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studytypes (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    if(this.verison.predates("v1.1")){
+        call.urlTemplate = '/studyTypes';
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0",
+            deprecated:"v1.1"
+        });
+    } else {
+        call.urlTemplate = '/studytypes';
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.1"
+        });
+    }
+    
+    return this.simple_brapi_call(call);
+}

@@ -19,24 +19,9 @@ export default class BrAPI_Methods {
     constructor(){}
 }
 
-// Apply each method to BrAPI_Methods, wrapping each in a version check
+// Apply each method to BrAPI_Methods
 Object.keys(methods).forEach(function(method_name){
-    var brapi_m = methods[method_name];
-    brapi_m.introduced = brapi_m.introduced?brapiVersion(brapi_m.introduced):null;
-    brapi_m.deprecated = brapi_m.deprecated?brapiVersion(brapi_m.deprecated):null;
-    brapi_m.removed = brapi_m.removed?brapiVersion(brapi_m.removed):null;
-    BrAPI_Methods.prototype[method_name] = function(){
-        if (brapi_m.introduced && this.version.predates(brapi_m.introduced)){
-            console.warn(method_name+" is unintroduced in BrAPI@"+this.version.string()+" before BrAPI@"+brapi_m.introduced.string());
-        }
-        else if (brapi_m.deprecated && !this.version.predates(brapi_m.deprecated)){
-            console.warn(method_name+" is deprecated in BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.deprecated.string());
-        }
-        else if (brapi_m.removed && brapi_m.removed.predates(this.version)){
-            console.warn(method_name+" was removed from BrAPI@"+this.version.string()+" since BrAPI@"+brapi_m.removed.string());
-        }
-        return brapi_m.apply(this,arguments);
-    }
+    BrAPI_Methods.prototype[method_name] = methods[method_name];
 });
 
 /** This is the main handler class and contains the control-flow logic for handling interdependant async requests */
@@ -53,6 +38,24 @@ export class Context_Node extends BrAPI_Methods{
         this.task_map = {};
         this.connect = connection_information || {};
         this.version = this.connect.version;
+    }
+    
+    /**
+     * Constructs a url from a url_template and clears the used params from the
+     * parameter object.
+     * @param  {String} url_template template of form "/urlpath/{param_name}/blah/{other_param_name}"
+     * @param  {Object} params       Object containing properties matching the url params
+     * @return {Object}              Object with url and params properties
+     */
+    consumeUrlParams(url_template,params){
+        return {
+            'url': url_template.replace(/\{([a-z_$]+?)\}/gi, function(match,param_name){
+                var val = encodeURIComponent(params[param_name]);
+                delete params[param_name];
+                return val;
+            }),
+            'params': params
+        }
     }
     
     /**
@@ -287,6 +290,26 @@ export class Context_Node extends BrAPI_Methods{
             this,this.connect,behavior,httpMethod,url_body_func,multicall
         );
     }
+    
+    simple_brapi_call(call){
+        // check if behavior is specified and in behaviorOptions if 
+        // behaviorOptions exists, otherwise use behaviorOptions[0] if 
+        // behaviorOptions exists, otherwise deafult to "map"
+        var behavior = call.behaviorOptions ? 
+            (call.behaviorOptions.indexOf(call.behavior) >= 0 ? 
+                call.behavior : 
+                call.behaviorOptions[0]) :
+            (call.behavior || "map");
+        // check if the parameters are specified as a function or an object
+        var multicall = typeof call.params === "function";
+        // create a brapi call
+        return this.brapi_call(behavior,call.defaultMethod,function(datum){
+            // create or duplicate the parameters for this datum (create shallow copy to protect original parmeter object)
+            var datum_params = Object.assign({}, multicall ? call.params(datum) : call.params);
+            // fill urlTemplate with specified parameters and remove them from the datum_params
+            return this.consumeUrlParams(call.urlTemplate,datum_params);
+        }, multicall)
+    }
 };
 
 export class Filter_Node extends Context_Node{
@@ -497,6 +520,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.behavior = behavior;
         this.d_func = url_body_func;
         this.method = httpMethod;
+        this.poll_func = function(){return 15000};
         var self = this;
         var hookTo = multicall ? parent.addAsyncHook : parent.addFinishHook;
         hookTo.call(parent,function(dat, key){
@@ -541,12 +565,23 @@ export class BrAPI_Behavior_Node extends Context_Node{
         return param_string
     }
     
+    
+    poll(callback){
+        var last = this.poll_func;
+        this.poll_func = function(json){
+            var last_result = last(json);
+            return callback(json) || last_result;
+        }
+        return this;
+    }
+    
     loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state){
         if (state==undefined){
             state = {
                 'is_paginated': undefined,
                 'concatenated': undefined,
                 'sentry': undefined,
+                'is_async': undefined,
                 'forked_key': 0
             }
         }
@@ -554,7 +589,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         
         if(page_num>0) d_call.params["page"] = page_num;
         
-        if (fetch_args.method=="put"||fetch_args.method=="post"){
+        if (fetch_args.method=="patch"||fetch_args.method=="put"||fetch_args.method=="post"){
             fetch_args["body"] = JSON.stringify(d_call.params)
         }
         else{
@@ -577,23 +612,56 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     self.publishResult(sentry_task);
                     return;
                 }
+                //<v1.2 asynch initiate
+                if(!state.is_async && json.metadata.status && Array.isArray(json.metadata.status)){
+                    for (var i = 0; i < json.metadata.status.length; i++) {
+                        if(json.metadata.status[i].code=="asynchid"){
+                            d_call.url = d_call.url.split(/\?(.+)/)[0];
+                            d_call.url += "/status/"+json.metadata.status[i].message;
+                            d_call.params = {};
+                            fetch_args.method = "get";
+                            delete fetch_args.body;
+                            state.is_async = true;
+                        }
+                    }
+                }
+                //>=v1.2 asynch initiate
+                if(!state.is_async && json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
+                    d_call.url = d_call.url.split(/\?(.+)/)[0];
+                    d_call.url += "/"+json.metadata.asynchStatus.asynchId;
+                    d_call.params = {};
+                    fetch_args.method = "get";
+                    delete fetch_args.body;
+                    state.is_async = true;
+                }
+                if(state.is_async){
+                    state.is_async = false;
+                    //>=v1.2 asynch poll
+                    if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
+                        state.is_async = true;
+                        setTimeout(function(){
+                            self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
+                        }, self.poll_func(json));
+                        return
+                    }
+                    //<v1.2 asynch poll
+                    if(json.metadata.status && Array.isArray(json.metadata.status)){
+                        for (var i = 0; i < json.metadata.status.length; i++) {
+                            if(json.metadata.status[i].code=="asynchid" || json.metadata.status[i].code=="asycnstatus" && json.metadata.status[i].message!="FINISHED"){
+                                state.is_async = true;
+                                setTimeout(function(){
+                                    self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
+                                }, self.poll_func(json));
+                            }
+                        }
+                    }
+                }
                 if(state.is_paginated==undefined){
                     if (json.result.data!=undefined && json.result.data instanceof Array){
                         state.is_paginated = true;
                     } else {
                         state.is_paginated = false;
                     }
-                }
-                if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
-                    d_call.url = d_call.url.split(/\?(.+)/)[0];
-                    d_call.url += "/"+json.metadata.asynchStatus.asynchId;
-                    d_call.params = {};
-                    fetch_args.method = "get";
-                    delete fetch_args.body;
-                    setTimeout(function(){
-                        self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
-                    },15000);
-                    return
                 }
                 if(state.is_paginated){
                     var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);

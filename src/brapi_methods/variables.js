@@ -1,43 +1,78 @@
-/** POST /variables-search */
-export function variables_search(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"post",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/variables-search";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /variables`
+ * @alias Context_Node.prototype.variables
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function variables (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/variables',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /variables */
-export function variables_list(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/variables";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `POST /variables-search`
+ * @alias Context_Node.prototype.variables_search
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function variables_search (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/variables-search',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /variables/{variableDbId} */
-export function variables(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/variables/"+datum_params.variableDbId;
-        delete datum_params.variableDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /variables/{observationVariableDbId}`
+ * @alias Context_Node.prototype.variables_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.observationVariableDbId observationVariableDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function variables_detail (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/variables/{observationVariableDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
 
-/** GET /variables/datatypes */
-export function variables_datatypes(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/variables/datatypes";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /variables/datatypes`
+ * @alias Context_Node.prototype.variables_datatypes
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function variables_datatypes (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/variables/datatypes',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}

@@ -1,79 +1,118 @@
-/** POST /germplasm-search */
+/** `POST /germplasm-search`
+* @alias Context_Node.prototype.germplasm_search
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
 export function germplasm_search(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"post",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/germplasm-search";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/germplasm-search',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
 };
 
-/** GET /germplasm/{germplasmDbId} */
-export function germplasm(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/germplasm/"+(datum_params.germplasmDbId);
-        delete datum_params.germplasmDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
-
-/** GET /germplasm/{germplasmDbId}/markerprofiles */
-export function germplasm_markerprofiles(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/germplasm/"+(datum_params.germplasmDbId)+"/markerprofiles";
-        delete datum_params.germplasmDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
-
-/** GET /germplasm/{germplasmDbId}/pedigree */
-export function germplasm_pedigree(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/germplasm/"+(datum_params.germplasmDbId)+"/pedigree";
-        delete datum_params.germplasmDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
-
-/** GET /germplasm/{germplasmDbId}/progeny */
-export function germplasm_progeny(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/germplasm/"+(datum_params.germplasmDbId)+"/progeny";
-        delete datum_params.germplasmDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
-
-/** GET /breedingmethods */
-function breedingMethods_list(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/breedingmethods";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+/** `GET /germplasm/{germplasmDbId}`
+ * @alias Context_Node.prototype.germplasm_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.germplasmDbId germplasmDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function germplasm_detail (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
 }
-breedingMethods_list.introduced = "v1.2";
 
-/** GET /breedingmethods/{breedingMethodDbId} */
-function breedingMethods(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/breedingmethods/"+datum_params.breedingMethodDbId;
-        delete datum_params.breedingMethodDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+/** `GET /germplasm/{germplasmDbId}/attributes`
+ * @alias Context_Node.prototype.germplasm_attributes
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.germplasmDbId germplasmDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function germplasm_attributes (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/attributes',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
 }
-breedingMethods.introduced = "v1.2";
+
+/** `GET /germplasm/{germplasmDbId}/pedigree`
+ * @alias Context_Node.prototype.germplasm_pedigree
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.germplasmDbId germplasmDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function germplasm_pedigree (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/pedigree',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /germplasm/{germplasmDbId}/progeny`
+ * @alias Context_Node.prototype.germplasm_progeny
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.germplasmDbId germplasmDbId
+ * @param {String} [behavior="map"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function germplasm_progeny (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/progeny',
+        'params': params,
+        'behaviorOptions': ['map','fork'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.2"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /germplasm/{germplasmDbId}/markerprofiles`
+ * @alias Context_Node.prototype.germplasm_markerprofiles
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.germplasmDbId germplasmDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function germplasm_markerprofiles (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/germplasm/{germplasmDbId}/markerprofiles',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}

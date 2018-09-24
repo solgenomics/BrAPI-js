@@ -1,33 +1,47 @@
-/** POST /markers-search */
+/** `POST /markers-search`(>=v1.1) or `GET /markers`(<v1.1)
+* @alias Context_Node.prototype.markers_search
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
 export function markers_search(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"post",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/markers-search";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+    var call = {
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    if(this.version.predates("v1.1")){
+        call.urlTemplate = "/markers";
+        call.defaultMethod = "get";
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0",
+            deprecated:"v1.1"
+        });
+    } else {
+        call.urlTemplate = "/markers-search";
+        call.defaultMethod = "post";
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.1"
+        });
+    }
+    return this.simple_brapi_call(call);
 };
 
-/** GET /markers/{markerDbId} */
-export function markers(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/markers/"+datum_params.markerDbId;
-        delete datum_params.markerDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
-
-
-/** GET /markers */
-function markers_list(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/markers";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+/** `GET /markers/{markerDbId}`
+ * @alias Context_Node.prototype.markers_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.markerDbId markerDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function markers_detail (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/markers/{markerDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
 }
-markers_list.deprecated = "v1.2";
