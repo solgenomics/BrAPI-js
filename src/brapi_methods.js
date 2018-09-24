@@ -18,3 +18,4 @@ export * from "./brapi_methods/studies";
 export * from "./brapi_methods/traits";
 export * from "./brapi_methods/trials";
 export * from "./brapi_methods/variables";
+export * from "./brapi_methods/vendor";
