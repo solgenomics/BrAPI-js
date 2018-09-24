@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /maps`
  * @alias Context_Node.prototype.maps
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,7 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function maps (params,behavior){
-    version(this,"/maps",{
+    this.version.check("/maps",{
         introduced:"v1.0"
     });
     
@@ -30,7 +28,7 @@ export function maps (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function maps_detail (params, behavior){
-    version(this,"/maps/{locationDbId}",{
+    this.version.check("/maps/{locationDbId}",{
         introduced:"v1.0"
     });
     
@@ -62,7 +60,7 @@ export function maps_detail (params, behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function maps_positions (params,behavior){
-    version(this,"/maps/{mapsDbId}/positions",{
+    this.version.check("/maps/{mapsDbId}/positions",{
         introduced:"v1.0"
     });
     
@@ -89,7 +87,7 @@ export function maps_positions (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function maps_linkagegroups_detail (params,behavior){
-    version(this,"/maps/{mapsDbId}/positions/{linkageGroupId}",{
+    this.version.check("/maps/{mapsDbId}/positions/{linkageGroupId}",{
         introduced:"v1.0"
     });
     

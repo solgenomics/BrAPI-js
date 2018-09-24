@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /markerprofiles`
  * @alias Context_Node.prototype.markerprofiles
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,7 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function markerprofiles (params,behavior){
-    version(this,"/markerprofiles",{
+    this.version.check("/markerprofiles",{
         introduced:"v1.0"
     });
     
@@ -29,7 +27,7 @@ export function markerprofiles (params,behavior){
 * @return {BrAPI_Behavior_Node}
 */
 export function markerprofiles_search(params,behavior){
-    version(this,"/markerprofiles-search",{
+    this.version.check("/markerprofiles-search",{
         introduced:"v1.0",
         deprecated:"v1.1"
     });
@@ -52,7 +50,7 @@ export function markerprofiles_search(params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function markerprofiles_detail (params){
-    version(this,"/markerprofiles/{markerprofileDbId}",{
+    this.version.check("/markerprofiles/{markerprofileDbId}",{
         introduced:"v1.0"
     });
     var isMulticall = typeof params === "function";

@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /ontologies`
  * @alias Context_Node.prototype.ontologies
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,7 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function ontologies (params,behavior){
-    version(this,"/ontologies",{
+    this.version.check("/ontologies",{
         introduced:"v1.0"
     });
     

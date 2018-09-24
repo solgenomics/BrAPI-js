@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /breedingmethods`
  * @alias Context_Node.prototype.breedingmethods
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,8 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function breedingmethods (params,behavior){
-    version(this,"/breedingmethods",{
+    var url = "/breedingmethods";
+    this.version.check(url,{
         introduced:"v1.0"
     });
     
@@ -16,7 +15,7 @@ export function breedingmethods (params,behavior){
     
     return this.brapi_call(behavior,"get",function(datum){
         return {
-            'url': "/breedingmethods", 
+            'url': url, 
             'params': isMulticall ? params(datum) : Object.assign({}, params)
         };
     }, isMulticall);
@@ -29,7 +28,7 @@ export function breedingmethods (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function breedingmethods_detail (params){
-    version(this,"/breedingmethods/{breedingMethodDbId}",{
+    this.version.check("/breedingmethods/{breedingMethodDbId}",{
         introduced:"v1.0"
     });
     var isMulticall = typeof params === "function";

@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /calls`
  * @alias Context_Node.prototype.calls
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,7 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function calls (params,behavior){
-    version(this,"/calls",{
+    this.version.check("/calls",{
         introduced:"v1.0"
     });
     

@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /attributes`
  * @alias Context_Node.prototype.attributes
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,8 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function attributes (params,behavior){
-    version(this,"/attributes",{
+    var url = "/attributes";
+    this.version.check(url,{
         introduced:"v1.0"
     });
     
@@ -16,7 +15,7 @@ export function attributes (params,behavior){
     
     return this.brapi_call(behavior,"get",function(datum){
         return {
-            'url': "/attributes", 
+            'url': url, 
             'params': isMulticall ? params(datum) : Object.assign({}, params)
         };
     }, isMulticall);
@@ -29,7 +28,8 @@ export function attributes (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function attributes_categories (params,behavior){
-    version(this,"/attributes/categories",{
+    var url = "/attributes/categories";
+    this.version.check(url,{
         introduced:"v1.0"
     });
     
@@ -38,7 +38,7 @@ export function attributes_categories (params,behavior){
     
     return this.brapi_call(behavior,"get",function(datum){
         return {
-            'url': "/attributes/categories", 
+            'url': url, 
             'params': isMulticall ? params(datum) : Object.assign({}, params)
         };
     }, isMulticall);

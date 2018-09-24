@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `POST /germplasm-search`
 * @alias Context_Node.prototype.germplasm_search
 * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,7 @@ import {version} from "./_method_utils.js"
 * @return {BrAPI_Behavior_Node}
 */
 export function germplasm_search(params,behavior){
-    version(this,"/germplasm-search",{
+    this.version.check("/germplasm-search",{
         introduced:"v1.0"
     });
     
@@ -29,7 +27,7 @@ export function germplasm_search(params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_detail (params){
-    version(this,"/germplasm/{germplasmDbId}",{
+    this.version.check("/germplasm/{germplasmDbId}",{
         introduced:"v1.0"
     });
     var isMulticall = typeof params === "function";
@@ -51,7 +49,7 @@ export function germplasm_detail (params){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_attributes (params,behavior){
-    version(this,"/germplasm/{germplasmDbId}/attributes",{
+    this.version.check("/germplasm/{germplasmDbId}/attributes",{
         introduced:"v1.0"
     });
     
@@ -76,7 +74,7 @@ export function germplasm_attributes (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_pedigree (params){
-    version(this,"/germplasm/{germplasmDbId}/pedigree",{
+    this.version.check("/germplasm/{germplasmDbId}/pedigree",{
         introduced:"v1.0"
     });
     
@@ -101,7 +99,7 @@ export function germplasm_pedigree (params){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_progeny (params,behavior){
-    version(this,"/germplasm/{germplasmDbId}/progeny",{
+    this.version.check("/germplasm/{germplasmDbId}/progeny",{
         introduced:"v1.2"
     });
     
@@ -126,7 +124,7 @@ export function germplasm_progeny (params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function germplasm_markerprofiles (params){
-    version(this,"/germplasm/{germplasmDbId}/markerprofiles",{
+    this.version.check("/germplasm/{germplasmDbId}/markerprofiles",{
         introduced:"v1.0"
     });
     

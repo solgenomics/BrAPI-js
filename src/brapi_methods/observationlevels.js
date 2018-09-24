@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /observationlevels`(>=v1.2) or `GET /observationLevels`(<v1.2)
  * @alias Context_Node.prototype.observationlevels
  * @param {Object} params Parameters to provide to the call
@@ -10,13 +8,13 @@ export function observationlevels (params,behavior){
     var url;
     if (this.version.predates("v1.2")){
         url = "/observationLevels"
-        version(this,url,{
+        this.version.check(url,{
             introduced:"v1.0",
             deprecated:"v1.2"
         });
     } else {
         url = "/observationlevels"
-        version(this,url,{
+        this.version.check(url,{
             introduced:"v1.2"
         });
     }

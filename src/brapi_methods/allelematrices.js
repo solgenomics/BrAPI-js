@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `GET /allelematrices`
  * @alias Context_Node.prototype.allelematrices
  * @param {Object} params Parameters to provide to the call
@@ -7,7 +5,8 @@ import {version} from "./_method_utils.js"
  * @return {BrAPI_Behavior_Node}
  */
 export function allelematrices (params,behavior){
-    version(this,"/allelematrices",{
+    var url = "/allelematrices";
+    this.version.check(url,{
         introduced:"v1.0"
     });
     
@@ -16,7 +15,7 @@ export function allelematrices (params,behavior){
     
     return this.brapi_call(behavior,"get",function(datum){
         return {
-            'url': "/allelematrices", 
+            'url': url, 
             'params': isMulticall ? params(datum) : Object.assign({}, params)
         };
     }, isMulticall);
@@ -32,13 +31,13 @@ export function allelematrices_search(params,behavior){
     var url;
     if (this.version.predates("v1.2")){
         url = "/allelematrix-search"
-        version(this,url,{
+        this.version.check(url,{
             introduced:"v1.0",
             deprecated:"v1.2"
         });
     } else {
         url = "/allelematrices-search"
-        version(this,url,{
+        this.version.check(url,{
             introduced:"v1.2"
         });
     }

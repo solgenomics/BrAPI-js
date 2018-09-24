@@ -1,5 +1,3 @@
-import {version} from "./_method_utils.js"
-
 /** `POST /markers-search`(>=v1.1) or `GET /markers`(<v1.1)
 * @alias Context_Node.prototype.markers_search
 * @param {Object} params Parameters to provide to the call
@@ -12,14 +10,14 @@ export function markers_search(params,behavior){
     if(this.version.predates("v1.1")){
         url = "/markers";
         method = "get";
-        version(this,url,{
+        this.version.check(url,{
             introduced:"v1.0",
             deprecated:"v1.1"
         });
     } else {
         url = "/markers-search";
         method = "post";
-        version(this,url,{
+        this.version.check(url,{
             introduced:"v1.1"
         });
     }
@@ -42,7 +40,7 @@ export function markers_search(params,behavior){
  * @return {BrAPI_Behavior_Node}
  */
 export function markers_detail (params){
-    version(this,"/markers/{markerDbId}",{
+    this.version.check("/markers/{markerDbId}",{
         introduced:"v1.0"
     });
     var isMulticall = typeof params === "function";
