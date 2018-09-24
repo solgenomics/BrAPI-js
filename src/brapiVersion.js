@@ -64,7 +64,7 @@ class BrAPI_Version_Class {
      * @param  {String} check.deprecated When the call was deprecated
      * @param  {String} check.removed    When the call was removed
      */
-    export function check(name,check){
+    check(name,check){
         if (check.introduced) check.introduced = brapiVersion(check.introduced);
         if (check.deprecated) check.deprecated = brapiVersion(check.deprecated);
         if (check.removed) check.removed = brapiVersion(check.removed);
