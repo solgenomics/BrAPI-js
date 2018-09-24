@@ -8,7 +8,7 @@ import {version} from "./_method_utils.js"
  */
 export function commoncropnames (params,behavior){
     var url;
-    if this.version.predates("v1.2"){
+    if (this.version.predates("v1.2")){
         url = "/crops"
         version(this,url,{
             introduced:"v1.0",
