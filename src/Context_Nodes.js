@@ -570,6 +570,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                 'is_paginated': undefined,
                 'concatenated': undefined,
                 'sentry': undefined,
+                'is_async': undefined,
                 'forked_key': 0
             }
         }
@@ -600,16 +601,49 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     self.publishResult(sentry_task);
                     return;
                 }
-                if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
+                //<v1.2 asynch initiate
+                if(!state.is_async && json.metadata.status && Array.isArray(json.metadata.status)){
+                    for (var i = 0; i < json.metadata.status.length; i++) {
+                        if(json.metadata.status[i].code=="asynchid"){
+                            d_call.url = d_call.url.split(/\?(.+)/)[0];
+                            d_call.url += "/status/"+json.metadata.status[i].message;
+                            d_call.params = {};
+                            fetch_args.method = "get";
+                            delete fetch_args.body;
+                            state.is_async = true;
+                        }
+                    }
+                }
+                //>=v1.2 asynch initiate
+                if(!state.is_async && json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
                     d_call.url = d_call.url.split(/\?(.+)/)[0];
                     d_call.url += "/"+json.metadata.asynchStatus.asynchId;
                     d_call.params = {};
                     fetch_args.method = "get";
                     delete fetch_args.body;
-                    setTimeout(function(){
-                        self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
-                    },15000);
-                    return
+                    state.is_async = true;
+                }
+                if(state.is_async){
+                    state.is_async = false;
+                    //>=v1.2 asynch poll
+                    if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
+                        state.is_async = true;
+                        setTimeout(function(){
+                            self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
+                        },15000);
+                        return
+                    }
+                    //<v1.2 asynch poll
+                    if(json.metadata.status && Array.isArray(json.metadata.status)){
+                        for (var i = 0; i < json.metadata.status.length; i++) {
+                            if(json.metadata.status[i].code=="asynchid" || json.metadata.status[i].code=="asycnstatus" && json.metadata.status[i].message!="FINISHED"){
+                                state.is_async = true;
+                                setTimeout(function(){
+                                    self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
+                                },15000);
+                            }
+                        }
+                    }
                 }
                 if(state.is_paginated==undefined){
                     if (json.result.data!=undefined && json.result.data instanceof Array){
