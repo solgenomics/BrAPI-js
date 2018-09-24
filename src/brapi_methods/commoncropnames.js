@@ -1,6 +1,6 @@
 import {version} from "./_method_utils.js"
 
-/** `GET /commoncropnames`
+/** `GET /commoncropnames`(>=v1.2) or `GET /crops`(<v1.2)
  * @alias Context_Node.prototype.commoncropnames
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
