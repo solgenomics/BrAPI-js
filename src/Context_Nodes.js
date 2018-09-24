@@ -600,13 +600,6 @@ export class BrAPI_Behavior_Node extends Context_Node{
                     self.publishResult(sentry_task);
                     return;
                 }
-                if(state.is_paginated==undefined){
-                    if (json.result.data!=undefined && json.result.data instanceof Array){
-                        state.is_paginated = true;
-                    } else {
-                        state.is_paginated = false;
-                    }
-                }
                 if(json.metadata.asynchStatus && json.metadata.asynchStatus.status != "FINISHED"){
                     d_call.url = d_call.url.split(/\?(.+)/)[0];
                     d_call.url += "/"+json.metadata.asynchStatus.asynchId;
@@ -617,6 +610,13 @@ export class BrAPI_Behavior_Node extends Context_Node{
                         self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
                     },15000);
                     return
+                }
+                if(state.is_paginated==undefined){
+                    if (json.result.data!=undefined && json.result.data instanceof Array){
+                        state.is_paginated = true;
+                    } else {
+                        state.is_paginated = false;
+                    }
                 }
                 if(state.is_paginated){
                     var final_page = Math.min(+json.metadata.pagination.totalPages-1,pageRange[1]);
