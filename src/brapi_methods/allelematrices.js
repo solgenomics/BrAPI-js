@@ -22,7 +22,7 @@ export function allelematrices (params,behavior){
     }, isMulticall);
 }
 
-/** `POST /allelematrices-search`(>v1.2) or `POST /allelematrix-search`(<=1.1)
+/** `POST /allelematrices-search`(>=v1.2) or `POST /allelematrix-search`(<v1.2)
 * @alias Context_Node.prototype.allelematrices_search
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
