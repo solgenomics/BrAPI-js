@@ -520,6 +520,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         this.behavior = behavior;
         this.d_func = url_body_func;
         this.method = httpMethod;
+        this.poll_func = function(){return 15000};
         var self = this;
         var hookTo = multicall ? parent.addAsyncHook : parent.addFinishHook;
         hookTo.call(parent,function(dat, key){
@@ -562,6 +563,16 @@ export class BrAPI_Behavior_Node extends Context_Node{
             }
         }
         return param_string
+    }
+    
+    
+    poll(callback){
+        var last = this.poll_func;
+        this.poll_func = function(json){
+            var last_result = last(json);
+            return callback(json) || last_result;
+        }
+        return this;
     }
     
     loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state){
@@ -630,7 +641,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                         state.is_async = true;
                         setTimeout(function(){
                             self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
-                        },15000);
+                        }, self.poll_func(json));
                         return
                     }
                     //<v1.2 asynch poll
@@ -640,7 +651,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
                                 state.is_async = true;
                                 setTimeout(function(){
                                     self.loadPage(page_num,unforked_key,d_call,fetch_args,pageRange,state);
-                                },15000);
+                                }, self.poll_func(json));
                             }
                         }
                     }

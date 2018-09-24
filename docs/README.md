@@ -154,6 +154,21 @@ The _multicall_ argument determines wether the call will be run once for each in
 - When _multicall_ is true, _queryFunc_ will be run once for each datum, with the arguments (_datum_,_key_) where _key_ is the datum's key as [described below](). 
 - When _multicall_ is false, _queryFunc_ will be run once for all input data, with a single argument _data_ containing every datum passed through the parent node.
 
+<a href="#brapi_method_poll">#</a> _node_.**poll**(_callback_) [<>](src/Context_Nodes.js "Source")
+
+Wether a call is a BrAPI 'asynch' call will be determined automatically from the response. By default, polling occurs every 15 seconds. To vary the polling times, or check the status, one can use this method which is available only on <a href="#brapi_method_call">brapi call nodes.</a> The _callback_ function receives the full json response as the only argument. If it returns a non-null value greater than zero, the next poll with occur after that many milliseconds. If multiple poll methods are chained, they will execute in order and the last non-null return value greater than zero will be used as the polling time.
+```js
+//to poll the allelematrix_search call every 10 seconds
+BrAPI("https://www.yambase.org/brapi/v1")
+    .data(["1038","4542","45534"])
+    .allelematrices_search(function(d){
+        return {markerprofileDbId:d};
+    }).poll(function(response){
+        console.log(response.metadata);
+        return 10000;
+    });
+```
+
 ### Non-BrAPI Nodes
 
 <a name="map" href="#map">#</a> _node_.**map**(_callback_) [<>](src/Context_Nodes.js "Source") 
