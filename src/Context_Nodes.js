@@ -539,7 +539,7 @@ export class BrAPI_Behavior_Node extends Context_Node{
         
         if(page_num>0) d_call.params["page"] = page_num;
         
-        if (fetch_args.method=="put"||fetch_args.method=="post"){
+        if (fetch_args.method=="patch"||fetch_args.method=="put"||fetch_args.method=="post"){
             fetch_args["body"] = JSON.stringify(d_call.params)
         }
         else{
