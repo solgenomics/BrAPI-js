@@ -21,7 +21,7 @@ export function studies_search (params,behavior){
 /** `GET /studies/{studyDbId}`
  * @alias Context_Node.prototype.studies_detail
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}
  */
 export function studies_detail (params){
@@ -40,7 +40,7 @@ export function studies_detail (params){
 /** `GET /studies/{studyDbId}/germplasm`
  * @alias Context_Node.prototype.studies_germplasm
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
@@ -61,7 +61,7 @@ export function studies_germplasm (params,behavior){
 /** `GET /studies/{studyDbId}/layout`
  * @alias Context_Node.prototype.studies_layout
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
@@ -82,7 +82,7 @@ export function studies_layout (params,behavior){
 /** `PUT /studies/{studyDbId}/layout`
  * @alias Context_Node.prototype.studies_layout_modify
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}
  */
 export function studies_layout_modify (params){
@@ -101,7 +101,7 @@ export function studies_layout_modify (params){
 /** `GET /studies/{studyDbId}/observations`
  * @alias Context_Node.prototype.studies_observations
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
@@ -122,7 +122,7 @@ export function studies_observations (params,behavior){
 /** `PUT /studies/{studyDbId}/observations`(>=v1.1) or `POST /studies/{studyDbId}/observations`(<v1.1)
  * @alias Context_Node.prototype.studies_observations_modify
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}
  */
 export function studies_observations_modify (params){
@@ -151,7 +151,7 @@ export function studies_observations_modify (params){
 /** `POST /studies/{studyDbId}/observations/zip`
  * @alias Context_Node.prototype.studies_observations_modify
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}
  */
 export function studies_observations_zip (params){
@@ -171,7 +171,7 @@ export function studies_observations_zip (params){
 /** `GET /studies/{studyDbId}/observationvariables`
  * @alias Context_Node.prototype.studies_observationvariables
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
@@ -201,7 +201,7 @@ export function studies_observationvariables (params,behavior){
 /** `GET /studies/{studyDbId}/table`
  * @alias Context_Node.prototype.studies_table
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
@@ -223,7 +223,7 @@ export function studies_table (params,behavior){
 /** `POST /studies/{studyDbId}/table`
  * @alias Context_Node.prototype.studies_table_add
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.studyDbId studyDbId
+ * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */

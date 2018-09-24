@@ -39,7 +39,7 @@ export function samples_search (params,behavior){
 /** `GET /samples/{sampleId}`
  * @alias Context_Node.prototype.samples_detail
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.sampleId sampleId
+ * @param {String} params.sampleId sampleId
  * @return {BrAPI_Behavior_Node}
  */
 export function samples_detail (params){

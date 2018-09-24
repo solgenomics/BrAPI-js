@@ -41,7 +41,7 @@ export function variables_search (params,behavior){
 /** `GET /variables/{observationVariableDbId}`
  * @alias Context_Node.prototype.variables_detail
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.observationVariableDbId observationVariableDbId
+ * @param {String} params.observationVariableDbId observationVariableDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */

@@ -21,7 +21,7 @@ export function traits (params,behavior){
 /** `GET /traits/{traitDbId}`
  * @alias Context_Node.prototype.traits_detail
  * @param {Object} params Parameters to provide to the call
- * @param {Object} params.traitDbId traitDbId
+ * @param {String} params.traitDbId traitDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
