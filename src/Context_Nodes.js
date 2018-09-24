@@ -305,7 +305,7 @@ export class Context_Node extends BrAPI_Methods{
         // create a brapi call
         return this.brapi_call(behavior,call.defaultMethod,function(datum){
             // create or duplicate the parameters for this datum (create shallow copy to protect original parmeter object)
-            var datum_params = Object.assign({}, multicall ? params(datum) : call.params);
+            var datum_params = Object.assign({}, multicall ? call.params(datum) : call.params);
             // fill urlTemplate with specified parameters and remove them from the datum_params
             return this.consumeUrlParams(call.urlTemplate,datum_params);
         }, multicall)
