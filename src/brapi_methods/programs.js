@@ -1,5 +1,5 @@
 /** `GET /programs`
- * @alias Context_Node.prototype.programs
+ * @alias BrAPINode.prototype.programs
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function programs (params,behavior){
 }
 
 /** `GET /programs-search`
- * @alias Context_Node.prototype.programs_search
+ * @alias BrAPINode.prototype.programs_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

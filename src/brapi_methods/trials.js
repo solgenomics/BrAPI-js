@@ -1,5 +1,5 @@
 /** `GET /trials`
- * @alias Context_Node.prototype.trials
+ * @alias BrAPINode.prototype.trials
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function trials (params,behavior){
 }
 
 /** `GET /trials/{trialDbId}`
- * @alias Context_Node.prototype.trials_detail
+ * @alias BrAPINode.prototype.trials_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.trialDbId trialDbId
  * @return {BrAPI_Behavior_Node}

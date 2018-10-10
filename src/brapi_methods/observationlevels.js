@@ -1,5 +1,5 @@
 /** `GET /observationlevels`(>=v1.2) or `GET /observationLevels`(<v1.2)
- * @alias Context_Node.prototype.observationlevels
+ * @alias BrAPINode.prototype.observationlevels
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

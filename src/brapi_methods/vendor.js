@@ -1,5 +1,5 @@
 /** `POST /vendor/plates`
- * @alias Context_Node.prototype.vendor_plates
+ * @alias BrAPINode.prototype.vendor_plates
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -18,7 +18,7 @@ export function vendor_plates (params,behavior){
 }
 
 /** `POST /vendor/plates-search`(>=v1.2) or `POST /vendor/plate-search`(<v1.2)
-* @alias Context_Node.prototype.vendor_plates_search
+* @alias BrAPINode.prototype.vendor_plates_search
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
@@ -46,7 +46,7 @@ export function vendor_plates_search(params,behavior){
 };
 
 /** `GET /vendor/plates/{vendorPlateDbId}`
- * @alias Context_Node.prototype.vendor_plates_detail
+ * @alias BrAPINode.prototype.vendor_plates_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.vendorPlateDbId vendorPlateDbId
  * @return {BrAPI_Behavior_Node}
@@ -73,7 +73,7 @@ export function vendor_plates_detail (params){
 }
 
 /** `GET /vendor/specifications`
- * @alias Context_Node.prototype.vendor_specifications
+ * @alias BrAPINode.prototype.vendor_specifications
  * @param {Object} params Parameters to provide to the call
  * @return {BrAPI_Behavior_Node}
  */

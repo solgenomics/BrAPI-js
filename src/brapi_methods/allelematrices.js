@@ -1,5 +1,5 @@
 /** `GET /allelematrices`
- * @alias Context_Node.prototype.allelematrices
+ * @alias BrAPINode.prototype.allelematrices
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function allelematrices (params,behavior){
 }
 
 /** `POST /allelematrices-search`(>=v1.2) or `POST /allelematrix-search`(<v1.2)
-* @alias Context_Node.prototype.allelematrices_search
+* @alias BrAPINode.prototype.allelematrices_search
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}

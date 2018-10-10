@@ -1,5 +1,5 @@
 /** `GET /variables`
- * @alias Context_Node.prototype.variables
+ * @alias BrAPINode.prototype.variables
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function variables (params,behavior){
 }
 
 /** `POST /variables-search`
- * @alias Context_Node.prototype.variables_search
+ * @alias BrAPINode.prototype.variables_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -39,7 +39,7 @@ export function variables_search (params,behavior){
 }
 
 /** `GET /variables/{observationVariableDbId}`
- * @alias Context_Node.prototype.variables_detail
+ * @alias BrAPINode.prototype.variables_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.observationVariableDbId observationVariableDbId
  * @return {BrAPI_Behavior_Node}
@@ -58,7 +58,7 @@ export function variables_detail (params){
 }
 
 /** `GET /variables/datatypes`
- * @alias Context_Node.prototype.variables_datatypes
+ * @alias BrAPINode.prototype.variables_datatypes
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

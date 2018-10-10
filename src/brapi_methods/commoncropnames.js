@@ -1,5 +1,5 @@
 /** `GET /commoncropnames`(>=v1.2) or `GET /crops`(<v1.2)
- * @alias Context_Node.prototype.commoncropnames
+ * @alias BrAPINode.prototype.commoncropnames
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

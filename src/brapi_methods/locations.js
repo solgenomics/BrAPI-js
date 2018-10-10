@@ -1,5 +1,5 @@
 /** `GET /locations`
- * @alias Context_Node.prototype.locations
+ * @alias BrAPINode.prototype.locations
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function locations (params,behavior){
 }
 
 /** `GET /locations/{locationDbId}`
- * @alias Context_Node.prototype.locations_detail
+ * @alias BrAPINode.prototype.locations_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.locationDbId locationDbId
  * @return {BrAPI_Behavior_Node}

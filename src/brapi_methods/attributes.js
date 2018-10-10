@@ -1,5 +1,5 @@
 /** `GET /attributes`
- * @alias Context_Node.prototype.attributes
+ * @alias BrAPINode.prototype.attributes
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function attributes (params,behavior){
 }
 
 /** `GET /attributes_categories`
- * @alias Context_Node.prototype.attributes_categories
+ * @alias BrAPINode.prototype.attributes_categories
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

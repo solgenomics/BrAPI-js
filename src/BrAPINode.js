@@ -382,6 +382,7 @@ class BrAPICallController {
 // Apply each brapi method to BrAPINode
 Object.keys(brapiMethods).forEach(function(method_name){
     BrAPINode.prototype[method_name] = brapiMethods[method_name];
+    EmptyBrAPINode.prototype[method_name] = brapiMethods[method_name];
 });
 
 /**

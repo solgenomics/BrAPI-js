@@ -1,5 +1,5 @@
 /** `GET /markerprofiles`
- * @alias Context_Node.prototype.markerprofiles
+ * @alias BrAPINode.prototype.markerprofiles
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function markerprofiles (params,behavior){
 }
 
 /** `POST /markerprofiles-search`
-* @alias Context_Node.prototype.markerprofiles_search
+* @alias BrAPINode.prototype.markerprofiles_search
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
@@ -40,7 +40,7 @@ export function markerprofiles_search(params,behavior){
 }
 
 /** `GET /markerprofiles/{markerprofileDbId}`
- * @alias Context_Node.prototype.markerprofiles_detail
+ * @alias BrAPINode.prototype.markerprofiles_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.markerprofileDbId markerprofileDbId
  * @return {BrAPI_Behavior_Node}

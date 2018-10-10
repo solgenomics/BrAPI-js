@@ -1,5 +1,5 @@
 /** `POST /germplasm-search`
-* @alias Context_Node.prototype.germplasm_search
+* @alias BrAPINode.prototype.germplasm_search
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function germplasm_search(params,behavior){
 };
 
 /** `GET /germplasm/{germplasmDbId}`
- * @alias Context_Node.prototype.germplasm_detail
+ * @alias BrAPINode.prototype.germplasm_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.germplasmDbId germplasmDbId
  * @return {BrAPI_Behavior_Node}
@@ -38,7 +38,7 @@ export function germplasm_detail (params){
 }
 
 /** `GET /germplasm/{germplasmDbId}/attributes`
- * @alias Context_Node.prototype.germplasm_attributes
+ * @alias BrAPINode.prototype.germplasm_attributes
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.germplasmDbId germplasmDbId
  * @param {String} [behavior="fork"] Behavior of the node
@@ -59,7 +59,7 @@ export function germplasm_attributes (params,behavior){
 }
 
 /** `GET /germplasm/{germplasmDbId}/pedigree`
- * @alias Context_Node.prototype.germplasm_pedigree
+ * @alias BrAPINode.prototype.germplasm_pedigree
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.germplasmDbId germplasmDbId
  * @return {BrAPI_Behavior_Node}
@@ -78,7 +78,7 @@ export function germplasm_pedigree (params){
 }
 
 /** `GET /germplasm/{germplasmDbId}/progeny`
- * @alias Context_Node.prototype.germplasm_progeny
+ * @alias BrAPINode.prototype.germplasm_progeny
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.germplasmDbId germplasmDbId
  * @param {String} [behavior="map"] Behavior of the node
@@ -99,7 +99,7 @@ export function germplasm_progeny (params,behavior){
 }
 
 /** `GET /germplasm/{germplasmDbId}/markerprofiles`
- * @alias Context_Node.prototype.germplasm_markerprofiles
+ * @alias BrAPINode.prototype.germplasm_markerprofiles
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.germplasmDbId germplasmDbId
  * @return {BrAPI_Behavior_Node}

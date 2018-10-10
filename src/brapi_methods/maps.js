@@ -1,5 +1,5 @@
 /** `GET /maps`
- * @alias Context_Node.prototype.maps
+ * @alias BrAPINode.prototype.maps
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function maps (params,behavior){
 }
 
 /** `GET /maps/{mapDbId}`
- * @alias Context_Node.prototype.maps_detail
+ * @alias BrAPINode.prototype.maps_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.mapDbId mapDbId
  * @param {String} [behavior=this.version.predates("v1.1")?"map":"fork"] Behavior of the node
@@ -47,7 +47,7 @@ export function maps_detail (params, behavior){
 }
 
 /** `GET /maps/{mapsDbId}/positions`
- * @alias Context_Node.prototype.maps_positions
+ * @alias BrAPINode.prototype.maps_positions
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.mapsDbId mapsDbId
  * @param {String} [behavior="fork"] Behavior of the node
@@ -68,7 +68,7 @@ export function maps_positions (params,behavior){
 }
 
 /** `GET /maps/{mapsDbId}/positions/{linkageGroupId}`
- * @alias Context_Node.prototype.maps_linkagegroups_detail
+ * @alias BrAPINode.prototype.maps_linkagegroups_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.mapsDbId mapsDbId
  * @param {String} params.linkageGroupId linkageGroupId

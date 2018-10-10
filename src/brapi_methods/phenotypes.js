@@ -1,5 +1,5 @@
 /** `POST /phenotypes`
- * @alias Context_Node.prototype.phenotypes
+ * @alias BrAPINode.prototype.phenotypes
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -19,7 +19,7 @@ export function phenotypes (params,behavior){
 }
 
 /** `POST /phenotypes-search`
- * @alias Context_Node.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -39,7 +39,7 @@ export function phenotypes_search (params,behavior){
 }
 
 /** `POST /phenotypes-search/csv`
- * @alias Context_Node.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -59,7 +59,7 @@ export function phenotypes_search_csv (params,behavior){
 }
 
 /** `POST /phenotypes-search/table`
- * @alias Context_Node.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -79,7 +79,7 @@ export function phenotypes_search_table (params,behavior){
 }
 
 /** `POST /phenotypes-search/tsv`
- * @alias Context_Node.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

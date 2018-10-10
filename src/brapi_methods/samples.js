@@ -1,5 +1,5 @@
 /** `PUT /samples`
- * @alias Context_Node.prototype.samples_add
+ * @alias BrAPINode.prototype.samples_add
  * @param {Object} params Parameters to provide to the call
  * @return {BrAPI_Behavior_Node}
  */
@@ -17,7 +17,7 @@ export function samples_add (params){
 }
 
 /** `POST /samples-search`
- * @alias Context_Node.prototype.samples_search
+ * @alias BrAPINode.prototype.samples_search
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -37,7 +37,7 @@ export function samples_search (params,behavior){
 }
 
 /** `GET /samples/{sampleId}`
- * @alias Context_Node.prototype.samples_detail
+ * @alias BrAPINode.prototype.samples_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.sampleId sampleId
  * @return {BrAPI_Behavior_Node}

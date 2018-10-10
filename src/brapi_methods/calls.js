@@ -1,5 +1,5 @@
 /** `GET /calls`
- * @alias Context_Node.prototype.calls
+ * @alias BrAPINode.prototype.calls
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

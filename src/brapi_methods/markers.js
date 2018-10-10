@@ -1,5 +1,5 @@
 /** `POST /markers-search`(>=v1.1) or `GET /markers`(<v1.1)
-* @alias Context_Node.prototype.markers_search
+* @alias BrAPINode.prototype.markers_search
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
@@ -28,7 +28,7 @@ export function markers_search(params,behavior){
 };
 
 /** `GET /markers/{markerDbId}`
- * @alias Context_Node.prototype.markers_detail
+ * @alias BrAPINode.prototype.markers_detail
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.markerDbId markerDbId
  * @return {BrAPI_Behavior_Node}
