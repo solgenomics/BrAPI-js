@@ -196,6 +196,8 @@ class EmptyBrAPINode extends EmptyThreadNode{
     constructor(brapi_controller) {
         super(Array.prototype.slice.call(arguments,1));
         this.brapi = brapi_controller;
+        this.version = this.brapi.version;
+        this.pollFunc = function(){return 15000};
     }
     _outputNode(){
         return new BrAPINode(this.brapi);
