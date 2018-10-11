@@ -400,15 +400,15 @@ export function BrAPI(address, version, auth_token, call_limit){
     );
 }
 
-BrAPI("https://cassavabase.org/brapi/v1",null,null,5)
-.data(["00122","00135"]).germplasm_search(function(d){
-    return {'germplasmNames':d}
-}).each(function(d,key){console.log(key,d.germplasmName)}).germplasm_pedigree(d=>{
-    return {germplasmDbId:d.germplasmDbId}
-})
-.each(function(d,key){console.log(key,d.parent1DbId)})
-.filter(function(d){return d.parent1DbId})
-.each(function(d,key){console.log(key, "Not Null", d.parent1DbId)})
-.germplasm_detail(function(d){return {germplasmDbId:d.parent1DbId}})
-.each(function(d,key){console.log(key,d.germplasmName)})
-.all(da=>console.log(da.map(d=>d.germplasmName)))
+// BrAPI("https://cassavabase.org/brapi/v1",null,null,5)
+// .data(["00122","00135"]).germplasm_search(function(d){
+//     return {'germplasmNames':d}
+// }).each(function(d,key){console.log(key,d.germplasmName)}).germplasm_pedigree(d=>{
+//     return {germplasmDbId:d.germplasmDbId}
+// })
+// .each(function(d,key){console.log(key,d.parent1DbId)})
+// .filter(function(d){return d.parent1DbId})
+// .each(function(d,key){console.log(key, "Not Null", d.parent1DbId)})
+// .germplasm_detail(function(d){return {germplasmDbId:d.parent1DbId}})
+// .each(function(d,key){console.log(key,d.germplasmName)})
+// .all(da=>console.log(da.map(d=>d.germplasmName)))
