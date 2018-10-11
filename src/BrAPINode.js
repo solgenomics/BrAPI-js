@@ -54,7 +54,7 @@ class BrAPINode extends ThreadNode {
         var self = this;
         
         var fray = function(){
-            var target = multicall?self:(new EmptyBrAPINode());
+            var target = multicall?self:(new EmptyBrAPINode(this.brapi));
             return self._fray.apply(target,arguments);
         }
         
@@ -192,17 +192,15 @@ class BrAPINode extends ThreadNode {
     }
 }
 
-class EmptyBrAPINode extends EmptyThreadNode{
+class EmptyBrAPINode extends BrAPINode{
     constructor(brapi_controller) {
-        super(Array.prototype.slice.call(arguments,1));
-        this.brapi = brapi_controller;
-        this.version = this.brapi.version;
-        this.pollFunc = function(){return 15000};
-    }
-    _outputNode(){
-        return new BrAPINode(this.brapi);
+        super(...arguments);
+        var ownInput = this._connect(null);
+        ownInput.send([this._wrap_datum(null)]);
+        ownInput.finish();
     }
 }
+EmptyBrAPINode.prototype.data = EmptyThreadNode.prototype.data;
 
 class BrAPICallController {
     constructor(brapi_base_url,version,brapi_auth_token,max_calls){
@@ -402,15 +400,15 @@ export function BrAPI(address, version, auth_token, call_limit){
     );
 }
 
-// BrAPI("https://cassavabase.org/brapi/v1",null,null,5)
-// .data(["00122","00135"]).germplasm_search(function(d){
-//     return {'germplasmNames':d}
-// }).each(function(d,key){console.log(key,d.germplasmName)}).germplasm_pedigree(d=>{
-//     return {germplasmDbId:d.germplasmDbId}
-// })
-// .each(function(d,key){console.log(key,d.parent1DbId)})
-// .filter(function(d){return d.parent1DbId})
-// .each(function(d,key){console.log(key, "Not Null", d.parent1DbId)})
-// .germplasm_detail(function(d){return {germplasmDbId:d.parent1DbId}})
-// .each(function(d,key){console.log(key,d.germplasmName)})
-// .all(da=>console.log(da.map(d=>d.germplasmName)))
+BrAPI("https://cassavabase.org/brapi/v1",null,null,5)
+.data(["00122","00135"]).germplasm_search(function(d){
+    return {'germplasmNames':d}
+}).each(function(d,key){console.log(key,d.germplasmName)}).germplasm_pedigree(d=>{
+    return {germplasmDbId:d.germplasmDbId}
+})
+.each(function(d,key){console.log(key,d.parent1DbId)})
+.filter(function(d){return d.parent1DbId})
+.each(function(d,key){console.log(key, "Not Null", d.parent1DbId)})
+.germplasm_detail(function(d){return {germplasmDbId:d.parent1DbId}})
+.each(function(d,key){console.log(key,d.germplasmName)})
+.all(da=>console.log(da.map(d=>d.germplasmName)))
