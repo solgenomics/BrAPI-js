@@ -54,11 +54,7 @@ class BrAPINode extends ThreadNode {
         var self = this;
         
         var fray = function(){
-<<<<<<< HEAD
             var target = multicall?self:(new EmptyBrAPINode(self.brapi));
-=======
-            var target = multicall?self:(new EmptyBrAPINode(this.brapi));
->>>>>>> 689784ac112833199e12dee4d29650ff3a6807f7
             return self._fray.apply(target,arguments);
         }
         
