@@ -1,9 +1,3 @@
-function randDelay(p){
-    return Promise.resolve(p).then(d=>(new Promise(r=>{
-        setTimeout(()=>r(d),Math.floor(Math.random() * Math.floor(5000)))
-    })));
-}
-
 export class NodeFrayError extends Error {
     constructor(message) {
         super(message);
@@ -272,6 +266,12 @@ export class EmptyThreadNode extends ThreadNode {
     
 }
 
+// function randDelay(p){
+//     return Promise.resolve(p).then(d=>(new Promise(r=>{
+//         setTimeout(()=>r(d),Math.floor(Math.random() * Math.floor(5000)))
+//     })));
+// }
+// 
 // var mye = (new EmptyThreadNode()).data([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 //     .map(randDelay)
 //     .keys(d=>`Key{${d}}`)
