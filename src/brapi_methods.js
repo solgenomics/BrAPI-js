@@ -13,6 +13,7 @@ export * from "./brapi_methods/ontologies";
 export * from "./brapi_methods/phenotypes";
 export * from "./brapi_methods/programs";
 export * from "./brapi_methods/samples";
+export * from "./brapi_methods/search";
 export * from "./brapi_methods/seasons";
 export * from "./brapi_methods/studies";
 export * from "./brapi_methods/traits";

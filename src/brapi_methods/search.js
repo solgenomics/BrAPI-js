@@ -14,7 +14,7 @@ export function post_search(entity,params){
     return this.simple_brapi_call(call);
 };
 
-/** `GET /search/{entity}/{searchResultsDbId}`
+/** `GET /search/{entity}/{searchResultDbId}`
 * @alias BrAPINode.prototype.get_search
 * @param {String} entity Entity type to search over
 * @param {Object} params Parameters to provide to the call
@@ -23,8 +23,8 @@ export function post_search(entity,params){
 */
 export function get_search(entity,params,behavior){
     var call = {
-        'defaultMethod': 'post',
-        'urlTemplate': '/search/'+entity+'/{searchResultsDbId}',
+        'defaultMethod': 'get',
+        'urlTemplate': '/search/'+entity+'/{searchResultDbId}',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -32,7 +32,7 @@ export function get_search(entity,params,behavior){
     return this.simple_brapi_call(call);
 };
 
-/** `POST /search/{entity} then GET /search/{entity}/{searchResultsDbId}`
+/** `POST /search/{entity} then GET /search/{entity}/{searchResultDbId}`
 * @alias BrAPINode.prototype.search
 * @param {String} entity Entity type to search over
 * @param {Object} params Parameters to provide to the call
@@ -50,7 +50,7 @@ export function search(entity,params,behavior){
         delete pageless_params.pageSize;
         return pageless_params;
     });
-    return param_map.join(search_ids).get_search(function(j){
+    return param_map.join(search_ids).get_search(entity,function(j){
         var get_params = {};
         get_params.searchResultDbId = j[1].searchResultDbId;
         if(j[0].page!=undefined) get_params.page = j[0].page;
