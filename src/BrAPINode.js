@@ -326,7 +326,7 @@ class BrAPICallController {
             //<v1.2 asynch poll
             if(response.metadata.status && Array.isArray(response.metadata.status)){
                 for (var i = 0; i < response.metadata.status.length; i++) {
-                    if(response.metadata.status[i].code=="asynchid" || response.metadata.status[i].code=="asycnstatus" && response.metadata.status[i].message!="FINISHED"){
+                    if(response.metadata.status[i].code=="asynchid" || response.metadata.status[i].code=="asynchstatus" && response.metadata.status[i].message!="FINISHED"){
                         pollAgain = true;
                     }
                 }
@@ -345,7 +345,7 @@ class BrAPICallController {
                                 })
                                 .then(function(response){return response.json();})
                                 .then(function(response) { 
-                                    return BrAPICallController.checkAsync(url,fetch_opts,pollFunc,response,true); 
+                                    return self.checkAsync(url,fetch_opts,pollFunc,response,true); 
                                 }))
                         }};
                         self.call_queue.push(queue_item);
