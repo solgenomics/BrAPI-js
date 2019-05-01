@@ -7,7 +7,7 @@ class BrAPI_Version_Class {
         this.patch = varr.length>2 ? varr[2] : null;
     }
     within(other){
-        if (typeof other == "string") other = version(other);
+        if (typeof other == "string") other = brapiVersion(other);
         
         if (this.major!=other.major) {
             return false;
@@ -22,7 +22,7 @@ class BrAPI_Version_Class {
         return true;
     }
     predates(other){
-        if (typeof other == "string") other = version(other);
+        if (typeof other == "string") other = brapiVersion(other);
         
         if (this.major < other.major) {
             return true;

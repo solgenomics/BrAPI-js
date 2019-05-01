@@ -349,7 +349,7 @@ class BrAPICallController {
                                 }))
                         }};
                         self.call_queue.push(queue_item);
-                        
+                        self._run_from_queue();
                     },pollFunc(response))
                 })
             }
