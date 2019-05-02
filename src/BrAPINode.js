@@ -26,6 +26,12 @@ class BrAPINode extends ThreadNode {
         }
         return this;
     }
+    server(address,version,auth_token,call_limit){
+        var newNode = this.map(d=>d);
+        newNode.brapi = new BrAPICallController(address,version,auth_token,call_limit||5);
+        newNode.version = newNode.brapi.version;
+        return newNode;
+    }
     simple_brapi_call(call){
         // {
         //     'defaultMethod': 'get',

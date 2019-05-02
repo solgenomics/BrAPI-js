@@ -1,0 +1,96 @@
+| -- | -- | -- |
+| -- | -- | -- |
+| _node_.allelematrices() | `/allelematrices` | GET |
+| _node_.allelematrices_search() | `/allelematrices-search`(>=v1.2) or `/allelematrix-search`(<v1.2) | POST |
+| _node_.attributes() | `/attributes` | GET |
+| _node_.attributes_categories() | `/attributes_categories` | GET |
+| _node_.breedingmethods() | `/breedingmethods` | GET |
+| _node_.breedingmethods_detail() | `/breedingmethods/{breedingMethodDbId}` | GET |
+| _node_.calls() | `/calls` | GET |
+| _node_.commoncropnames() | `/commoncropnames`(>=v1.2) or `/crops`(<v1.2) | GET |
+| _node_.germplasm() | `/germplasm` | GET |
+| _node_.germplasm_search() | `/germplasm-search` | POST |
+| _node_.germplasm_detail() | `/germplasm/{germplasmDbId}` | GET |
+| _node_.germplasm_mcpd() | `/germplasm/{germplasmDbId}/mcpd` | GET |
+| _node_.germplasm_attributes() | `/germplasm/{germplasmDbId}/attributes` | GET |
+| _node_.germplasm_pedigree() | `/germplasm/{germplasmDbId}/pedigree` | GET |
+| _node_.germplasm_progeny() | `/germplasm/{germplasmDbId}/progeny` | GET |
+| _node_.germplasm_markerprofiles() | `/germplasm/{germplasmDbId}/markerprofiles` | GET |
+| _node_.search_germplasm() | `/germplasm-search`, `/search/germplasm` | POST |
+| _node_.images() | `/images` | GET |
+| _node_.images_detail() | `/images/{imageDbId}` | GET |
+| _node_.images_imagecontent() | `PUT /images/{imageDbId}/imagecontent` | PUT |
+| _node_.search_images() | `/search/images` | POST |
+| _node_.lists() | `/lists` | GET |
+| _node_.lists_detail() | `/lists/{listDbId}` | GET |
+| _node_.lists_items() | `PUT /lists/{listDbId}/items` | PUT |
+| _node_.locations() | `/locations` | GET |
+| _node_.locations_detail() | `/locations/{locationDbId}` | GET |
+| _node_.maps() | `/maps` | GET |
+| _node_.maps_detail() | `/maps/{mapDbId}` | GET |
+| _node_.maps_positions() | `/maps/{mapsDbId}/positions` | GET |
+| _node_.maps_linkagegroups_detail() | `/maps/{mapsDbId}/positions/{linkageGroupId}` | GET |
+| _node_.markerprofiles() | `/markerprofiles` | GET |
+| _node_.markerprofiles_search() | `/markerprofiles-search` | POST |
+| _node_.markerprofiles_detail() | `/markerprofiles/{markerprofileDbId}` | GET |
+| _node_.markers() | `/markers` | GET |
+| _node_.markers_detail() | `/markers/{markerDbId}` | GET |
+| _node_.markers_search() | `/markers-search` | POST |
+| _node_.search_markers() | `/markers-search`, `/search/markers` | POST |
+| _node_.methods() | `/methods` | GET |
+| _node_.methods_detail() | `/methods/{methodDbId}` | GET |
+| _node_.observationlevels() | `/observationlevels`(>=v1.2) or `/observationLevels`(<v1.2) | GET |
+| _node_.observationunits() | `/observationunits` | GET |
+| _node_.search_observationunits() | `/search/observationunits` | POST |
+| _node_.search_observationtables() | `/search/observationtables` | POST |
+| _node_.ontologies() | `/ontologies` | GET |
+| _node_.people() | `/people` | GET |
+| _node_.people_detail() | `/people/{personDbId}` | GET |
+| _node_.phenotypes() | `/phenotypes` | POST |
+| _node_.phenotypes_search() | `/phenotypes-search` | POST |
+| _node_.phenotypes_search() | `/phenotypes-search/csv` | POST |
+| _node_.phenotypes_search() | `/phenotypes-search/table` | POST |
+| _node_.phenotypes_search() | `/phenotypes-search/tsv` | POST |
+| _node_.programs() | `/programs` | GET |
+| _node_.programs_search() | `/programs-search` | POST |
+| _node_.search_programs() | `/programs-search`, `/search/programs` | POST |
+| _node_.samples() | `/samples` | GET |
+| _node_.samples_detail() | `/samples/{sampleId}` | GET |
+| _node_.samples_search() | `/samples-search` | POST |
+| _node_.search_samples() | `/samples-search`, `/search/samples` | POST |
+| _node_.scales() | `/scales` | GET |
+| _node_.scales_detail() | `/scales/{scaleDbId}` | GET |
+| _node_.search() | `/search/{entity} then /search/{entity}/{searchResultDbId}` | POST |
+| _node_.search()_| `/search/{entity}` | POST |
+| _node_.search()_| `/search/{entity}/{searchResultDbId}` | GET |
+| _node_.seasons() | `/seasons` | GET |
+| _node_.studies_search() | `/studies-search` | POST |
+| _node_.search_studies() | `/studies-search`, `/search/studies` | POST |
+| _node_.studies() | `/studies` | GET |
+| _node_.studies_detail() | `/studies/{studyDbId}` | GET |
+| _node_.studies_germplasm() | `/studies/{studyDbId}/germplasm` | GET |
+| _node_.studies_layouts() | `/studies/{studyDbId}/layouts`, `/studies/{studyDbId}/layout` | GET |
+| _node_.studies_observations() | `/studies/{studyDbId}/observations` | GET |
+| _node_.studies_observations_modify() | `PUT /studies/{studyDbId}/observations`(>=v1.1) or `/studies/{studyDbId}/observations`(<v1.1) | POST |
+| _node_.studies_observations_modify() | `/studies/{studyDbId}/observations/zip` | POST |
+| _node_.studies_observationvariables() | `/studies/{studyDbId}/observationvariables` | GET |
+| _node_.studies_table() | `/studies/{studyDbId}/table` | GET |
+| _node_.studies_table_add() | `/studies/{studyDbId}/table` | POST |
+| _node_.studytypes() | `/studytypes`(>=v1.1) or `/studyTypes`(<v1.1) | GET |
+| _node_.traits() | `/traits` | GET |
+| _node_.traits_detail() | `/traits/{traitDbId}` | GET |
+| _node_.trials() | `/trials` | GET |
+| _node_.trials_detail() | `/trials/{trialDbId}` | GET |
+| _node_.variables() | `/variables` | GET |
+| _node_.variables_search() | `/variables-search` | POST |
+| _node_.search_variables() | `/variables-search`, `/search/variables` | POST |
+| _node_.variables_detail() | `/variables/{observationVariableDbId}` | GET |
+| _node_.variables_datats() | `/variables/datatypes` | GET |
+| _node_.vendor_plates() | `/vendor/plates` | POST |
+| _node_.vendor_plates_search() | `/vendor/plates-search`(>=v1.2) or `/vendor/plate-search`(<v1.2) | POST |
+| _node_.vendor_plates_detail() | `/vendor/plates/{submissionId}` | GET |
+| _node_.vendor_specifications() | `/vendor/specifications` | GET |
+| _node_.vendor_orders() | `/vendor/orders` | GET |
+| _node_.vendor_orders_results() | `/vendor/orders/{orderId}/results` | GET |
+| _node_.vendor_orders_plates() | `/vendor/orders/{orderId}/plates` | GET |
+| _node_.vendor_orders_status() | `/vendor/orders/{orderId}/status` | GET |
