@@ -65,7 +65,7 @@ export function studies (params,behavior){
 export function studies_detail (params){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/studies/{studyDbId}`',
+        'urlTemplate': '/studies/{studyDbId}',
         'params': params,
         'behavior': 'map',
     }
@@ -85,7 +85,7 @@ export function studies_detail (params){
 export function studies_germplasm (params,behavior){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/studies/{studyDbId}/germplasm`',
+        'urlTemplate': '/studies/{studyDbId}/germplasm',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -134,7 +134,7 @@ export function studies_layouts (params,behavior){
 export function studies_observations (params,behavior){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/studies/{studyDbId}/observations`',
+        'urlTemplate': '/studies/{studyDbId}/observations',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -154,7 +154,7 @@ export function studies_observations (params,behavior){
 export function studies_observations_modify (params){
     var call = {
         'defaultMethod': 'put',
-        'urlTemplate': '/studies/{studyDbId}/observations`',
+        'urlTemplate': '/studies/{studyDbId}/observations',
         'params': params,
         'behavior': 'map',
     }
@@ -183,7 +183,7 @@ export function studies_observations_modify (params){
 export function studies_observations_zip (params){
     var call = {
         'defaultMethod': 'post',
-        'urlTemplate': '/studies/{studyDbId}/observations/zip`',
+        'urlTemplate': '/studies/{studyDbId}/observations/zip',
         'params': params,
         'behavior': 'map',
     }
@@ -209,13 +209,13 @@ export function studies_observationvariables (params,behavior){
         'behavior': behavior,
     }
     if(this.version.predates("v1.1")){
-        call.urlTemplate= '/studies/{studyDbId}/observationVariables`',
+        call.urlTemplate= '/studies/{studyDbId}/observationVariables',
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
             deprecated:"v1.1"
         });
     } else {
-        call.urlTemplate= '/studies/{studyDbId}/observationvariables`',
+        call.urlTemplate= '/studies/{studyDbId}/observationvariables',
         this.version.check(call.urlTemplate,{
             introduced:"v1.1"
         });
@@ -234,7 +234,7 @@ export function studies_observationvariables (params,behavior){
 export function studies_table (params,behavior){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate':'/studies/{studyDbId}/table`',
+        'urlTemplate':'/studies/{studyDbId}/table',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -256,7 +256,7 @@ export function studies_table (params,behavior){
 export function studies_table_add (params,behavior){
     var call = {
         'defaultMethod': 'post',
-        'urlTemplate':'/studies/{studyDbId}/table`',
+        'urlTemplate':'/studies/{studyDbId}/table',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
