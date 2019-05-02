@@ -33,7 +33,8 @@ export function phenotypes_search (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v1.3"
     });
     return this.simple_brapi_call(call);
 }
@@ -53,7 +54,8 @@ export function phenotypes_search_csv (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.2"
+        introduced:"v1.2",
+        deprecated:"v1.3"
     });
     return this.simple_brapi_call(call);
 }
@@ -73,7 +75,8 @@ export function phenotypes_search_table (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.2"
+        introduced:"v1.2",
+        deprecated:"v1.3"
     });
     return this.simple_brapi_call(call);
 }
@@ -93,7 +96,8 @@ export function phenotypes_search_tsv (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.2"
+        introduced:"v1.2",
+        deprecated:"v1.3"
     });
     return this.simple_brapi_call(call);
 }

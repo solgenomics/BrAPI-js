@@ -1,19 +1,57 @@
 /** `POST /studies-search`
- * @alias BrAPINode.prototype.studies_search
+* @alias BrAPINode.prototype.studies_search
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function studies_search(params,behavior){
+    return this.search_studies(params,behavior);
+};
+
+/** `POST /studies-search`, `POST /search/studies -> GET /search/studies`
+* @alias BrAPINode.prototype.search_studies
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_studies(params,behavior){
+    if (this.version.predates("v1.3")){
+        var call = {
+            'params': params,
+            'behaviorOptions': ['fork','map'],
+            'behavior': behavior,
+        }
+        call.urlTemplate = "/studies-search";
+        call.defaultMethod = "post";
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0",
+            deprecated:"v1.3"
+        });
+        return this.simple_brapi_call(call);
+    } else {
+        this.version.check("POST /search/studies -> GET /search/studies",{
+            introduced:"v1.3"
+        });
+        return this.search("studies",params,behavior);
+    }
+};
+
+/** `GET /studies`
+ * @alias BrAPINode.prototype.studies
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function studies_search (params,behavior){
+export function studies (params,behavior){
     var call = {
-        'defaultMethod': 'post',
-        'urlTemplate': '/studies-search',
+        'defaultMethod': 'get',
+        'urlTemplate': '/studies',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.3"
     });
     return this.simple_brapi_call(call);
 }
@@ -58,43 +96,31 @@ export function studies_germplasm (params,behavior){
     return this.simple_brapi_call(call);
 }
 
-/** `GET /studies/{studyDbId}/layout`
- * @alias BrAPINode.prototype.studies_layout
+/** `GET /studies/{studyDbId}/layouts`, `GET /studies/{studyDbId}/layout`
+ * @alias BrAPINode.prototype.studies_layouts
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.studyDbId studyDbId
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function studies_layout (params,behavior){
+export function studies_layouts (params,behavior){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/studies/{studyDbId}/layout`',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
     }
-    this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
-    });
-    return this.simple_brapi_call(call);
-}
-
-/** `PUT /studies/{studyDbId}/layout`
- * @alias BrAPINode.prototype.studies_layout_modify
- * @param {Object} params Parameters to provide to the call
- * @param {String} params.studyDbId studyDbId
- * @return {BrAPI_Behavior_Node}
- */
-export function studies_layout_modify (params){
-    var call = {
-        'defaultMethod': 'put',
-        'urlTemplate': '/studies/{studyDbId}/layout`',
-        'params': params,
-        'behavior': 'map',
+    if(this.version.predates("v1.3")){
+        call.urlTemplate = '/studies/{studyDbId}/layout';
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0"
+        });
+    } else {
+        call.urlTemplate = '/studies/{studyDbId}/layouts';
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.3"
+        });
     }
-    this.version.check(call.urlTemplate,{
-        introduced:"v1.2"
-    });
     return this.simple_brapi_call(call);
 }
 

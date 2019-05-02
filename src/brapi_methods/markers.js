@@ -1,27 +1,27 @@
-/** `POST /markers-search`(>=v1.1) or `GET /markers`(<v1.1)
-* @alias BrAPINode.prototype.markers_search
+/** `GET /markers`
+* @alias BrAPINode.prototype.markers
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function markers_search(params,behavior){
+export function markers(params,behavior){
     var call = {
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
     }
-    if(this.version.predates("v1.1")){
-        call.urlTemplate = "/markers";
-        call.defaultMethod = "get";
+    call.urlTemplate = "/markers";
+    call.defaultMethod = "get";
+    
+    if(this.version.predates("v1.3")){
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
             deprecated:"v1.1"
         });
-    } else {
-        call.urlTemplate = "/markers-search";
-        call.defaultMethod = "post";
+    }
+    else {
         this.version.check(call.urlTemplate,{
-            introduced:"v1.1"
+            introduced:"v1.3"
         });
     }
     return this.simple_brapi_call(call);
@@ -45,3 +45,41 @@ export function markers_detail (params){
     });
     return this.simple_brapi_call(call);
 }
+
+/** `POST /markers-search`
+* @alias BrAPINode.prototype.markers_search
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function markers_search(params,behavior){
+    return this.search_markers(params,behavior);
+};
+
+/** `POST /markers-search`, `POST /search/markers -> GET /search/markers`
+* @alias BrAPINode.prototype.search_markers
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_markers(params,behavior){
+    if (this.version.predates("v1.3")){
+        var call = {
+            'params': params,
+            'behaviorOptions': ['fork','map'],
+            'behavior': behavior,
+        }
+        call.urlTemplate = "/markers-search";
+        call.defaultMethod = "post";
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.1",
+            deprecated:"v1.3"
+        });
+        return this.simple_brapi_call(call);
+    } else {
+        this.version.check("POST /search/markers -> GET /search/markers",{
+            introduced:"v1.3"
+        });
+        return this.search("markers",params,behavior);
+    }
+};

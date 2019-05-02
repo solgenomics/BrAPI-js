@@ -58,32 +58,3 @@ export function search_GET(entity,params,behavior){
     }
     return this.simple_brapi_call(call);
 };
-
-/** `POST /germplasm-search`, `POST /search/germplasm -> GET /search/germplasm`
-* @alias BrAPINode.prototype.search_germplasm
-* @param {Object} params Parameters to provide to the call
-* @param {String} [behavior="fork"] Behavior of the node
-* @return {BrAPI_Behavior_Node}
-*/
-export function search_germplasm(params,behavior){
-    if (this.version.predates("v1.3")){
-        var call = {
-            'defaultMethod': 'post',
-            'urlTemplate': '/germplasm-search',
-            'params': params,
-            'behaviorOptions': ['fork','map'],
-            'behavior': behavior,
-        }
-        this.version.check(call.urlTemplate,{
-            introduced:"v1.0",
-            deprecated:"v1.3"
-        });
-        return this.simple_brapi_call(call);
-    }
-    else {
-        this.version.check("POST /search/germplasm -> GET /search/germplasm",{
-            introduced:"v1.3"
-        });
-        return this.search("germplasm",params,behavior);
-    }
-}

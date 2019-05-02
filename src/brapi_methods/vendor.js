@@ -39,16 +39,17 @@ export function vendor_plates_search(params,behavior){
     } else {
         call.urlTemplate = '/vendor/plates-search';
         this.version.check(call.urlTemplate,{
-            introduced:"v1.2"
+            introduced:"v1.2",
+            deprecated:"v1.3"
         });
     }
     return this.simple_brapi_call(call);
 };
 
-/** `GET /vendor/plates/{vendorPlateDbId}`
+/** `GET /vendor/plates/{submissionId}`
  * @alias BrAPINode.prototype.vendor_plates_detail
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.vendorPlateDbId vendorPlateDbId
+ * @param {String} params.submissionId submissionId
  * @return {BrAPI_Behavior_Node}
  */
 export function vendor_plates_detail (params){
@@ -58,13 +59,13 @@ export function vendor_plates_detail (params){
         'behavior': 'map',
     }
     if(this.version.predates("v1.2")){
-        call.urlTemplate = '/vendor/plate/{vendorPlateDbId}';
+        call.urlTemplate = '/vendor/plate/{submissionId}';
         this.version.check(call.urlTemplate,{
             introduced:"v1.1",
             deprecated:"v1.2"
         });
     } else {
-        call.urlTemplate = '/vendor/plates/{vendorPlateDbId}';
+        call.urlTemplate = '/vendor/plates/{submissionId}';
         this.version.check(call.urlTemplate,{
             introduced:"v1.2"
         });
@@ -86,6 +87,81 @@ export function vendor_specifications (params){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.1"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /vendor/orders`
+ * @alias BrAPINode.prototype.vendor_orders
+ * @param {Object} params Parameters to provide to the call
+ * @return {BrAPI_Behavior_Node}
+ */
+export function vendor_orders (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/vendor/orders',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.3"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /vendor/orders/{orderId}/results`
+ * @alias BrAPINode.prototype.vendor_orders_results
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.orderId orderId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function vendor_orders_results (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/vendor/orders/{orderId}/results',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.3"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /vendor/orders/{orderId}/plates`
+ * @alias BrAPINode.prototype.vendor_orders_plates
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.orderId orderId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function vendor_orders_plates (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/vendor/orders/{orderId}/plates',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.3"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /vendor/orders/{orderId}/status`
+ * @alias BrAPINode.prototype.vendor_orders_status
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.orderId orderId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function vendor_orders_status (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/vendor/orders/{orderId}/status',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.3"
     });
     return this.simple_brapi_call(call);
 }

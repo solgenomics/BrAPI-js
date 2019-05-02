@@ -19,24 +19,42 @@ export function variables (params,behavior){
 }
 
 /** `POST /variables-search`
- * @alias BrAPINode.prototype.variables_search
- * @param {Object} params Parameters to provide to the call
- * @param {String} [behavior="fork"] Behavior of the node
- * @return {BrAPI_Behavior_Node}
- */
-export function variables_search (params,behavior){
-    var call = {
-        'defaultMethod': 'post',
-        'urlTemplate': '/variables-search',
-        'params': params,
-        'behaviorOptions': ['fork','map'],
-        'behavior': behavior,
+* @alias BrAPINode.prototype.variables_search
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function variables_search(params,behavior){
+    return this.search_variables(params,behavior);
+};
+
+/** `POST /variables-search`, `POST /search/variables -> GET /search/variables`
+* @alias BrAPINode.prototype.search_variables
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_variables(params,behavior){
+    if (this.version.predates("v1.3")){
+        var call = {
+            'params': params,
+            'behaviorOptions': ['fork','map'],
+            'behavior': behavior,
+        }
+        call.urlTemplate = "/variables-search";
+        call.defaultMethod = "post";
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.0",
+            deprecated:"v1.3"
+        });
+        return this.simple_brapi_call(call);
+    } else {
+        this.version.check("POST /search/variables -> GET /search/variables",{
+            introduced:"v1.3"
+        });
+        return this.search("variables",params,behavior);
     }
-    this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
-    });
-    return this.simple_brapi_call(call);
-}
+};
 
 /** `GET /variables/{observationVariableDbId}`
  * @alias BrAPINode.prototype.variables_detail
@@ -72,7 +90,8 @@ export function variables_datatypes (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v1.3"
     });
     return this.simple_brapi_call(call);
 }
