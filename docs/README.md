@@ -2,9 +2,7 @@
 
 BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call style of this library is inspired by [D3.js](https://d3js.org/). It can be used in either a browser or a Node.js application. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch](https://www.npmjs.com/package/node-fetch) in Node.js) for making AJAX calls. BrAPI.js is dependent on ES6 classes.
 
-### Important To-Dos
-
-- Add option to limit the number of simultaneous requests. Currently there is no limit.
+BrAPI.js supports BrAPI versions `v1.0`-`v1.3`. Currently, it expects a server to use a single version.
 
 ### Contents
 
@@ -76,6 +74,19 @@ var brapi_root = BrAPI(
     "myToken",
     18 //Allow 18 simultaneous requests
 )
+```
+
+If you have multiple different versions of BrAPI for different calls on your server, you may have to create two separate BrAPI handlers. For example, if your search calls are `v1.2` and everything else is `v1.3`, you would have to use one of the following options:
+```js
+var brapi_root1 = BrAPI("https://www.myserver.org/brapi/v1","v1.2") // for your search calls
+var brapi_root2 = BrAPI("https://www.myserver.org/brapi/v1","v1.3") // for your other calls.
+```
+```js
+var brapi_root1 = BrAPI("https://www.myserver.org/brapi/v1","v1.2") // for your search calls
+    .germplasm_search(...)
+    .server("https://www.myserver.org/brapi/v1","v1.3") // switch for your other calls.
+    .germplasm_progeny(...)
+    .each(...);
 ```
 
 <a name="server" href="#server">#</a> _node_.**server**(_address_, [_version_, _auth_token_, _call_limit_]) [<>](src/BrAPINodes.js "Source")  
