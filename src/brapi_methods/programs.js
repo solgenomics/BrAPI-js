@@ -25,7 +25,7 @@ export function programs (params,behavior){
 * @return {BrAPI_Behavior_Node}
 */
 export function programs_search(params,behavior){
-    return this.search_programs(params,behavior);
+    return this.search_programs(params,behavior,true);
 };
 
 /** `POST /programs-search`, `POST /search/programs -> GET /search/programs`
@@ -34,8 +34,8 @@ export function programs_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_programs(params,behavior){
-    if (this.version.predates("v1.3")){
+export function search_programs(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
         var call = {
             'params': params,
             'behaviorOptions': ['fork','map'],

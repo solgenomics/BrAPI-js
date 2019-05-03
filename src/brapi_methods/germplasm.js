@@ -25,7 +25,7 @@ export function germplasm (params,behavior){
 * @return {BrAPI_Behavior_Node}
 */
 export function germplasm_search(params,behavior){
-    return this.search_germplasm(params,behavior);
+    return this.search_germplasm(params,behavior,true);
 };
 
 /** `GET /germplasm/{germplasmDbId}`
@@ -152,8 +152,8 @@ export function germplasm_markerprofiles (params){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_germplasm(params,behavior){
-    if (this.version.predates("v1.3")){
+export function search_germplasm(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
         var call = {
             'defaultMethod': 'post',
             'urlTemplate': '/germplasm-search',

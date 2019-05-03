@@ -5,7 +5,7 @@
 * @return {BrAPI_Behavior_Node}
 */
 export function studies_search(params,behavior){
-    return this.search_studies(params,behavior);
+    return this.search_studies(params,behavior,true);
 };
 
 /** `POST /studies-search`, `POST /search/studies -> GET /search/studies`
@@ -14,8 +14,8 @@ export function studies_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_studies(params,behavior){
-    if (this.version.predates("v1.3")){
+export function search_studies(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
         var call = {
             'params': params,
             'behaviorOptions': ['fork','map'],

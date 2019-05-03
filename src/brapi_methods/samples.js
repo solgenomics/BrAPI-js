@@ -42,7 +42,7 @@ export function samples_detail (params){
 * @return {BrAPI_Behavior_Node}
 */
 export function samples_search(params,behavior){
-    return this.search_samples(params,behavior);
+    return this.search_samples(params,behavior,true);
 };
 
 /** `POST /samples-search`, `POST /search/samples -> GET /search/samples`
@@ -51,8 +51,8 @@ export function samples_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_samples(params,behavior){
-    if (this.version.predates("v1.3")){
+export function search_samples(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
         var call = {
             'params': params,
             'behaviorOptions': ['fork','map'],

@@ -25,7 +25,7 @@ export function variables (params,behavior){
 * @return {BrAPI_Behavior_Node}
 */
 export function variables_search(params,behavior){
-    return this.search_variables(params,behavior);
+    return this.search_variables(params,behavior,true);
 };
 
 /** `POST /variables-search`, `POST /search/variables -> GET /search/variables`
@@ -34,8 +34,8 @@ export function variables_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_variables(params,behavior){
-    if (this.version.predates("v1.3")){
+export function search_variables(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
         var call = {
             'params': params,
             'behaviorOptions': ['fork','map'],

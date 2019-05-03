@@ -16,12 +16,12 @@ export function search(entity,params,behavior){
         delete pageless_params.pageSize;
         return pageless_params;
     });
-    return param_map.join(search_ids).search_GET(entity,function(j){
+    return param_map.join(search_ids).search_GET(entity,function(joined){
         var get_params = {};
-        get_params.searchResultDbId = j[1].searchResultDbId;
-        if(j[0].page!=undefined) get_params.page = j[0].page;
-        if(j[0].pageRange!=undefined) get_params.pageRange = j[0].pageRange;
-        if(j[0].pageSize!=undefined) get_params.pageSize = j[0].pageSize;
+        get_params.searchResultDbId = joined[1].searchResultDbId;
+        if(joined[0].page!=undefined) get_params.page = joined[0].page;
+        if(joined[0].pageRange!=undefined) get_params.pageRange = joined[0].pageRange;
+        if(joined[0].pageSize!=undefined) get_params.pageSize = joined[0].pageSize;
         return get_params;
     })
 };

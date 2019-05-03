@@ -53,7 +53,7 @@ export function markers_detail (params){
 * @return {BrAPI_Behavior_Node}
 */
 export function markers_search(params,behavior){
-    return this.search_markers(params,behavior);
+    return this.search_markers(params,behavior,true);
 };
 
 /** `POST /markers-search`, `POST /search/markers -> GET /search/markers`
@@ -62,8 +62,8 @@ export function markers_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_markers(params,behavior){
-    if (this.version.predates("v1.3")){
+export function search_markers(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
         var call = {
             'params': params,
             'behaviorOptions': ['fork','map'],
