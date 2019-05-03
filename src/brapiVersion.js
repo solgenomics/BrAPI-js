@@ -70,13 +70,13 @@ class BrAPI_Version_Class {
         if (check.removed) check.removed = brapiVersion(check.removed);
         
         if (check.introduced && this.predates(check.introduced)){
-            console.warn(method_name+" is unintroduced in BrAPI@"+this.string()+" before BrAPI@"+check.introduced.string());
+            console.warn(name+" is unintroduced in BrAPI@"+this.string()+" before BrAPI@"+check.introduced.string());
         }
         else if (check.deprecated && !this.predates(check.deprecated)){
-            console.warn(method_name+" is deprecated in BrAPI@"+this.string()+" since BrAPI@"+check.deprecated.string());
+            console.warn(name+" is deprecated in BrAPI@"+this.string()+" since BrAPI@"+check.deprecated.string());
         }
         else if (check.removed && check.removed.predates(this)){
-            console.warn(method_name+" was removed from BrAPI@"+this.string()+" since BrAPI@"+check.removed.string());
+            console.warn(name+" was removed from BrAPI@"+this.string()+" since BrAPI@"+check.removed.string());
         }
     }
 }
