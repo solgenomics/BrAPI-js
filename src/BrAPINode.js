@@ -316,7 +316,7 @@ class BrAPICallController {
             }
         }
         //>=v1.2 asynch initiate
-        if(!isPolling && response.metadata.asynchStatus && response.metadata.asynchStatus.status != "FINISHED"){
+        if(!isPolling && response.metadata.asynchStatus && response.metadata.asynchStatus.asynchId && response.metadata.asynchStatus.status != "FINISHED"){
             url = url.split(/\?(.+)/)[0];
             url += "/"+response.metadata.asynchStatus.asynchId;
             fetch_opts.method = "get";
