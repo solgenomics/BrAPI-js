@@ -1,4 +1,4 @@
-# BrAPI.js [![GitHub release](https://img.shields.io/github/release/solgenomics/BrAPI.js.svg)](https://github.com/solgenomics/BrAPI.js/releases) [![GitHub Release Date](https://img.shields.io/github/release-date/solgenomics/BrAPI.js.svg)](https://github.com/solgenomics/BrAPI.js/releases)
+# BrAPI.js [![](https://img.shields.io/github/release/solgenomics/BrAPI.js.svg)](https://github.com/solgenomics/BrAPI.js/releases) [![](https://img.shields.io/github/release-date/solgenomics/BrAPI.js.svg)](https://github.com/solgenomics/BrAPI.js/releases)
 
 BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call style of this library is inspired by [D3.js](https://d3js.org/). It can be used in either a browser or a Node.js application. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch](https://www.npmjs.com/package/node-fetch) in Node.js) for making AJAX calls. BrAPI.js is dependent on ES6 classes.
 
