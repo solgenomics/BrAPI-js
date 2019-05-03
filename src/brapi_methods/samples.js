@@ -1,21 +1,74 @@
-// POST /samples-search
-export function samples_search(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"post",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/samples-search";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+/** `GET /samples`
+ * @alias BrAPINode.prototype.samples
+ * @param {Object} params Parameters to provide to the call
+ * @return {BrAPI_Behavior_Node}
+ */
+export function samples (params){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/samples',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
 }
 
-// GET /samples/{samplesDbId}
-export function samples(params){
-    return this.brapi_call("map","get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/samples/"+(datum_params.samplesDbId);
-        delete datum_params.samplesDbId;
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
+/** `GET /samples/{sampleId}`
+ * @alias BrAPINode.prototype.samples_detail
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.sampleId sampleId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function samples_detail (params){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/samples/{sampleId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
 }
+
+/** `POST /samples-search`
+* @alias BrAPINode.prototype.samples_search
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function samples_search(params,behavior){
+    return this.search_samples(params,behavior,true);
+};
+
+/** `POST /samples-search`, `POST /search/samples -> GET /search/samples`
+* @alias BrAPINode.prototype.search_samples
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_samples(params,behavior,useOld){
+    if (this.version.predates("v1.3")||useOld){
+        var call = {
+            'params': params,
+            'behaviorOptions': ['fork','map'],
+            'behavior': behavior,
+        }
+        call.urlTemplate = "/samples-search";
+        call.defaultMethod = "post";
+        this.version.check(call.urlTemplate,{
+            introduced:"v1.1",
+            deprecated:"v1.3"
+        });
+        return this.simple_brapi_call(call);
+    } else {
+        this.version.check("POST /search/samples -> GET /search/samples",{
+            introduced:"v1.3"
+        });
+        return this.search("samples",params,behavior);
+    }
+};

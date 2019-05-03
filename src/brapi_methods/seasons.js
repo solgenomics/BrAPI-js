@@ -1,10 +1,19 @@
-// GET /seasons
-export function seasons(params,behavior){
-    var behavior = behavior=="map"?behavior:"fork";
-    return this.brapi_call(behavior,"get",function(datum){
-        var datum_params = typeof params === "function" ? params(datum) 
-                            : Object.assign({}, params);
-        var url = "/seasons";
-        return {'url':url, 'params':datum_params};
-    }, typeof params === "function");
-};
+/** `GET /seasons`
+ * @alias BrAPINode.prototype.seasons
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function seasons (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/seasons',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
