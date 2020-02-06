@@ -115,7 +115,7 @@ class BrAPINode extends ThreadNode {
                         return Promise.all(further_pages).then(function(furtherResults){
                             initialResult.metadata.currentPage = [initialResult.metadata.currentPage];
                             furtherResults.forEach(function(furtherResponse){
-                                Array.push.apply(
+                                Array.prototype.push.apply(
                                     initialResult.result.data,
                                     furtherResponse.result.data
                                 );
