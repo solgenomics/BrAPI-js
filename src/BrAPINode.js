@@ -283,7 +283,7 @@ class BrAPICallController {
     
     static parseBrAPIResponse(resp){
         var brapiInfo = {
-            result: resp.result,
+            result: resp.result || {},
             metadata:resp.metadata
         };
         // console.log(resp);
