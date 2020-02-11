@@ -256,13 +256,9 @@ class BrAPICallController {
             },
             body: body
         };
-        if(this.brapi_auth_token){
-            if(this.brapi_base_url.startsWith("https")){
-                console.log("auth",this.brapi_auth_token);
-                fetch_opts.headers.Authorization = "Bearer "+this.brapi_auth_token;
-            } else {
-                console.warn("BrAPI.js will only send authentication token over https!")
-            }
+        if (this.brapi_auth_token) {
+            console.log("auth", this.brapi_auth_token);
+            fetch_opts.headers.Authorization = "Bearer " + this.brapi_auth_token;
         }
         // console.log("fetch(",url,",",fetch_opts,")")
         var self = this;
