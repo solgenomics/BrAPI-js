@@ -247,6 +247,10 @@ class BrAPICallController {
         else{
             url = url+BrAPICallController.formatURLParams(params)
         }
+        if (method == "patch") {
+            // fetch spec doesn't normalize patch so we do it here
+            method = "PATCH";
+        }
         var fetch_opts = {
             method: method,
             cache: "no-cache",
