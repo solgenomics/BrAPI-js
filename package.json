@@ -1,6 +1,6 @@
 {
   "name": "@solgenomics/brapijs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). It can be used either in the browser or within Node.js. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch]() in Node.js) for AJAX calls. BrAPI.js also uses ES6 classes.",
   "bugs": {
     "url": "https://github.com/solgenomics/BrAPI.js/issues"
