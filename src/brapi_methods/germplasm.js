@@ -19,12 +19,12 @@ export function germplasm (params,behavior){
 }
 
 /** `POST /germplasm`
-* @alias BrAPINode.prototype.germplasm
+* @alias BrAPINode.prototype.germplasm_store
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function germplasm_post (params,behavior){
+export function germplasm_store (params,behavior){
     var call = {
         'defaultMethod': 'post',
         'urlTemplate': '/germplasm',
@@ -69,12 +69,12 @@ export function germplasm_detail (params){
 }
 
 /** `PUT /germplasm/{germplasmDbId}`
-* @alias BrAPINode.prototype.germplasm
+* @alias BrAPINode.prototype.germplasm_modify
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function germplasm_detail_put (params,behavior){
+export function germplasm_modify (params,behavior){
     var call = {
         'defaultMethod': 'put',
         'urlTemplate': '/germplasm/{germplasmDbId}',
