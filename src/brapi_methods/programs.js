@@ -41,7 +41,7 @@ export function programs_store (params,behavior){
 /** `GET /programs/{programDbId}`
  * @alias BrAPINode.prototype.programs_detail
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.germplasmDbId germplasmDbId
+ * @param {String} params.programDbId programDbId
  * @return {BrAPI_Behavior_Node}
  */
 export function programs_detail (params){

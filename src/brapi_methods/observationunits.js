@@ -18,6 +18,29 @@ export function observationunits (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `GET /observationunits/table`
+ * @alias BrAPINode.prototype.observationunits_table
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function observationunits_table (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate':'/observationunits/table',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    
+    return this.simple_brapi_call(call);
+}
+
+
 /** `POST /search/observationunits -> GET /search/observationunits`
 * @alias BrAPINode.prototype.search_observationunits
 * @param {Object} params Parameters to provide to the call
