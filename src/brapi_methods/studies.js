@@ -58,12 +58,12 @@ export function studies (params,behavior){
 }
 
 /** `POST /studies`
- * @alias BrAPINode.prototype.studies
+ * @alias BrAPINode.prototype.studies_store
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function studies_post (params,behavior){
+export function studies_store (params,behavior){
     var call = {
         'defaultMethod': 'post',
         'urlTemplate': '/studies',
@@ -97,12 +97,12 @@ export function studies_detail (params){
 }
 
 /** `PUT /studies/{studyDbId}`
- * @alias BrAPINode.prototype.studies_detail
+ * @alias BrAPINode.prototype.studies_modify
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function studies_detail_put (params){
+export function studies_modify (params){
     var call = {
         'defaultMethod': 'put',
         'urlTemplate': '/studies/{studyDbId}',
