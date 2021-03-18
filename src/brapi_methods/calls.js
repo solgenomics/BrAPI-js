@@ -17,3 +17,16 @@ export function calls (params,behavior){
     });
     return this.simple_brapi_call(call);
 }
+
+/** `POST /search/calls -> GET /search/calls`
+* @alias BrAPINode.prototype.search_calls
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_calls(params,behavior){
+    this.version.check("POST /search/calls -> GET /search/calls",{
+        introduced:"v2.0"
+    });
+    return this.search("calls",params,behavior);
+};
