@@ -16,12 +16,14 @@ export function markers(params,behavior){
     if(this.version.predates("v1.3")){
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.1"
+            deprecated:"v1.1",
+            deprecated:"v2.0"
         });
     }
     else {
         this.version.check(call.urlTemplate,{
-            introduced:"v1.3"
+            introduced:"v1.3",
+            deprecated:"v2.0"
         });
     }
     return this.simple_brapi_call(call);
@@ -41,7 +43,28 @@ export function markers_detail (params){
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /markerpositions`
+ * @alias BrAPINode.prototype.markerpositions
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function markerpositions (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/markerpositions',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -73,13 +96,29 @@ export function search_markers(params,behavior,useOld){
         call.defaultMethod = "post";
         this.version.check(call.urlTemplate,{
             introduced:"v1.1",
-            deprecated:"v1.3"
+            deprecated:"v1.3",
+            deprecated:"v2.0"
         });
         return this.simple_brapi_call(call);
     } else {
         this.version.check("POST /search/markers -> GET /search/markers",{
-            introduced:"v1.3"
+            introduced:"v1.3",
+            deprecated:"v2.0"
         });
         return this.search("markers",params,behavior);
     }
+};
+
+
+/** `POST /search/markerpositions -> GET /search/markerpositions`
+* @alias BrAPINode.prototype.search_markerpositions
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_markerpositions(params,behavior){
+    this.version.check("POST /search/markerpositions -> GET /search/markerpositions",{
+        introduced:"v2.0"
+    });
+    return this.search("markerpositions",params,behavior);
 };
