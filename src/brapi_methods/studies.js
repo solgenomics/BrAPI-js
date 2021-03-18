@@ -221,7 +221,7 @@ export function studies_observations_modify (params){
 }
 
 /** `POST /studies/{studyDbId}/observations/zip`
- * @alias BrAPINode.prototype.studies_observations_modify
+ * @alias BrAPINode.prototype.studies_observations_zip
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}

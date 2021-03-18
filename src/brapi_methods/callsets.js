@@ -40,12 +40,12 @@ export function callsets_detail (params){
 
 
 /** `GET /callsets/{callSetDbId}/calls`
- * @alias BrAPINode.prototype.callsets_detail_calls
+ * @alias BrAPINode.prototype.callsets_calls
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.callSetDbId callSetDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function callsets_detail_calls (params){
+export function callsets_calls (params){
     var call = {
         'defaultMethod': 'get',
         'urlTemplate': '/callsets/{callSetDbId}/calls',

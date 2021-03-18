@@ -38,12 +38,12 @@ export function references_detail (params){
 }
 
 /** `GET /references/{referenceDbId}/bases`
- * @alias BrAPINode.prototype.references_detail
+ * @alias BrAPINode.prototype.references_bases
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.referenceDbId referenceDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function references_detail_bases (params){
+export function references_bases (params){
     var call = {
         'defaultMethod': 'get',
         'urlTemplate': '/references/{referenceDbId}/bases',

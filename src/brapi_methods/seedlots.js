@@ -119,7 +119,7 @@ export function seedlots_transactions_store (params,behavior){
 }
 
 /** `GET /seedlots/{seedLotDbId}/transactions`
- * @alias BrAPINode.prototype.seedlots_detail
+ * @alias BrAPINode.prototype.seedlots_detail_transactions
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.seedLotDbId seedLotDbId
  * @return {BrAPI_Behavior_Node}

@@ -78,7 +78,7 @@ export function observationunits_detail (params){
 }
 
 /** `PUT /observationunits/{observationUnitDbId}`
-* @alias BrAPINode.prototype.observationunits_modify
+* @alias BrAPINode.prototype.observationunits_detail_modify
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}

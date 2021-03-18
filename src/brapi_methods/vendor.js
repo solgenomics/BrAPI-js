@@ -112,11 +112,11 @@ export function vendor_orders (params){
 }
 
 /** `POST /vendor/orders`
- * @alias BrAPINode.prototype.vendor_orders
+ * @alias BrAPINode.prototype.vendor_orders_store
  * @param {Object} params Parameters to provide to the call
  * @return {BrAPI_Behavior_Node}
  */
-export function vendor_orders (params){
+export function vendor_orders_store (params){
     var call = {
         'defaultMethod': 'post',
         'urlTemplate': '/vendor/orders',

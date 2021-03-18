@@ -56,7 +56,7 @@ export function samples_detail (params){
 }
 
 /** `PUT /samples/{sampleDbId}`
- * @alias BrAPINode.prototype.samples_detail
+ * @alias BrAPINode.prototype.samples_modify
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.sampleDbId sampleDbId
  * @return {BrAPI_Behavior_Node}
