@@ -4,6 +4,7 @@ export * from "./brapi_methods/breedingmethods";
 export * from "./brapi_methods/calls";
 export * from "./brapi_methods/callsets";
 export * from "./brapi_methods/commoncropnames";
+export * from "./brapi_methods/events";
 export * from "./brapi_methods/germplasm";
 export * from "./brapi_methods/images";
 export * from "./brapi_methods/lists";

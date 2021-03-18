@@ -18,6 +18,26 @@ export function images (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `POST /images`
+* @alias BrAPINode.prototype.images_store
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function images_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/images',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
 /** `GET /images/{imageDbId}`
  * @alias BrAPINode.prototype.images_detail
  * @param {Object} params Parameters to provide to the call
@@ -33,6 +53,26 @@ export function images_detail (params){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.3"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `PUT /images/{imageDbId}`
+* @alias BrAPINode.prototype.images_modify
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function images_modify (params,behavior){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/images/{imageDbId}',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
