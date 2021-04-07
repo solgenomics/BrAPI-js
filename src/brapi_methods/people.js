@@ -78,23 +78,13 @@ export function people_modify (params,behavior){
     return this.simple_brapi_call(call);
 }
 
-/** `POST /search/people`
-* @alias BrAPINode.prototype.people_search
-* @param {Object} params Parameters to provide to the call
-* @param {String} [behavior="fork"] Behavior of the node
-* @return {BrAPI_Behavior_Node}
-*/
-export function people_search(params,behavior){
-    return this.search_people(params,behavior,true);
-};
-
 /** `POST /search/people -> GET /search/people`
 * @alias BrAPINode.prototype.search_people
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_people(params,behavior,useOld){
+export function search_people(params,behavior){
     this.version.check("POST /search/people -> GET /search/people",{
         introduced:"v2.0"
     });

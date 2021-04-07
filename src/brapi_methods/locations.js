@@ -94,7 +94,7 @@ export function locations_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_locations(params,behavior,useOld){
+export function search_locations(params,behavior){
     this.version.check("POST /search/locations -> GET /search/locations",{
         introduced:"v2.0"
     });

@@ -2,7 +2,7 @@
 
 BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call style of this library is inspired by [D3.js](https://d3js.org/). It can be used in either a browser or a Node.js application. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch](https://www.npmjs.com/package/node-fetch) in Node.js) for making AJAX calls. BrAPI.js is dependent on ES6 classes.
 
-BrAPI.js supports BrAPI versions `v1.0`-`v1.3`. Currently, it expects a server to use a single version.
+BrAPI.js supports BrAPI versions `v1.0`-`v2.0`. Currently, it expects a server to use a single version.
 
 ### Contents
 
@@ -41,7 +41,7 @@ import BrAPI from './build/BrAPI.js';
 ```
 ```js
 // Node.js
-const BrAPI = require('BrAPI.js');
+const BrAPI = require('./BrAPI.js');
 ```
 
 ## How it Works
@@ -198,7 +198,7 @@ This method registers a callback function which is called once a node has loaded
 | --------------- | -------------------- | --------------- | ------------------ |
 | _node_.allelematrices_search(_params_,...) | `/allelematrices-search`(>=v1.2) or `/allelematrix-search`(<v1.2) || `POST` |
 | _node_.allelematrices(_params_,...) | `/allelematrices` | | `GET` |
-| _node_.attributes_categories(_params_,...) | `/attributes_categories` | `attributes/categories` | `GET` |
+| _node_.attributes_categories(_params_,...) | `/attributes_categories` | `/attributes/categories` | `GET` |
 | _node_.attributes_detail(_params_,...)||`/attributes/{attributeDbId}` | `GET` |
 | _node_.attributes_modify(_params_,...)||`/attributes/{attributeDbId}` | `PUT` |
 | _node_.attributes_store(_params_,...)||`/attributes` | `POST` |
@@ -209,7 +209,9 @@ This method registers a callback function which is called once a node has loaded
 | _node_.attributevalues(_params_,...)||`/attributevalues` | `GET` |
 | _node_.breedingmethods_detail(_params_,...) | `/breedingmethods/{breedingMethodDbId}` | `/breedingmethods/{breedingMethodDbId}` | `GET` |
 | _node_.breedingmethods(_params_,...) | `/breedingmethods` | `/breedingmethods` | `GET` |
-| _node_.calls(_params_,...) | `/calls` | `/calls` | `GET` |
+| _node_.calls(_params_,...) | `/calls` (server info) | | `GET` |
+| _node_.serverinfo(_params_,...)||`/serverinfo` | `GET` |
+| _node_.calls(_params_,...) | | `/calls` (genotyping calls) | `GET` |
 | _node_.callsets_calls(_params_,...)||`/callsets/{callSetDbId}/calls` | `GET` |
 | _node_.callsets_detail(_params_,...)||`/callsets/{callSetDbId}` | `GET` |
 | _node_.callsets(_params_,...)||`/callsets` | `GET` |
@@ -233,14 +235,14 @@ This method registers a callback function which is called once a node has loaded
 | _node_.germplasm_store(_params_,...)||`/germplasm` | `POST` |
 | _node_.germplasm(_params_,...) | `/germplasm` | `/germplasm` | `GET` |
 | _node_.images_detail(_params_,...) | `/images/{imageDbId}` | `/images/{imageDbId}` | `GET` |
-| _node_.images_imagecontent(_params_,...) | `/images/{imageDbId}/imagecontent` | `/images/{imageDbId}/imagecontent` | `PUT` |
+| _node_.images_imagecontent(_params_,...) | `/images/{imageDbId}/imagecontent` | | `PUT` |
+| _node_.images_imagecontent_modify(_params_,...) | | `/images/{imageDbId}/imagecontent` | `PUT` |
 | _node_.images_modify(_params_,...)||`/images/{imageDbId}` | `PUT` |
 | _node_.images_store(_params_,...)||`/images` | `POST` |
 | _node_.images(_params_,...) | `/images` | `/images` | `GET` |
 | _node_.lists_detail(_params_,...) | `/lists/{listDbId}` | `/lists/{listDbId}` | `GET` |
-| _node_.lists_items(_params_,...) | `/lists/{listDbId}/items` | `/lists/{listDbId}/items` | `PUT` |
 | _node_.lists_modify(_params_,...)||`/lists/{listDbId}` | `PUT` |
-| _node_.lists_store_items(_params_,...)||`/lists/{listDbId}/items` | `POST` |
+| _node_.lists_items_store(_params_,...)||`/lists/{listDbId}/items` | `POST` |
 | _node_.lists_store(_params_,...)||`/lists` | `POST` |
 | _node_.lists(_params_,...) | `/lists` | `/lists` | `GET` |
 | _node_.locations_detail(_params_,...) | `/locations/{locationDbId}` | `/locations/{locationDbId}` | `GET` |
@@ -264,15 +266,15 @@ This method registers a callback function which is called once a node has loaded
 | _node_.methods_store(_params_,...)||`/methods` | `POST` |
 | _node_.methods(_params_,...) | `/methods` | `/methods` | `GET` |
 | _node_.observationlevels(_params_,...) | `/observationlevels`(>=v1.2) or `/observationLevels`(<v1.2) | `/observationlevels` | `GET` |
-| _node_.observations_detail_modify(_params_,...)||`/observations/{observationDbId}` | `PUT` |
+| _node_.observations_modify(_params_,...)||`/observations/{observationDbId}` | `PUT` |
 | _node_.observations_detail(_params_,...)||`/observations/{observationDbId}` | `GET` |
-| _node_.observations_modify(_params_,...)||`/observations` | `PUT` |
+| _node_.observations_modify_multiple(_params_,...)||`/observations` | `PUT` |
 | _node_.observations_store(_params_,...)||`/observations` | `POST` |
 | _node_.observations_table(_params_,...)||`/observations/table `| `GET` |
 | _node_.observations(_params_,...)||`/observations` | `GET` |
-| _node_.observationunits_detail_modify(_params_,...)||`/observationunits/{observationUnitDbId}` | `PUT` |
+| _node_.observationunits_modify(_params_,...)||`/observationunits/{observationUnitDbId}` | `PUT` |
 | _node_.observationunits_detail(_params_,...)||`/observationunits/{observationUnitDbId}` | `GET` |
-| _node_.observationunits_modify(_params_,...)||`/observationunits` | `PUT` |
+| _node_.observationunits_modify_multiple(_params_,...)||`/observationunits` | `PUT` |
 | _node_.observationunits_store(_params_,...)||`/observationunits` | `POST` |
 | _node_.observationunits_table(_params_,...)||`/observationunits/table `| `GET` |
 | _node_.observationunits(_params_,...) | `/observationunits` | `/observationunits` | `GET` |
@@ -342,7 +344,6 @@ This method registers a callback function which is called once a node has loaded
 | _node_.seedlots_transactions_store(_params_,...)||`/seedlots/transactions` | `POST` |
 | _node_.seedlots_transactions(_params_,...)||`/seedlots/transactions` | `GET` |
 | _node_.seedlots(_params_,...)||`/seedlots` | `GET` |
-| _node_.serverinfo(_params_,...)||`/serverinfo` | `GET` |
 | _node_.studies_detail(_params_,...) | `/studies/{studyDbId}` | `/studies/{studyDbId}` | `GET` |
 | _node_.studies_germplasm(_params_,...) | `/studies/{studyDbId}/germplasm` | | `GET` |
 | _node_.studies_layouts(_params_,...) | `/studies/{studyDbId}/layouts` | `/studies/{studyDbId}/layout` | `GET` |

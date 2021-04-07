@@ -94,7 +94,7 @@ export function trials_search(params,behavior){
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function search_trials(params,behavior,useOld){
+export function search_trials(params,behavior){
     this.version.check("POST /search/trials -> GET /search/trials",{
         introduced:"v2.0"
     });

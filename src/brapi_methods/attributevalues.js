@@ -13,7 +13,7 @@ export function attributevalues (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.3"
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -52,7 +52,7 @@ export function attributevalues_detail (params){
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.3"
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -86,7 +86,7 @@ export function attributevalues_modify (params,behavior){
 */
 export function search_attributevalues(params,behavior){
     this.version.check("POST /search/attributevalues -> GET /search/attributevalues",{
-        introduced:"v1.3"
+        introduced:"v2.0"
     });
     return this.search("attributevalues",params,behavior);
 };

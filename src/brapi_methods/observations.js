@@ -38,12 +38,12 @@ export function observations_store (params,behavior){
 }
 
 /** `PUT /observations`
- * @alias BrAPINode.prototype.observations_modify
+ * @alias BrAPINode.prototype.observations_modify_multiple
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function observations_modify (params,behavior){
+export function observations_modify_multiple (params,behavior){
     var call = {
         'defaultMethod': 'put',
         'urlTemplate': '/observations',
@@ -78,12 +78,12 @@ export function observations_detail (params){
 
 
 /** `PUT /observations/{observationDbId}`
-* @alias BrAPINode.prototype.observations_detail_modify
+* @alias BrAPINode.prototype.observations_modify
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function observations_detail_modify (params,behavior){
+export function observations_modify (params,behavior){
     var call = {
         'defaultMethod': 'put',
         'urlTemplate': '/observations/{observationDbId}',

@@ -96,6 +96,25 @@ export function images_imagecontent (params){
     return this.simple_brapi_call(call);
 }
 
+/** `PUT /images/{imageDbId}/imagecontent`
+ * @alias BrAPINode.prototype.images_imagecontent_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.imageDbId imageDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function images_imagecontent_modify (params){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/images/{imageDbId}/imagecontent',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
 /** `POST /search/images -> GET /search/images`
 * @alias BrAPINode.prototype.search_images
 * @param {Object} params Parameters to provide to the call
