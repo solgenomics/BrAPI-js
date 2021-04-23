@@ -1,33 +1,33 @@
-/** `GET /images`
- * @alias BrAPINode.prototype.images
+/** `GET /seedlots`
+ * @alias BrAPINode.prototype.seedlots
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function images (params,behavior){
+export function seedlots (params,behavior){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/images',
+        'urlTemplate': '/seedlots',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.3"
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
 
-/** `POST /images`
-* @alias BrAPINode.prototype.images_store
+/** `POST /seedlots`
+* @alias BrAPINode.prototype.seedlots_store
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function images_store (params,behavior){
+export function seedlots_store (params,behavior){
     var call = {
         'defaultMethod': 'post',
-        'urlTemplate': '/images',
+        'urlTemplate': '/seedlots',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -38,35 +38,35 @@ export function images_store (params,behavior){
     return this.simple_brapi_call(call);
 }
 
-/** `GET /images/{imageDbId}`
- * @alias BrAPINode.prototype.images_detail
+/** `GET /seedlots/{seedLotDbId}`
+ * @alias BrAPINode.prototype.seedlots_detail
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.imageDbId imageDbId
+ * @param {String} params.seedLotDbId seedLotDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function images_detail (params){
+export function seedlots_detail (params){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/images/{imageDbId}',
+        'urlTemplate': '/seedlots/{seedLotDbId}',
         'params': params,
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.3"
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
 
-/** `PUT /images/{imageDbId}`
-* @alias BrAPINode.prototype.images_modify
+/** `PUT /seedlots/{seedLotDbId}`
+* @alias BrAPINode.prototype.seedlots_modify
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function images_modify (params,behavior){
+export function seedlots_modify (params,behavior){
     var call = {
         'defaultMethod': 'put',
-        'urlTemplate': '/images/{imageDbId}',
+        'urlTemplate': '/seedlots/{seedLotDbId}',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -77,35 +77,58 @@ export function images_modify (params,behavior){
     return this.simple_brapi_call(call);
 }
 
-/** `PUT /images/{imageDbId}/imagecontent`
- * @alias BrAPINode.prototype.images_imagecontent
+/** `GET /seedlots/transactions`
+ * @alias BrAPINode.prototype.seedlots_transactions
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.imageDbId imageDbId
+ * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function images_imagecontent (params){
+export function seedlots_transactions (params,behavior){
     var call = {
-        'defaultMethod': 'put',
-        'urlTemplate': '/images/{imageDbId}/imagecontent',
+        'defaultMethod': 'get',
+        'urlTemplate': '/seedlots/transactions',
         'params': params,
-        'behavior': 'map',
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.3"
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
 
-/** `PUT /images/{imageDbId}/imagecontent`
- * @alias BrAPINode.prototype.images_imagecontent_modify
+/** `POST /seedlots/transactions`
+* @alias BrAPINode.prototype.seedlots_transactions_store
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+
+export function seedlots_transactions_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/seedlots/transactions',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /seedlots/{seedLotDbId}/transactions`
+ * @alias BrAPINode.prototype.seedlots_detail_transactions
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.imageDbId imageDbId
+ * @param {String} params.seedLotDbId seedLotDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function images_imagecontent_modify (params){
+
+export function seedlots_detail_transactions (params){
     var call = {
-        'defaultMethod': 'put',
-        'urlTemplate': '/images/{imageDbId}/imagecontent',
+        'defaultMethod': 'get',
+        'urlTemplate': '/seedlots/{seedLotDbId}/transactions',
         'params': params,
         'behavior': 'map',
     }
@@ -114,16 +137,3 @@ export function images_imagecontent_modify (params){
     });
     return this.simple_brapi_call(call);
 }
-
-/** `POST /search/images -> GET /search/images`
-* @alias BrAPINode.prototype.search_images
-* @param {Object} params Parameters to provide to the call
-* @param {String} [behavior="fork"] Behavior of the node
-* @return {BrAPI_Behavior_Node}
-*/
-export function search_images(params,behavior){
-    this.version.check("POST /search/images -> GET /search/images",{
-        introduced:"v1.3"
-    });
-    return this.search("images",params,behavior);
-};

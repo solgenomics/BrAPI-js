@@ -62,7 +62,8 @@ export function maps_positions (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -84,7 +85,29 @@ export function maps_linkagegroups_detail (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /maps/{mapsDbId}/linkagegroups`
+ * @alias BrAPINode.prototype.maps_linkagegroups
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.mapsDbId mapsDbId
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function maps_linkagegroups (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/maps/{mapsDbId}/linkagegroups',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }

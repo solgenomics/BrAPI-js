@@ -18,6 +18,27 @@ export function germplasm (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `POST /germplasm`
+* @alias BrAPINode.prototype.germplasm_store
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function germplasm_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/germplasm',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+
 /** `POST /germplasm-search`
 * @alias BrAPINode.prototype.germplasm_search
 * @param {Object} params Parameters to provide to the call
@@ -43,6 +64,26 @@ export function germplasm_detail (params){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `PUT /germplasm/{germplasmDbId}`
+* @alias BrAPINode.prototype.germplasm_modify
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function germplasm_modify (params,behavior){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/germplasm/{germplasmDbId}',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -82,7 +123,8 @@ export function germplasm_attributes (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -141,7 +183,8 @@ export function germplasm_markerprofiles (params){
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -163,7 +206,8 @@ export function search_germplasm(params,behavior,useOld){
         }
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.3"
+            deprecated:"v1.3",
+            deprecated:"v2.0"
         });
         return this.simple_brapi_call(call);
     }

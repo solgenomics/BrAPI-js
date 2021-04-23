@@ -25,7 +25,8 @@ export function search_studies(params,behavior,useOld){
         call.defaultMethod = "post";
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.3"
+            deprecated:"v1.3",
+            deprecated:"v2.0"
         });
         return this.simple_brapi_call(call);
     } else {
@@ -56,6 +57,26 @@ export function studies (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `POST /studies`
+ * @alias BrAPINode.prototype.studies_store
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/studies',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+
 /** `GET /studies/{studyDbId}`
  * @alias BrAPINode.prototype.studies_detail
  * @param {Object} params Parameters to provide to the call
@@ -71,6 +92,25 @@ export function studies_detail (params){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `PUT /studies/{studyDbId}`
+ * @alias BrAPINode.prototype.studies_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.studyDbId studyDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function studies_modify (params){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/studies/{studyDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -91,7 +131,8 @@ export function studies_germplasm (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -113,12 +154,14 @@ export function studies_layouts (params,behavior){
     if(this.version.predates("v1.3")){
         call.urlTemplate = '/studies/{studyDbId}/layout';
         this.version.check(call.urlTemplate,{
-            introduced:"v1.0"
+            introduced:"v1.0",
+            deprecated:"v2.0"
         });
     } else {
         call.urlTemplate = '/studies/{studyDbId}/layouts';
         this.version.check(call.urlTemplate,{
-            introduced:"v1.3"
+            introduced:"v1.3",
+            deprecated:"v2.0"
         });
     }
     return this.simple_brapi_call(call);
@@ -140,7 +183,8 @@ export function studies_observations (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -162,12 +206,14 @@ export function studies_observations_modify (params){
         call.defaultMethod = "post"
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.1"
+            deprecated:"v1.1",
+            deprecated:"v2.0"
         });
     } else {
         call.defaultMethod = "put"
         this.version.check(call.urlTemplate,{
-            introduced:"v1.1"
+            introduced:"v1.1",
+            deprecated:"v2.0"
         });
     }
     
@@ -175,7 +221,7 @@ export function studies_observations_modify (params){
 }
 
 /** `POST /studies/{studyDbId}/observations/zip`
- * @alias BrAPINode.prototype.studies_observations_modify
+ * @alias BrAPINode.prototype.studies_observations_zip
  * @param {Object} params Parameters to provide to the call
  * @param {String} params.studyDbId studyDbId
  * @return {BrAPI_Behavior_Node}
@@ -188,7 +234,8 @@ export function studies_observations_zip (params){
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.1"
+        introduced:"v1.1",
+        deprecated:"v2.0"
     });
     
     return this.simple_brapi_call(call);
@@ -212,12 +259,14 @@ export function studies_observationvariables (params,behavior){
         call.urlTemplate= '/studies/{studyDbId}/observationVariables',
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.1"
+            deprecated:"v1.1",
+            deprecated:"v2.0"
         });
     } else {
         call.urlTemplate= '/studies/{studyDbId}/observationvariables',
         this.version.check(call.urlTemplate,{
-            introduced:"v1.1"
+            introduced:"v1.1",
+            deprecated:"v2.0"
         });
     }
     
@@ -240,7 +289,8 @@ export function studies_table (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     
     return this.simple_brapi_call(call);
@@ -262,7 +312,8 @@ export function studies_table_add (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0"
     });
     
     return this.simple_brapi_call(call);
@@ -285,7 +336,8 @@ export function studytypes (params,behavior){
         call.urlTemplate = '/studyTypes';
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.1"
+            deprecated:"v1.1",
+            deprecated:"v2.0"
         });
     } else {
         call.urlTemplate = '/studytypes';

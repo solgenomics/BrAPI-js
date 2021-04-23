@@ -34,13 +34,15 @@ export function vendor_plates_search(params,behavior){
         call.urlTemplate = '/vendor/plate-search';
         this.version.check(call.urlTemplate,{
             introduced:"v1.1",
-            deprecated:"v1.2"
+            deprecated:"v1.2",
+            deprecated:"v2.0"
         });
     } else {
         call.urlTemplate = '/vendor/plates-search';
         this.version.check(call.urlTemplate,{
             introduced:"v1.2",
-            deprecated:"v1.3"
+            deprecated:"v1.3",
+            deprecated:"v2.0"
         });
     }
     return this.simple_brapi_call(call);
@@ -105,6 +107,24 @@ export function vendor_orders (params){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.3"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `POST /vendor/orders`
+ * @alias BrAPINode.prototype.vendor_orders_store
+ * @param {Object} params Parameters to provide to the call
+ * @return {BrAPI_Behavior_Node}
+ */
+export function vendor_orders_store (params){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/vendor/orders',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }

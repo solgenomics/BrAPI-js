@@ -16,7 +16,8 @@ export function observationlevels (params,behavior){
         call.urlTemplate = "/observationLevels"
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.2"
+            deprecated:"v1.2",
+            deprecated:"v2.0"
         });
     } else {
         call.urlTemplate = "/observationlevels"

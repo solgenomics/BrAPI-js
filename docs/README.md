@@ -2,7 +2,7 @@
 
 BrAPI.js is a JavaScript client library for [BrAPI](https://brapi.org). The call style of this library is inspired by [D3.js](https://d3js.org/). It can be used in either a browser or a Node.js application. It uses the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (or [node-fetch](https://www.npmjs.com/package/node-fetch) in Node.js) for making AJAX calls. BrAPI.js is dependent on ES6 classes.
 
-BrAPI.js supports BrAPI versions `v1.0`-`v1.3`. Currently, it expects a server to use a single version.
+BrAPI.js supports BrAPI versions `v1.0`-`v2.0`. Currently, it expects a server to use a single version.
 
 ### Contents
 
@@ -41,7 +41,7 @@ import BrAPI from './build/BrAPI.js';
 ```
 ```js
 // Node.js
-const BrAPI = require('BrAPI.js');
+const BrAPI = require('./BrAPI.js');
 ```
 
 ## How it Works
@@ -194,99 +194,198 @@ This method registers a callback function which is called once a node has loaded
 
 ### Available BrAPI Methods
 
-| BrAPI.js Method | BrAPI Call | Default HTTPMethod |
-| --------------- | ---------- | ------------------ |
-| _node_.allelematrices_search(_params_,...) | `/allelematrices-search`(>=v1.2) or `/allelematrix-search`(<v1.2) | `POST` |
-| _node_.allelematrices(_params_,...) | `/allelematrices` | `GET` |
-| _node_.attributes_categories(_params_,...) | `/attributes_categories` | `GET` |
-| _node_.attributes(_params_,...) | `/attributes` | `GET` |
-| _node_.breedingmethods_detail(_params_,...) | `/breedingmethods/{breedingMethodDbId}` | `GET` |
-| _node_.breedingmethods(_params_,...) | `/breedingmethods` | `GET` |
-| _node_.calls(_params_,...) | `/calls` | `GET` |
-| _node_.commoncropnames(_params_,...) | `/commoncropnames`(>=v1.2) or `/crops`(<v1.2) | `GET` |
-| _node_.germplasm_attributes(_params_,...) | `/germplasm/{germplasmDbId}/attributes` | `GET` |
-| _node_.germplasm_detail(_params_,...) | `/germplasm/{germplasmDbId}` | `GET` |
-| _node_.germplasm_markerprofiles(_params_,...) | `/germplasm/{germplasmDbId}/markerprofiles` | `GET` |
-| _node_.germplasm_mcpd(_params_,...) | `/germplasm/{germplasmDbId}/mcpd` | `GET` |
-| _node_.germplasm_pedigree(_params_,...) | `/germplasm/{germplasmDbId}/pedigree` | `GET` |
-| _node_.germplasm_progeny(_params_,...) | `/germplasm/{germplasmDbId}/progeny` | `GET` |
-| _node_.germplasm_search(_params_,...) | `/germplasm-search` | `POST` |
-| _node_.germplasm(_params_,...) | `/germplasm` | `GET` |
-| _node_.images_detail(_params_,...) | `/images/{imageDbId}` | `GET` |
-| _node_.images_imagecontent(_params_,...) | `/images/{imageDbId}/imagecontent` | `PUT` |
-| _node_.images(_params_,...) | `/images` | `GET` |
-| _node_.lists_detail(_params_,...) | `/lists/{listDbId}` | `GET` |
-| _node_.lists_items(_params_,...) | `/lists/{listDbId}/items` | `PUT` |
-| _node_.lists(_params_,...) | `/lists` | `GET` |
-| _node_.locations_detail(_params_,...) | `/locations/{locationDbId}` | `GET` |
-| _node_.locations(_params_,...) | `/locations` | `GET` |
-| _node_.maps_detail(_params_,...) | `/maps/{mapDbId}` | `GET` |
-| _node_.maps_linkagegroups_detail(_params_,...) | `/maps/{mapsDbId}/positions/{linkageGroupId}` | `GET` |
-| _node_.maps_positions(_params_,...) | `/maps/{mapsDbId}/positions` | `GET` |
-| _node_.maps(_params_,...) | `/maps` | `GET` |
-| _node_.markerprofiles_detail(_params_,...) | `/markerprofiles/{markerprofileDbId}` | `GET` |
-| _node_.markerprofiles_search(_params_,...) | `/markerprofiles-search` | `POST` |
-| _node_.markerprofiles(_params_,...) | `/markerprofiles` | `GET` |
-| _node_.markers_detail(_params_,...) | `/markers/{markerDbId}` | `GET` |
-| _node_.markers_search(_params_,...) | `/markers-search` | `POST` |
-| _node_.markers(_params_,...) | `/markers` | `GET` |
-| _node_.methods_detail(_params_,...) | `/methods/{methodDbId}` | `GET` |
-| _node_.methods(_params_,...) | `/methods` | `GET` |
-| _node_.observationlevels(_params_,...) | `/observationlevels`(>=v1.2) or `/observationLevels`(<v1.2) | `GET` |
-| _node_.observationunits(_params_,...) | `/observationunits` | `GET` |
-| _node_.ontologies(_params_,...) | `/ontologies` | `GET` |
-| _node_.people_detail(_params_,...) | `/people/{personDbId}` | `GET` |
-| _node_.people(_params_,...) | `/people` | `GET` |
-| _node_.phenotypes_search(_params_,...) | `/phenotypes-search/csv` | `POST` |
-| _node_.phenotypes_search(_params_,...) | `/phenotypes-search/table` | `POST` |
-| _node_.phenotypes_search(_params_,...) | `/phenotypes-search/tsv` | `POST` |
-| _node_.phenotypes_search(_params_,...) | `/phenotypes-search` | `POST` |
-| _node_.phenotypes(_params_,...) | `/phenotypes` | `POST` |
-| _node_.programs_search(_params_,...) | `/programs-search` | `POST` |
-| _node_.programs(_params_,...) | `/programs` | `GET` |
-| _node_.samples_detail(_params_,...) | `/samples/{sampleId}` | `GET` |
-| _node_.samples_search(_params_,...) | `/samples-search` | `POST` |
-| _node_.samples(_params_,...) | `/samples` | `GET` |
-| _node_.scales_detail(_params_,...) | `/scales/{scaleDbId}` | `GET` |
-| _node_.scales(_params_,...) | `/scales` | `GET` |
-| _node_.search_germplasm(_params_,...) | `/germplasm-search`, `/search/germplasm` | `POST-->GET` |
-| _node_.search_images(_params_,...) | `/search/images` | `POST-->GET` |
-| _node_.search_markers(_params_,...) | `/markers-search`, `/search/markers` | `POST-->GET` |
-| _node_.search_observationtables(_params_,...) | `/search/observationtables` | `POST-->GET` |
-| _node_.search_observationunits(_params_,...) | `/search/observationunits` | `POST-->GET` |
-| _node_.search_programs(_params_,...) | `/programs-search`, `/search/programs` | `POST-->GET` |
-| _node_.search_samples(_params_,...) | `/samples-search`, `/search/samples` | `POST-->GET` |
-| _node_.search_studies(_params_,...) | `/studies-search`, `/search/studies` | `POST-->GET` |
-| _node_.search_variables(_params_,...) | `/variables-search`, `/search/variables` | `POST-->GET` |
-| _node_.search(_entity_, _params_,...) | `/search/{entity-->search/{entity}/{searchResultDbId}` | `POST-->GET` |
-| _node_.search_POST(_entity_, _params_,...)| `/search/{entity}` | `POST` |
-| _node_.search_GET(_entity_, _params_,...)| `/search/{entity}/{searchResultDbId}` | `GET` |
-| _node_.seasons(_params_,...) | `/seasons` | `GET` |
-| _node_.studies_detail(_params_,...) | `/studies/{studyDbId}` | `GET` |
-| _node_.studies_germplasm(_params_,...) | `/studies/{studyDbId}/germplasm` | `GET` |
-| _node_.studies_layouts(_params_,...) | `/studies/{studyDbId}/layouts`, `/studies/{studyDbId}/layout` | `GET` |
-| _node_.studies_observations_modify(_params_,...) | `/studies/{studyDbId}/observations/zip` | `POST` |
-| _node_.studies_observations_modify(_params_,...) | `PUT /studies/{studyDbId}/observations`(>=v1.1) or `/studies/{studyDbId}/observations`(<v1.1) | `POST` |
-| _node_.studies_observations(_params_,...) | `/studies/{studyDbId}/observations` | `GET` |
-| _node_.studies_observationvariables(_params_,...) | `/studies/{studyDbId}/observationvariables` | `GET` |
-| _node_.studies_search(_params_,...) | `/studies-search` | `POST` |
-| _node_.studies_table_add(_params_,...) | `/studies/{studyDbId}/table` | `POST` |
-| _node_.studies_table(_params_,...) | `/studies/{studyDbId}/table` | `GET` |
-| _node_.studies(_params_,...) | `/studies` | `GET` |
-| _node_.studytypes(_params_,...) | `/studytypes`(>=v1.1) or `/studyTypes`(<v1.1) | `GET` |
-| _node_.traits_detail(_params_,...) | `/traits/{traitDbId}` | `GET` |
-| _node_.traits(_params_,...) | `/traits` | `GET` |
-| _node_.trials_detail(_params_,...) | `/trials/{trialDbId}` | `GET` |
-| _node_.trials(_params_,...) | `/trials` | `GET` |
-| _node_.variables_datats(_params_,...) | `/variables/datatypes` | `GET` |
-| _node_.variables_detail(_params_,...) | `/variables/{observationVariableDbId}` | `GET` |
-| _node_.variables_search(_params_,...) | `/variables-search` | `POST` |
-| _node_.variables(_params_,...) | `/variables` | `GET` |
-| _node_.vendor_orders_plates(_params_,...) | `/vendor/orders/{orderId}/plates` | `GET` |
-| _node_.vendor_orders_results(_params_,...) | `/vendor/orders/{orderId}/results` | `GET` |
-| _node_.vendor_orders_status(_params_,...) | `/vendor/orders/{orderId}/status` | `GET` |
-| _node_.vendor_orders(_params_,...) | `/vendor/orders` | `GET` |
-| _node_.vendor_plates_detail(_params_,...) | `/vendor/plates/{submissionId}` | `GET` |
-| _node_.vendor_plates_search(_params_,...) | `/vendor/plates-search`(>=v1.2) or `/vendor/plate-search`(<v1.2) | `POST` |
-| _node_.vendor_plates(_params_,...) | `/vendor/plates` | `POST` |
-| _node_.vendor_specifications(_params_,...) | `/vendor/specifications` | `GET` |
+| BrAPI.js Method | BrAPI Call (<= v1.3) | BrAPI Call (v2.0) | Default HTTPMethod |
+| --------------- | -------------------- | --------------- | ------------------ |
+| _node_.allelematrices_search(_params_,...) | `/allelematrices-search`(>=v1.2) or `/allelematrix-search`(<v1.2) || `POST` |
+| _node_.allelematrices(_params_,...) | `/allelematrices` | | `GET` |
+| _node_.attributes_categories(_params_,...) | `/attributes_categories` | `/attributes/categories` | `GET` |
+| _node_.attributes_detail(_params_,...)||`/attributes/{attributeDbId}` | `GET` |
+| _node_.attributes_modify(_params_,...)||`/attributes/{attributeDbId}` | `PUT` |
+| _node_.attributes_store(_params_,...)||`/attributes` | `POST` |
+| _node_.attributes(_params_,...) | `/attributes` | `/attributes` | `GET` |
+| _node_.attributevalues_detail(_params_,...)||`/attributevalues/{attributeValueDbId}` | `GET` |
+| _node_.attributevalues_modify(_params_,...)||`/attributevalues/{attributeValueDbId}` | `PUT` |
+| _node_.attributevalues_store(_params_,...)||`/attributevalues` | `POST` |
+| _node_.attributevalues(_params_,...)||`/attributevalues` | `GET` |
+| _node_.breedingmethods_detail(_params_,...) | `/breedingmethods/{breedingMethodDbId}` | `/breedingmethods/{breedingMethodDbId}` | `GET` |
+| _node_.breedingmethods(_params_,...) | `/breedingmethods` | `/breedingmethods` | `GET` |
+| _node_.calls(_params_,...) | `/calls` (server info) | | `GET` |
+| _node_.serverinfo(_params_,...)||`/serverinfo` | `GET` |
+| _node_.calls(_params_,...) | | `/calls` (genotyping calls) | `GET` |
+| _node_.callsets_calls(_params_,...)||`/callsets/{callSetDbId}/calls` | `GET` |
+| _node_.callsets_detail(_params_,...)||`/callsets/{callSetDbId}` | `GET` |
+| _node_.callsets(_params_,...)||`/callsets` | `GET` |
+| _node_.commoncropnames(_params_,...) | `/commoncropnames`(>=v1.2) or `/crops`(<v1.2) |`/commoncropnames`| `GET` |
+| _node_.crosses_modify(_params_,...)||`/crosses` | `PUT` |
+| _node_.crosses_store(_params_,...)||`/crosses` | `POST` |
+| _node_.crosses(_params_,...)||`/crosses` | `GET` |
+| _node_.crossingprojects_detail(_params_,...)||`/crossingprojects/{crossingProjectDbId}` | `GET` |
+| _node_.crossingprojects_modify(_params_,...)||`/crossingprojects/{crossingProjectDbId}` | `PUT` |
+| _node_.crossingprojects_store(_params_,...)||`/crossingprojects` | `POST` |
+| _node_.crossingprojects(_params_,...)||`/crossingprojects` | `GET` |
+| _node_.events(_params_,...)||`/events` | `GET` |
+| _node_.germplasm_attributes(_params_,...) | `/germplasm/{germplasmDbId}/attributes` | | `GET` |
+| _node_.germplasm_detail(_params_,...) | `/germplasm/{germplasmDbId}` | `/germplasm/{germplasmDbId}` | `GET` |
+| _node_.germplasm_markerprofiles(_params_,...) | `/germplasm/{germplasmDbId}/markerprofiles` | | `GET` |
+| _node_.germplasm_mcpd(_params_,...) | `/germplasm/{germplasmDbId}/mcpd` | | `GET` |
+| _node_.germplasm_modify(_params_,...)||`/germplasm/{germplasmDbId}` | `PUT` |
+| _node_.germplasm_pedigree(_params_,...) | `/germplasm/{germplasmDbId}/pedigree` | `/germplasm/{germplasmDbId}/pedigree` | `GET` |
+| _node_.germplasm_progeny(_params_,...) | `/germplasm/{germplasmDbId}/progeny` | `/germplasm/{germplasmDbId}/progeny` | `GET` |
+| _node_.germplasm_search(_params_,...) | `/germplasm-search` | `/search/germplasm` | `POST-->GET` |
+| _node_.germplasm_store(_params_,...)||`/germplasm` | `POST` |
+| _node_.germplasm(_params_,...) | `/germplasm` | `/germplasm` | `GET` |
+| _node_.images_detail(_params_,...) | `/images/{imageDbId}` | `/images/{imageDbId}` | `GET` |
+| _node_.images_imagecontent(_params_,...) | `/images/{imageDbId}/imagecontent` | | `PUT` |
+| _node_.images_imagecontent_modify(_params_,...) | | `/images/{imageDbId}/imagecontent` | `PUT` |
+| _node_.images_modify(_params_,...)||`/images/{imageDbId}` | `PUT` |
+| _node_.images_store(_params_,...)||`/images` | `POST` |
+| _node_.images(_params_,...) | `/images` | `/images` | `GET` |
+| _node_.lists_detail(_params_,...) | `/lists/{listDbId}` | `/lists/{listDbId}` | `GET` |
+| _node_.lists_modify(_params_,...)||`/lists/{listDbId}` | `PUT` |
+| _node_.lists_items_store(_params_,...)||`/lists/{listDbId}/items` | `POST` |
+| _node_.lists_store(_params_,...)||`/lists` | `POST` |
+| _node_.lists(_params_,...) | `/lists` | `/lists` | `GET` |
+| _node_.locations_detail(_params_,...) | `/locations/{locationDbId}` | `/locations/{locationDbId}` | `GET` |
+| _node_.locations_modify(_params_,...)||`/locations/{locationDbId}` | `PUT` |
+| _node_.locations_store(_params_,...)||`/locations` | `POST` |
+| _node_.locations(_params_,...) | `/locations` | `/locations` | `GET` |
+| _node_.maps_detail(_params_,...) | `/maps/{mapDbId}` | `/maps/{mapDbId}` | `GET` |
+| _node_.maps_linkagegroups_detail(_params_,...) | `/maps/{mapsDbId}/positions/{linkageGroupId}` | | `GET` |
+| _node_.maps_linkagegroups(_params_,...)||`/maps/{mapDbId}/linkagegroups `| `GET` |
+| _node_.maps_positions(_params_,...) | `/maps/{mapsDbId}/positions` | | `GET` |
+| _node_.maps(_params_,...) | `/maps` | `/maps` | `GET` |
+| _node_.markerpositions(_params_,...)||`/markerpositions`|`GET`|
+| _node_.markerprofiles_detail(_params_,...) | `/markerprofiles/{markerprofileDbId}` | | `GET` |
+| _node_.markerprofiles_search(_params_,...) | `/markerprofiles-search` | | `POST` |
+| _node_.markerprofiles(_params_,...) | `/markerprofiles` | | `GET` |
+| _node_.markers_detail(_params_,...) | `/markers/{markerDbId}` | | `GET` |
+| _node_.markers_search(_params_,...) | `/markers-search` | | `POST` |
+| _node_.markers(_params_,...) | `/markers` | | `GET` |
+| _node_.methods_detail(_params_,...) | `/methods/{methodDbId}` | `/methods/{methodDbId}` | `GET` |
+| _node_.methods_modify(_params_,...)||`/methods/{methodDbId}` | `PUT` |
+| _node_.methods_store(_params_,...)||`/methods` | `POST` |
+| _node_.methods(_params_,...) | `/methods` | `/methods` | `GET` |
+| _node_.observationlevels(_params_,...) | `/observationlevels`(>=v1.2) or `/observationLevels`(<v1.2) | `/observationlevels` | `GET` |
+| _node_.observations_modify(_params_,...)||`/observations/{observationDbId}` | `PUT` |
+| _node_.observations_detail(_params_,...)||`/observations/{observationDbId}` | `GET` |
+| _node_.observations_modify_multiple(_params_,...)||`/observations` | `PUT` |
+| _node_.observations_store(_params_,...)||`/observations` | `POST` |
+| _node_.observations_table(_params_,...)||`/observations/table `| `GET` |
+| _node_.observations(_params_,...)||`/observations` | `GET` |
+| _node_.observationunits_modify(_params_,...)||`/observationunits/{observationUnitDbId}` | `PUT` |
+| _node_.observationunits_detail(_params_,...)||`/observationunits/{observationUnitDbId}` | `GET` |
+| _node_.observationunits_modify_multiple(_params_,...)||`/observationunits` | `PUT` |
+| _node_.observationunits_store(_params_,...)||`/observationunits` | `POST` |
+| _node_.observationunits_table(_params_,...)||`/observationunits/table `| `GET` |
+| _node_.observationunits(_params_,...) | `/observationunits` | `/observationunits` | `GET` |
+| _node_.ontologies(_params_,...) | `/ontologies` | `/ontologies` | `GET` |
+| _node_.people_detail(_params_,...) | `/people/{personDbId}` | `/people/{personDbId}` | `GET` |
+| _node_.people_modify(_params_,...)||`/people/{personDbId}` | `PUT` |
+| _node_.people_store(_params_,...)||`/people` | `POST` |
+| _node_.people(_params_,...) | `/people` | `/people` | `GET` |
+| _node_.phenotypes_search_csv(_params_,...) | `/phenotypes-search/csv` | | `POST` |
+| _node_.phenotypes_search_table(_params_,...) | `/phenotypes-search/table` | | `POST` |
+| _node_.phenotypes_search_tsv(_params_,...) | `/phenotypes-search/tsv` | | `POST` |
+| _node_.phenotypes_search(_params_,...) | `/phenotypes-search` | | `POST` |
+| _node_.phenotypes(_params_,...) | `/phenotypes` | | `POST` |
+| _node_.plannedcrosses_modify(_params_,...)||`/plannedcrosses` | `PUT` |
+| _node_.plannedcrosses_store(_params_,...)||`/plannedcrosses` | `POST` |
+| _node_.plannedcrosses(_params_,...)||`/plannedcrosses` | `GET` |
+| _node_.programs_detail(_params_,...)||`/programs/{programDbId}` | `GET` |
+| _node_.programs_modify(_params_,...)||`/programs/{programDbId}` | `PUT` |
+| _node_.programs_store(_params_,...)||`/programs` | `POST` |
+| _node_.programs(_params_,...) | `/programs` | `/programs` | `GET` |
+| _node_.references_bases(_params_,...)||`/references/{referenceDbId}/bases` | `GET` |
+| _node_.references_detail(_params_,...)||`/references/{referenceDbId}` | `GET` |
+| _node_.references(_params_,...)||`/references` | `GET` |
+| _node_.referencesets_detail(_params_,...)||`/referencesets/{referenceSetDbId}` | `GET` |
+| _node_.referencesets(_params_,...)||`/referencesets` | `GET` |
+| _node_.samples_detail(_params_,...) | `/samples/{sampleId}` | `/samples/{sampleDbId}` | `GET` |
+| _node_.samples_modify(_params_,...)||`/samples/{sampleDbId}` | `PUT` |
+| _node_.samples_store(_params_,...)||`/samples` | `POST` |
+| _node_.samples(_params_,...) | `/samples` | `/samples` | `GET` |
+| _node_.scales_detail(_params_,...) | `/scales/{scaleDbId}` | `/scales/{scaleDbId}` | `GET` |
+| _node_.scales_modify(_params_,...)||`/scales/{scaleDbId}` | `PUT` |
+| _node_.scales_store(_params_,...)||`/scales` | `POST` |
+| _node_.scales(_params_,...) | `/scales` | `/scales` | `GET` |
+| _node_.search_attributes(_params_,...)||`/search/attributes` | `POST-->GET` |
+| _node_.search_attributevalues(_params_,...)||`/search/attributevalues` | `POST-->GET` |
+| _node_.search_calls(_params_,...)||`/search/calls` | `POST-->GET` |
+| _node_.search_callsets(_params_,...)||`/search/callsets` | `POST-->GET` |
+| _node_.search_germplasm(_params_,...) | `/germplasm-search` | `/search/germplasm` | `POST-->GET` |
+| _node_.search_GET(_entity_, _params_,...)| `/search/{entity}/{searchResultDbId}` | | `GET` |
+| _node_.search_images(_params_,...) | `/search/images` | `/search/images` | `POST-->GET` |
+| _node_.search_lists(_params_,...)||`/search/lists` | `POST-->GET` |
+| _node_.search_locations(_params_,...)||`/search/locations` | `POST-->GET` |
+| _node_.search_markerpositions(_params_,...)||`/search/markerpositions` | `POST-->GET` |
+| _node_.search_markers(_params_,...) | `/markers-search` | `/search/markers` | `POST-->GET` |
+| _node_.search_observations(_params_,...)||`/search/observations` | `POST-->GET` |
+| _node_.search_observationtables(_params_,...) | `/search/observationtables` | | `POST-->GET` |
+| _node_.search_observationunits(_params_,...) | `/search/observationunits` | `/search/observationunits` | `POST-->GET` |
+| _node_.search_people(_params_,...)||`/search/people` | `POST-->GET` |
+| _node_.search_POST(_entity_, _params_,...)| `/search/{entity}` | | `POST` |
+| _node_.search_programs(_params_,...) | `/programs-search` | `/search/programs` | `POST-->GET` |
+| _node_.search_references(_params_,...)||`/search/references` | `POST-->GET` |
+| _node_.search_referencesets(_params_,...)||`/search/referencesets` | `POST-->GET` |
+| _node_.search_samples(_params_,...) | `/samples-search` | `/search/samples` | `POST-->GET` |
+| _node_.search_studies(_params_,...) | `/studies-search` | `/search/studies` | `POST-->GET` |
+| _node_.search_trials(_params_,...)||`/search/trials` | `POST-->GET` |
+| _node_.search_variants(_params_,...)||`/search/variants` | `POST-->GET` |
+| _node_.search_variantsets(_params_,...)||`/search/variantsets` | `POST-->GET` |
+| _node_.search(_entity_, _params_,...) | `/search/{entity-->search/{entity}/{searchResultDbId}` | | `POST-->GET` |
+| _node_.seasons_detail(_params_,...)||`/seasons/{seasonDbId}` | `GET` |
+| _node_.seasons_modify(_params_,...)||`/seasons/{seasonDbId}` | `PUT` |
+| _node_.seasons_store(_params_,...)||`/seasons` | `POST` |
+| _node_.seasons(_params_,...) | `/seasons` | `/seasons` | `GET` |
+| _node_.seedlots_detail_transactions(_params_,...)||`/seedlots/{seedLotDbId}/transactions` | `GET` |
+| _node_.seedlots_detail(_params_,...)||`/seedlots/{seedLotDbId}` | `GET` |
+| _node_.seedlots_modify(_params_,...)||`/seedlots/{seedLotDbId}` | `PUT` |
+| _node_.seedlots_store(_params_,...)||`/seedlots` | `POST` |
+| _node_.seedlots_transactions_store(_params_,...)||`/seedlots/transactions` | `POST` |
+| _node_.seedlots_transactions(_params_,...)||`/seedlots/transactions` | `GET` |
+| _node_.seedlots(_params_,...)||`/seedlots` | `GET` |
+| _node_.studies_detail(_params_,...) | `/studies/{studyDbId}` | `/studies/{studyDbId}` | `GET` |
+| _node_.studies_germplasm(_params_,...) | `/studies/{studyDbId}/germplasm` | | `GET` |
+| _node_.studies_layouts(_params_,...) | `/studies/{studyDbId}/layouts` | `/studies/{studyDbId}/layout` | `GET` |
+| _node_.studies_modify(_params_,...)||`/studies/{studyDbId}` | `PUT` |
+| _node_.studies_observations_modify(_params_,...) | `PUT /studies/{studyDbId}/observations`(>=v1.1) or `/studies/{studyDbId}/observations`(<v1.1) | | `POST` |
+| _node_.studies_observations_zip(_params_,...) | `/studies/{studyDbId}/observations/zip` | | `POST` |
+| _node_.studies_observations(_params_,...) | `/studies/{studyDbId}/observations` | | `GET` |
+| _node_.studies_observationvariables(_params_,...) | `/studies/{studyDbId}/observationvariables` | | `GET` |
+| _node_.studies_store(_params_,...)||`/studies` | `POST` |
+| _node_.studies_table_add(_params_,...) | `/studies/{studyDbId}/table` | | `POST` |
+| _node_.studies_table(_params_,...) | `/studies/{studyDbId}/table` | | `GET` |
+| _node_.studies(_params_,...) | `/studies` | `/studies` | `GET` |
+| _node_.studytypes(_params_,...) | `/studytypes`(>=v1.1) or `/studyTypes`(<v1.1) |`/studytypes` | `GET` |
+| _node_.traits_detail(_params_,...) | `/traits/{traitDbId}` | `/traits/{traitDbId}` | `GET` |
+| _node_.traits_modify(_params_,...)||`/traits/{traitDbId}` | `PUT` |
+| _node_.traits_store(_params_,...)||`/traits` | `POST` |
+| _node_.traits(_params_,...) | `/traits` | `/traits` | `GET` |
+| _node_.trials_detail(_params_,...) | `/trials/{trialDbId}` | `/trials/{trialDbId}` | `GET` |
+| _node_.trials_modify(_params_,...)||`/trials/{trialDbId}` | `PUT` |
+| _node_.trials_store(_params_,...)||`/trials` | `POST` |
+| _node_.trials(_params_,...) | `/trials` | `/trials` | `GET` |
+| _node_.variables_datatypes(_params_,...) | `/variables/datatypes` | | `GET` |
+| _node_.variables_detail(_params_,...) | `/variables/{observationVariableDbId}` | `/variables/{observationVariableDbId}` | `GET` |
+| _node_.variables_modify(_params_,...)||`/variables/{observationVariableDbId}` | `PUT` |
+| _node_.variables_search(_params_,...) | `/variables-search` | `/search/variables` | `POST` |
+| _node_.variables_store(_params_,...)||`/variables` | `POST` |
+| _node_.variables(_params_,...) | `/variables` | `/variables` | `GET` |
+| _node_.variants_calls(_params_,...)||`/variantsets/{variantSetDbId}/calls` | `GET` |
+| _node_.variants_detail(_params_,...)||`/variants/{variantDbId}` | `GET` |
+| _node_.variants(_params_,...)||`/variants` | `GET` |
+| _node_.variantsets_calls(_params_,...)||`/variants/{variantDbId}/calls` | `GET` |
+| _node_.variantsets_callsets(_params_,...)||`/variantsets/{variantSetDbId}/callsets` | `GET` |
+| _node_.variantsets_detail(_params_,...)||`/variantsets/{variantSetDbId}` | `GET` |
+| _node_.variantsets_extract_store(_params_,...)||`/variantsets/extract` | `POST` |
+| _node_.variantsets_variants(_params_,...)||`/variantsets/{variantSetDbId}/variants` | `GET` |
+| _node_.variantsets(_params_,...)||`/variantsets` | `GET` |
+| _node_.vendor_orders_plates(_params_,...) | `/vendor/orders/{orderId}/plates` | `/vendor/orders/{orderId}/plates` | `GET` |
+| _node_.vendor_orders_results(_params_,...) | `/vendor/orders/{orderId}/results` | `/vendor/orders/{orderId}/results` | `GET` |
+| _node_.vendor_orders_status(_params_,...) | `/vendor/orders/{orderId}/status` | `/vendor/orders/{orderId}/status` | `GET` |
+| _node_.vendor_orders_store(_params_,...)||`/vendor/orders` | `POST` |
+| _node_.vendor_orders(_params_,...) | `/vendor/orders` | `/vendor/orders` | `GET` |
+| _node_.vendor_plates_detail(_params_,...) | `/vendor/plates/{submissionId}` | `/vendor/plates/{submissionId}` | `GET` |
+| _node_.vendor_plates_search(_params_,...) | `/vendor/plates-search`(>=v1.2) or `/vendor/plate-search`(<v1.2) || `POST` |
+| _node_.vendor_plates(_params_,...) | `/vendor/plates` | `/vendor/plates` | `POST` |
+| _node_.vendor_specifications(_params_,...) | `/vendor/specifications` | `/vendor/specifications` | `GET` |

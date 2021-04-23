@@ -1,33 +1,13 @@
-/** `GET /traits`
- * @alias BrAPINode.prototype.traits
+/** `GET /attributevalues`
+ * @alias BrAPINode.prototype.attributevalues
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
  */
-export function traits (params,behavior){
+export function attributevalues (params,behavior){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/traits',
-        'params': params,
-        'behaviorOptions': ['fork','map'],
-        'behavior': behavior,
-    }
-    this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
-    });
-    return this.simple_brapi_call(call);
-}
-
-/** `POST /traits`
-* @alias BrAPINode.prototype.traits_store
-* @param {Object} params Parameters to provide to the call
-* @param {String} [behavior="fork"] Behavior of the node
-* @return {BrAPI_Behavior_Node}
-*/
-export function traits_store (params,behavior){
-    var call = {
-        'defaultMethod': 'post',
-        'urlTemplate': '/traits',
+        'urlTemplate': '/attributevalues',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -38,35 +18,55 @@ export function traits_store (params,behavior){
     return this.simple_brapi_call(call);
 }
 
-/** `GET /traits/{traitDbId}`
- * @alias BrAPINode.prototype.traits_detail
+/** `POST /attributevalues`
+* @alias BrAPINode.prototype.attributevalues_store
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function attributevalues_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/attributevalues',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /attributevalues/{attributeValueDbId}`
+ * @alias BrAPINode.prototype.attributevalues_detail
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.traitDbId traitDbId
+ * @param {String} params.attributeValueDbId attributeValueDbId
  * @return {BrAPI_Behavior_Node}
  */
-export function traits_detail (params){
+export function attributevalues_detail (params){
     var call = {
         'defaultMethod': 'get',
-        'urlTemplate': '/traits/{traitDbId}',
+        'urlTemplate': '/attributevalues/{attributeValueDbId}',
         'params': params,
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
 
-/** `PUT /traits/{traitDbId}`
-* @alias BrAPINode.prototype.traits_modify
+/** `PUT /attributevalues/{attributeValueDbId}`
+* @alias BrAPINode.prototype.attributevalues_modify
 * @param {Object} params Parameters to provide to the call
 * @param {String} [behavior="fork"] Behavior of the node
 * @return {BrAPI_Behavior_Node}
 */
-export function traits_modify (params,behavior){
+export function attributevalues_modify (params,behavior){
     var call = {
         'defaultMethod': 'put',
-        'urlTemplate': '/traits/{traitDbId}',
+        'urlTemplate': '/attributevalues/{attributeValueDbId}',
         'params': params,
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
@@ -76,3 +76,17 @@ export function traits_modify (params,behavior){
     });
     return this.simple_brapi_call(call);
 }
+
+
+/** `POST /search/attributevalues -> GET /search/attributevalues`
+* @alias BrAPINode.prototype.search_attributevalues
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_attributevalues(params,behavior){
+    this.version.check("POST /search/attributevalues -> GET /search/attributevalues",{
+        introduced:"v2.0"
+    });
+    return this.search("attributevalues",params,behavior);
+};

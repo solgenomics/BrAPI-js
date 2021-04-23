@@ -16,21 +16,60 @@ export function samples (params){
     return this.simple_brapi_call(call);
 }
 
-/** `GET /samples/{sampleId}`
+/** `POST /samples`
+* @alias BrAPINode.prototype.samples_store
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function samples_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/samples',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `GET /samples/{sampleDbId}`
  * @alias BrAPINode.prototype.samples_detail
  * @param {Object} params Parameters to provide to the call
- * @param {String} params.sampleId sampleId
+ * @param {String} params.sampleDbId sampleDbId
  * @return {BrAPI_Behavior_Node}
  */
 export function samples_detail (params){
     var call = {
-        'defaultMethod': 'put',
-        'urlTemplate': '/samples/{sampleId}',
+        'defaultMethod': 'get',
+        'urlTemplate': '/samples/{sampleDbId}',
         'params': params,
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `PUT /samples/{sampleDbId}`
+ * @alias BrAPINode.prototype.samples_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.sampleDbId sampleDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function samples_modify (params){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/samples/{sampleDbId}',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
     });
     return this.simple_brapi_call(call);
 }
@@ -62,7 +101,8 @@ export function search_samples(params,behavior,useOld){
         call.defaultMethod = "post";
         this.version.check(call.urlTemplate,{
             introduced:"v1.1",
-            deprecated:"v1.3"
+            deprecated:"v1.3",
+            deprecated:"v2.0"
         });
         return this.simple_brapi_call(call);
     } else {

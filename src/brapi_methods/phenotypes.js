@@ -40,7 +40,7 @@ export function phenotypes_search (params,behavior){
 }
 
 /** `POST /phenotypes-search/csv`
- * @alias BrAPINode.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search_csv
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -61,7 +61,7 @@ export function phenotypes_search_csv (params,behavior){
 }
 
 /** `POST /phenotypes-search/table`
- * @alias BrAPINode.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search_table
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}
@@ -82,7 +82,7 @@ export function phenotypes_search_table (params,behavior){
 }
 
 /** `POST /phenotypes-search/tsv`
- * @alias BrAPINode.prototype.phenotypes_search
+ * @alias BrAPINode.prototype.phenotypes_search_tsv
  * @param {Object} params Parameters to provide to the call
  * @param {String} [behavior="fork"] Behavior of the node
  * @return {BrAPI_Behavior_Node}

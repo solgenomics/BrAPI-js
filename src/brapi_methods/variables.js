@@ -18,6 +18,26 @@ export function variables (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `POST /variables`
+* @alias BrAPINode.prototype.variables_store
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function variables_store (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/variables',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
 /** `POST /variables-search`
 * @alias BrAPINode.prototype.variables_search
 * @param {Object} params Parameters to provide to the call
@@ -75,6 +95,26 @@ export function variables_detail (params){
     return this.simple_brapi_call(call);
 }
 
+/** `PUT /variables/{observationVariableDbId}`
+* @alias BrAPINode.prototype.variables_modify
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function variables_modify (params,behavior){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/variables/{observationVariableDbId}',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.0"
+    });
+    return this.simple_brapi_call(call);
+}
+
 /** `GET /variables/datatypes`
  * @alias BrAPINode.prototype.variables_datatypes
  * @param {Object} params Parameters to provide to the call
@@ -91,7 +131,8 @@ export function variables_datatypes (params,behavior){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.0",
-        deprecated:"v1.3"
+        deprecated:"v1.3",
+        deprecated:"v2.0"
     });
     return this.simple_brapi_call(call);
 }

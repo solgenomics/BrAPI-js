@@ -11,16 +11,17 @@ export function commoncropnames (params,behavior){
         'behaviorOptions': ['fork','map'],
         'behavior': behavior,
     }
-    if (this.version.predates("v1.2")){
+    if (this.version.predates("v1.3")){
         call.urlTemplate = "/crops"
         this.version.check(call.urlTemplate,{
             introduced:"v1.0",
-            deprecated:"v1.2"
+            deprecated:"v1.3",
+            deprecated:"v2.0"
         });
     } else {
-        call.urlTemplate = "/commonCropNames"
+        call.urlTemplate = "/commoncropnames"
         this.version.check(call.urlTemplate,{
-            introduced:"v1.2"
+            introduced:"v1.3"
         });
     }
     return this.simple_brapi_call(call);
