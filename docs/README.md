@@ -313,7 +313,7 @@ This method registers a callback function which is called once a node has loaded
 | _node_.search_calls(_params_,...)||`/search/calls` | `POST-->GET` |
 | _node_.search_callsets(_params_,...)||`/search/callsets` | `POST-->GET` |
 | _node_.search_germplasm(_params_,...) | `/germplasm-search` | `/search/germplasm` | `POST-->GET` |
-| _node_.search_GET(_entity_, _params_,...)| `/search/{entity}/{searchResultDbId}` | | `GET` |
+| _node_.search_GET(_entity_, _params_,...)| `/search/{entity}/{searchResultDbId}` | `/search/{entity}/{searchResultsDbId}` | `GET` |
 | _node_.search_images(_params_,...) | `/search/images` | `/search/images` | `POST-->GET` |
 | _node_.search_lists(_params_,...)||`/search/lists` | `POST-->GET` |
 | _node_.search_locations(_params_,...)||`/search/locations` | `POST-->GET` |
@@ -332,7 +332,7 @@ This method registers a callback function which is called once a node has loaded
 | _node_.search_trials(_params_,...)||`/search/trials` | `POST-->GET` |
 | _node_.search_variants(_params_,...)||`/search/variants` | `POST-->GET` |
 | _node_.search_variantsets(_params_,...)||`/search/variantsets` | `POST-->GET` |
-| _node_.search(_entity_, _params_,...) | `/search/{entity-->search/{entity}/{searchResultDbId}` | | `POST-->GET` |
+| _node_.search(_entity_, _params_,...) | `/search/{entity-->search/{entity}/{searchResultDbId}` | `/search/{entity-->search/{entity}/{searchResultsDbId}` | `POST-->GET` |
 | _node_.seasons_detail(_params_,...)||`/seasons/{seasonDbId}` | `GET` |
 | _node_.seasons_modify(_params_,...)||`/seasons/{seasonDbId}` | `PUT` |
 | _node_.seasons_store(_params_,...)||`/seasons` | `POST` |
