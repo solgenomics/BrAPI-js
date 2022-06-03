@@ -209,13 +209,14 @@ class EmptyBrAPINode extends BrAPINode{
 EmptyBrAPINode.prototype.data = EmptyThreadNode.prototype.data;
 
 class BrAPICallController {
-    constructor(brapi_base_url,version,brapi_auth_token,max_calls){
+    constructor(brapi_base_url,version,brapi_auth_token,max_calls,credentials){
         this.max_calls = max_calls || 5;
         this.call_queue = [];
         this.version = brapiVersion(version||1.2);
         this.running = 0;
         this.brapi_base_url = brapi_base_url;
         this.brapi_auth_token = brapi_auth_token;
+        this.credentials = credentials || 'same-origin';
     }
     call(){
         var self = this;
@@ -250,7 +251,7 @@ class BrAPICallController {
         var fetch_opts = {
             method: method,
             cache: "no-cache",
-            credentials: "same-origin",
+            credentials: this.credentials,
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
@@ -397,11 +398,12 @@ Object.keys(brapiMethods).forEach(function(method_name){
  * @param   {String} version     Optional. BrAPI version of endpoint (e.g. "1.2" or "v1.1") 
  * @param   {String} auth_token  Optional. BrAPI Auth Bearer token.
  * @param   {Int}    call_limit  Optional. Maximum number of simultanious calls the server which can be running.
+ * @param   {String} credentials Optional. credentials option to use for fetch API.  See: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
  * @returns {EmptyBrAPINode}            
  */ 
-export function BrAPI(address, version, auth_token, call_limit){
+export function BrAPI(address, version, auth_token, call_limit, credentials){
     return new EmptyBrAPINode(
-        new BrAPICallController(address,version,auth_token,call_limit||5)
+        new BrAPICallController(address,version,auth_token,call_limit||5, credentials)
     );
 }
 
