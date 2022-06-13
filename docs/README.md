@@ -20,11 +20,9 @@ BrAPI.js supports BrAPI versions `v1.0`-`v2.0`. Currently, it expects a server t
 ```bash
 # Be sure your version of NPM supports 'prepare' scripts (>=npm@4.0.0)
 # Recommended:
-npm install @solgenomics/brapijs 
+npm install git+https://github.com/solgenomics/BrAPI-js
 # Otherwise:
-npm install git+https://github.com/solgenomics/BrAPI.js.git
-# or:
-git clone https://github.com/solgenomics/BrAPI.js.git
+git clone https://github.com/solgenomics/BrAPI-js.git
 cd BrAPI.js
 npm install . 
 ```
@@ -52,10 +50,11 @@ BrAPI.js has been designed to allow for many simultaneous and interdependent cal
 
 ### Initialization and Configuration
 
-<a name="root" href="#root">#</a> **BrAPI**(_address_, [_version_, _auth_token_, _call_limit_]) [<>](main.js "Source")  
+<a name="root" href="#root">#</a> **BrAPI**(_address_, [_version_, _auth_token_, _call_limit_, _credentials_]) [<>](main.js "Source")  
 
 Creates a root _BrAPINode_. This is the root of a BrAPI.js [DAG dataflow](#how-it-works). The _address_ should be a string with the base URL of a BrAPI instance that is being queried, i.e. "https://www.yambase.org/brapi/v1". If an _auth_token_ is provided, it will be added as a Bearer header when sending requests over HTTPS. Changing the _version_ determines which deprecation/removal warnings are written the console, it does not restrict functionality.
 The _call_limit_ parameter specifies how many simultaneous requests may be run by this node and its descendants against the specified server.
+The _credentials_ parameter allows you to define how HTTP credentials (aka cookies) should be included in a request.  See https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials for more information.
 
 ###### Examples:
 
@@ -89,7 +88,7 @@ var brapi_root1 = BrAPI("https://www.myserver.org/brapi/v1","v1.2") // for your 
     .each(...);
 ```
 
-<a name="server" href="#server">#</a> _node_.**server**(_address_, [_version_, _auth_token_, _call_limit_]) [<>](src/BrAPINodes.js "Source")  
+<a name="server" href="#server">#</a> _node_.**server**(_address_, [_version_, _auth_token_, _call_limit_, _credentials_]) [<>](src/BrAPINodes.js "Source")  
 
 Creates and returns a child _BrAPINode_ which changes the BrAPI server instance queried by all descendants.
 
