@@ -14,7 +14,6 @@
   "author": "David Lyon <npm@dauglyon.com>",
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "rollup": "^0.40",
-    "jsprim": ">=1.4.2"
+    "rollup": "^0.40"
   }
 }
