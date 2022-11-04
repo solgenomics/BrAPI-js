@@ -8,7 +8,6 @@
   "repository": "github:solgenomics/BrAPI.js",
   "license": "MIT",
   "main": "build/BrAPI.js",
-  "type": "module",
   "scripts": {
     "prepare": "rm -rf build && mkdir build && rollup -f umd -n BrAPI -o build/BrAPI.js -- main.js"
   },
