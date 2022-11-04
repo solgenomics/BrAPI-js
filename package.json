@@ -15,6 +15,6 @@
   "author": "David Lyon <npm@dauglyon.com>",
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "rollup": "^0.40"
+    "rollup": ">=0.66.2"
   }
 }
