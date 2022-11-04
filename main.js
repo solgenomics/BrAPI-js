@@ -1,3 +1,3 @@
 import * as BrAPINode from './src/BrAPINode.js';
 
-module.exports = BrAPINode.BrAPI;
+export default BrAPINode.BrAPI;
