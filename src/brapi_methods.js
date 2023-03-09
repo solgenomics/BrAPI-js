@@ -23,6 +23,7 @@ export * from "./brapi_methods/ontologies";
 export * from "./brapi_methods/people";
 export * from "./brapi_methods/phenotypes";
 export * from "./brapi_methods/plannedcrosses";
+export * from "./brapi_methods/pedigree";
 export * from "./brapi_methods/programs";
 export * from "./brapi_methods/references";
 export * from "./brapi_methods/referencesets";
