@@ -30,3 +30,23 @@ export function search_calls(params,behavior){
     });
     return this.search("calls",params,behavior);
 };
+
+/** `PUT /calls`
+ * @alias BrAPINode.prototype.calls_modify
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function calls_modify (params,behavior){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/calls',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.1"
+    });
+    return this.simple_brapi_call(call);
+}
