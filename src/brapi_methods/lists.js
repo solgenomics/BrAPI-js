@@ -98,6 +98,24 @@ export function lists_items_store (params){
     return this.simple_brapi_call(call);
 }
 
+/** `POST /lists/{listDbId}/data`
+ * @alias BrAPINode.prototype.lists_data_store
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} params.imageDbId imageDbId
+ * @return {BrAPI_Behavior_Node}
+ */
+export function lists_data_store (params){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/lists/{listDbId}/data',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.1"
+    });
+    return this.simple_brapi_call(call);
+}
 
 /** `POST /search/lists`
 * @alias BrAPINode.prototype.lists_search
