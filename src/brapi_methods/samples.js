@@ -69,7 +69,8 @@ export function samples_modify (params){
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v2.0"
+        introduced:"v2.0",
+        deprecated:"v2.1"
     });
     return this.simple_brapi_call(call);
 }

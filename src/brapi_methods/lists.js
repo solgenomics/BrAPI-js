@@ -92,7 +92,8 @@ export function lists_items_store (params){
     }
     this.version.check(call.urlTemplate,{
         introduced:"v1.3",
-        introduced:"v2.0"
+        introduced:"v2.0",
+        deprecated:"v2.1"
     });
     return this.simple_brapi_call(call);
 }

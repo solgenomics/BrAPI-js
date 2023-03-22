@@ -143,7 +143,8 @@ export function germplasm_pedigree (params){
         'behavior': 'map',
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.1"
     });
     return this.simple_brapi_call(call);
 }
@@ -164,7 +165,8 @@ export function germplasm_progeny (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.2"
+        introduced:"v1.2",
+        deprecated:"v2.1"
     });
     return this.simple_brapi_call(call);
 }
