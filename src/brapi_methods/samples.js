@@ -36,6 +36,26 @@ export function samples_store (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `PUT /samples`
+ * @alias BrAPINode.prototype.samples_modify_multiple
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function samples_modify_multiple (params,behavior){
+    var call = {
+        'defaultMethod': 'put',
+        'urlTemplate': '/samples',
+        'params': params,
+        'behavior': 'map',
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.1"
+    });
+    return this.simple_brapi_call(call);
+}
+
+
 /** `GET /samples/{sampleDbId}`
  * @alias BrAPINode.prototype.samples_detail
  * @param {Object} params Parameters to provide to the call
