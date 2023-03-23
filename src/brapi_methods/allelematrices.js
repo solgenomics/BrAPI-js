@@ -78,7 +78,7 @@ export function allelematrix (params,behavior){
 */
 export function search_allelematrix(params,behavior){
     this.version.check("POST /search/allelematrix -> GET /search/allelematrix",{
-        introduced:"v2.0"
+        introduced:"v2.1"
     });
     return this.search("allelematrix",params,behavior);
 };

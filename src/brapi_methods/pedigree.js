@@ -65,7 +65,7 @@ export function pedigree_modify (params,behavior){
 */
 export function search_pedigree(params,behavior){
     this.version.check("POST /search/pedigree -> GET /search/pedigree",{
-        introduced:"v2.0"
+        introduced:"v2.1"
     });
     return this.search("pedigree",params,behavior);
 };
