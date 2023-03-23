@@ -75,3 +75,17 @@ export function plates_detail (params){
     });
     return this.simple_brapi_call(call);
 }
+
+
+/** `POST /search/plates -> GET /search/plates`
+* @alias BrAPINode.prototype.search_plates
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_plates(params,behavior){
+    this.version.check("POST /search/plates -> GET /search/plates",{
+        introduced:"v2.1"
+    });
+    return this.search("plates",params,behavior);
+};

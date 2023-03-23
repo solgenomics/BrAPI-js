@@ -69,3 +69,16 @@ export function allelematrix (params,behavior){
     });
     return this.simple_brapi_call(call);
 }
+
+/** `POST /search/allelematrix -> GET /search/allelematrix`
+* @alias BrAPINode.prototype.search_allelematrix
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_allelematrix(params,behavior){
+    this.version.check("POST /search/allelematrix -> GET /search/allelematrix",{
+        introduced:"v2.0"
+    });
+    return this.search("allelematrix",params,behavior);
+};
