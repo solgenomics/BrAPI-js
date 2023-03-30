@@ -119,6 +119,26 @@ export function observations_table (params,behavior){
     return this.simple_brapi_call(call);
 }
 
+/** `POST /delete/observations`
+* @alias BrAPINode.prototype.observations_delete
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function observations_delete (params,behavior){
+    var call = {
+        'defaultMethod': 'post',
+        'urlTemplate': '/delete/observations',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.1"
+    });
+    return this.simple_brapi_call(call);
+}
+
 /** `POST /search/observations -> GET /search/observations`
 * @alias BrAPINode.prototype.search_observations
 * @param {Object} params Parameters to provide to the call

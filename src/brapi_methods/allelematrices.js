@@ -13,7 +13,8 @@ export function allelematrices (params,behavior){
         'behavior': behavior,
     }
     this.version.check(call.urlTemplate,{
-        introduced:"v1.0"
+        introduced:"v1.0",
+        deprecated:"v2.0" 
     });
     return this.simple_brapi_call(call);
 }
@@ -41,9 +42,43 @@ export function allelematrices_search(params,behavior){
     } else {
         call.urlTemplate = "/allelematrices-search"
         this.version.check(call.urlTemplate,{
-            introduced:"v1.2"
+            introduced:"v1.2",
+            deprecated:"v2.0"
         });
     }
     
     return this.simple_brapi_call(call);
+};
+
+/** `GET /allelematrix`
+ * @alias BrAPINode.prototype.allelematrix
+ * @param {Object} params Parameters to provide to the call
+ * @param {String} [behavior="fork"] Behavior of the node
+ * @return {BrAPI_Behavior_Node}
+ */
+export function allelematrix (params,behavior){
+    var call = {
+        'defaultMethod': 'get',
+        'urlTemplate': '/allelematrix',
+        'params': params,
+        'behaviorOptions': ['fork','map'],
+        'behavior': behavior,
+    }
+    this.version.check(call.urlTemplate,{
+        introduced:"v2.1"
+    });
+    return this.simple_brapi_call(call);
+}
+
+/** `POST /search/allelematrix -> GET /search/allelematrix`
+* @alias BrAPINode.prototype.search_allelematrix
+* @param {Object} params Parameters to provide to the call
+* @param {String} [behavior="fork"] Behavior of the node
+* @return {BrAPI_Behavior_Node}
+*/
+export function search_allelematrix(params,behavior){
+    this.version.check("POST /search/allelematrix -> GET /search/allelematrix",{
+        introduced:"v2.1"
+    });
+    return this.search("allelematrix",params,behavior);
 };
